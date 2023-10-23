@@ -56,8 +56,8 @@ Install packages in requirements.txt
 <!-- Authors -->
 ## Authors
 
-* [](https://github.com/sofiasonnacchi)
-* [](https://github.com/)
+* [Sofia Sonnacchi](https://github.com/sofiasonnacchi)
+* [Caterina Guardi](https://github.com/caterinagiardii)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
