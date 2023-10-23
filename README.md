@@ -56,7 +56,7 @@ Install packages in requirements.txt
 <!-- Authors -->
 ## Authors
 
-* [Alice Carcone](https://github.com/)
+* [Alice Carcone](https://github.com/alicecarcone)
 * [Caterina Giardi](https://github.com/caterinagiardii)
 * [Clarysse Allyssa Sarmiento](https://github.com/)
 * [Sofia Sonnacchi](https://github.com/sofiasonnacchi)
