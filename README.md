@@ -56,8 +56,11 @@ Install packages in requirements.txt
 <!-- Authors -->
 ## Authors
 
+* [Alice Carcone](https://github.com/)
+* [Caterina Giardi](https://github.com/caterinagiardii)
+* [Clarysse Allyssa Sarmiento](https://github.com/)
 * [Sofia Sonnacchi](https://github.com/sofiasonnacchi)
-* [Caterina Guardi](https://github.com/caterinagiardii)
+* [Massimo Verzeni](https://github.com/c)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
