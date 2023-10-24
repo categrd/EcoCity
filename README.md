@@ -5,7 +5,6 @@ E-health Project
   <p align="center">
     Development of a serious game in Unity 3D about climate change and its effects on people.
     <br />
-    <a href="https://github.com...."><strong>Explore the docs »</strong></a>
 </div>
 
 
