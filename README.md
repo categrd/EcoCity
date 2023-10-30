@@ -86,7 +86,7 @@ VIDEO RIFERIMENTO:
 * [Caterina Giardi](https://github.com/caterinagiardii)
 * [Clarysse Allyssa Sarmiento](https://github.com/)
 * [Sofia Sonnacchi](https://github.com/sofiasonnacchi)
-* [Massimo Verzeni](https://github.com/c)
+* [Massimo Verzeni](https://github.com/massimo303)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
