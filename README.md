@@ -61,6 +61,7 @@ PRoblema budget: budget di partenza. Incentivi per aumentare bugdet, oppure tass
 Sistema di ricerca tipo università e laboratorio, che fa uscire nuove tecnologie. Più la città è green più i cittadini sono felici. 
 Effetti specifici tipo inquinamento dell'acqua-> la gente non ha l'acqua pulita. + problemi di salute, quindi devi sganciare più soldi perchè più cittadini stanno male.
 Proteste?????? La gente se ne va se fai schifo a giocare green->meno soldi, gioco più difficile?????
+Disastri naturali
 
 EXTRA:
 Classifica per vedere la città più green. Problema memorizzazione dati di più persone ma c'è già da salvarsi.
