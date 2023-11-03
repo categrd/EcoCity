@@ -1,0 +1,37 @@
+# Unity generated files
+Library/
+Temp/
+obj/
+UnityGenerated/
+.vscode/
+*.sln*
+*.csproj*
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Visual Studio files
+.vscode/
+.vs/
+
+# Rider files
+.idea/
+
+# User-specific files
+*.suo
+*.user
+*.userprefs
+
+# Build artifacts
+Builds/
+Build/
+Builds-*
+*.apk
+*.unitypackage
+
+# Crash reports
+Logs/
