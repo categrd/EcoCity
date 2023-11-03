@@ -20,7 +20,7 @@ namespace SVS
         public void MoveCamera(Vector3 inputVector)
         {
             var movementVector = Quaternion.Euler(0,30,0) * inputVector;
-            gameCamera.transform.position += cameraMovementSpeed * Time.deltaTime * movementVector;
+            gameCamera.transform.position += movementVector * Time.deltaTime * cameraMovementSpeed;
         }
     }
 }
