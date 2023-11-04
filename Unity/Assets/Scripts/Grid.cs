@@ -46,35 +46,75 @@ public class Point
     }
 }
 
-public enum CellType
+
+public class Cell
 {
-    Empty,
-    Road,
-    Structure,
-    SpecialStructure,
-    None
+    // Common cell properties and methods
+}
+
+public class EmptyCell : Cell
+{
+    // Properties and methods specific to empty cells
+}
+
+public class RoadCell : Cell
+{
+    
+    // Properties and methods specific to road cells
+}
+
+public class StructureCell : Cell
+{
+    public string name;
+    public int cost;
+    public int maintenanceCost;
+    public float beauty;
+    // Common properties for structures
+}
+
+public class HospitalCell : StructureCell
+{
+    public int patientCapacity;
+    // Properties and methods specific to hospitals
+}
+
+public class HouseCell : StructureCell
+{
+    public int numberOfResidents;
+    public float comfortLevel;
+    // Properties and methods specific to houses
 }
 
 public class Grid
 {
-    private CellType[,] _grid;
+    private Cell[,] _grid;
     private int _width;
     public int Width { get { return _width; } }
     private int _height;
     public int Height { get { return _height; } }
 
     private List<Point> _roadList = new List<Point>();
-    private List<Point> _specialStructure = new List<Point>();
+    private List<Point> _hospitalList = new List<Point>();
 
     public Grid(int width, int height)
     {
         _width = width;
         _height = height;
-        _grid = new CellType[width, height];
+        _grid = new Cell[width, height];
+        
+        // Initialize the grid with EmptyCell instances
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                _grid[i, j] = new EmptyCell();
+            }
+        }
     }
+    
 
     // Adding index operator to our Grid class so that we can use grid[][] to access specific cell from our grid. 
-    public CellType this[int i, int j]
+    public Cell this[int i, int j]
     {
         get
         {
@@ -82,7 +122,7 @@ public class Grid
         }
         set
         {
-            if (value == CellType.Road)
+            if (value is RoadCell)
             {
                 _roadList.Add(new Point(i, j));
             }
@@ -90,25 +130,25 @@ public class Grid
             {
                 _roadList.Remove(new Point(i, j));
             }
-            if (value == CellType.SpecialStructure)
+            if (value is HospitalCell)
             {
-                _specialStructure.Add(new Point(i, j));
+                _hospitalList.Add(new Point(i, j));
             }
             else
             {
-                _specialStructure.Remove(new Point(i, j));
+                _hospitalList.Remove(new Point(i, j));
             }
             _grid[i, j] = value;
         }
     }
 
-    public static bool IsCellWakable(CellType cellType, bool aiAgent = false)
+    public static bool IsCellWakable(Cell cellType, bool aiAgent = false)
     {
         if (aiAgent)
         {
-            return cellType == CellType.Road;
+            return cellType is RoadCell;
         }
-        return cellType == CellType.Empty || cellType == CellType.Road;
+        return cellType is EmptyCell || cellType is RoadCell;
     }
 
     public Point GetRandomRoadPoint()
@@ -168,12 +208,12 @@ public class Grid
         return adjacentCells;
     }
 
-    public List<Point> GetAdjacentCellsOfType(int x, int y, CellType type)
+    public List<Point> GetAdjacentCellsOfType(int x, int y, Type cellType)
     {
         List<Point> adjacentCells = GetAllAdjacentCells(x, y);
         for (int i = adjacentCells.Count - 1; i >= 0; i--)
         {
-            if (_grid[adjacentCells[i].X, adjacentCells[i].Y] != type)
+            if (_grid[adjacentCells[i].X, adjacentCells[i].Y].GetType() != cellType)
             {
                 adjacentCells.RemoveAt(i);
             }
@@ -187,24 +227,24 @@ public class Grid
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <returns></returns>
-    public CellType[] GetAllAdjacentCellTypes(int x, int y)
+    public Type[] GetAllAdjacentCellTypes(int x, int y)
     {
-        CellType[] neighbours = { CellType.None, CellType.None, CellType.None, CellType.None };
+        Type[] neighbours = new Type[4];
         if (x > 0)
         {
-            neighbours[0] = _grid[x - 1, y];
+            neighbours[0] = _grid[x - 1, y].GetType();
         }
         if (x < _width - 1)
         {
-            neighbours[2] = _grid[x + 1, y];
+            neighbours[2] = _grid[x + 1, y].GetType();
         }
         if (y > 0)
         {
-            neighbours[3] = _grid[x, y - 1];
+            neighbours[3] = _grid[x, y - 1].GetType();
         }
         if (y < _height - 1)
         {
-            neighbours[1] = _grid[x, y + 1];
+            neighbours[1] = _grid[x, y + 1].GetType();
         }
         return neighbours;
     }

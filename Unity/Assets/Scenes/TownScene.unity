@@ -23117,7 +23117,7 @@ MonoBehaviour:
   placementManager: {fileID: 540532163}
   temporaryPlacementPositions: []
   roadPositionsToRecheck: []
-  roadFixer: {fileID: 0}
+  roadFixer: {fileID: 2093395485}
 --- !u!4 &2093395484
 Transform:
   m_ObjectHideFlags: 0

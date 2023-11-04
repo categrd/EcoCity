@@ -23,8 +23,9 @@ public class StructureManager : MonoBehaviour
     {
         if (CheckPositionBeforePlacement(position))
         {
+            StructureCell structureCell = new StructureCell();
             int randomIndex = GetRandomWeightedIndex(houseWeights);
-            placementManager.PlaceObjectOnTheMap(position, housesPrefabe[randomIndex].prefab, CellType.Structure);
+            placementManager.PlaceObjectOnTheMap(position, housesPrefabe[randomIndex].prefab, structureCell);
             AudioPlayer.instance.PlayPlacementSound();
         }
     }
@@ -35,8 +36,9 @@ public class StructureManager : MonoBehaviour
         int height = 2;
         if(CheckBigStructure(position, width , height))
         {
+            StructureCell structureCell = new StructureCell();
             int randomIndex = GetRandomWeightedIndex(bigStructureWeights);
-            placementManager.PlaceObjectOnTheMap(position, bigStructuresPrefabs[randomIndex].prefab, CellType.Structure, width, height);
+            placementManager.PlaceObjectOnTheMap(position, bigStructuresPrefabs[randomIndex].prefab, structureCell, width, height);
             AudioPlayer.instance.PlayPlacementSound();
         }
     }
@@ -67,8 +69,9 @@ public class StructureManager : MonoBehaviour
     {
         if (CheckPositionBeforePlacement(position))
         {
+            StructureCell structureCell = new StructureCell();
             int randomIndex = GetRandomWeightedIndex(specialWeights);
-            placementManager.PlaceObjectOnTheMap(position, specialPrefabs[randomIndex].prefab, CellType.Structure);
+            placementManager.PlaceObjectOnTheMap(position, specialPrefabs[randomIndex].prefab, structureCell);
             AudioPlayer.instance.PlayPlacementSound();
         }
     }
@@ -110,7 +113,8 @@ public class StructureManager : MonoBehaviour
 
     private bool RoadCheck(Vector3Int position)
     {
-        if (placementManager.GetNeighboursOfTypeFor(position, CellType.Road).Count <= 0)
+        RoadCell roadCell = new RoadCell();
+        if (placementManager.GetNeighboursOfTypeFor<RoadCell>(position).Count <= 0)
         {
             Debug.Log("Must be placed near a road");
             return false;

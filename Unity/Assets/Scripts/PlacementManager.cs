@@ -16,7 +16,7 @@ public class PlacementManager : MonoBehaviour
         placementGrid = new Grid(width, height);
     }
 
-    internal CellType[] GetNeighbourTypesFor(Vector3Int position)
+    internal Type[] GetNeighbourTypesFor(Vector3Int position)
     {
         return placementGrid.GetAllAdjacentCellTypes(position.x, position.z);
     }
@@ -30,7 +30,7 @@ public class PlacementManager : MonoBehaviour
         return false;
     }
 
-    internal void PlaceObjectOnTheMap(Vector3Int position, GameObject structurePrefab, CellType type, int width = 1, int height = 1)
+    internal void PlaceObjectOnTheMap(Vector3Int position, GameObject structurePrefab, Cell type, int width = 1, int height = 1)
     {
         StructureModel structure = CreateANewStructureModel(position, structurePrefab, type);
         for (int x = 0; x < width; x++)
@@ -57,24 +57,31 @@ public class PlacementManager : MonoBehaviour
 
     internal bool CheckIfPositionIsFree(Vector3Int position)
     {
-        return CheckIfPositionIsOfType(position, CellType.Empty);
+        Type emptyCellType = typeof(EmptyCell);
+        return CheckIfPositionIsOfType(position, emptyCellType);
     }
 
-    private bool CheckIfPositionIsOfType(Vector3Int position, CellType type)
+
+    private bool CheckIfPositionIsOfType(Vector3Int position, Type cellType)
     {
-        return placementGrid[position.x, position.z] == type;
+        // Use the 'is' keyword to check if the cell at the specified position is of the given type.
+        return placementGrid[position.x, position.z].GetType() == cellType;
     }
 
-    internal void PlaceTemporaryStructure(Vector3Int position, GameObject structurePrefab, CellType type)
+
+    internal void PlaceTemporaryStructure<T>(Vector3Int position, GameObject structurePrefab) where T : Cell, new()
     {
-        placementGrid[position.x, position.z] = type;
-        StructureModel structure = CreateANewStructureModel(position, structurePrefab, type);
+        T cellType = new T();
+        placementGrid[position.x, position.z] = cellType;
+        StructureModel structure = CreateANewStructureModel(position, structurePrefab, cellType);
         temporaryRoadobjects.Add(position, structure);
     }
 
-    internal List<Vector3Int> GetNeighboursOfTypeFor(Vector3Int position, CellType type)
+    internal List<Vector3Int> GetNeighboursOfTypeFor<T>(Vector3Int position) where T : Cell, new()
     {
-        var neighbourVertices = placementGrid.GetAdjacentCellsOfType(position.x, position.z, type);
+        Type cellType = typeof(T);
+        Debug.Log(cellType);
+        var neighbourVertices = placementGrid.GetAdjacentCellsOfType(position.x, position.z, cellType);
         List<Vector3Int> neighbours = new List<Vector3Int>();
         foreach (var point in neighbourVertices)
         {
@@ -83,9 +90,9 @@ public class PlacementManager : MonoBehaviour
         return neighbours;
     }
 
-    private StructureModel CreateANewStructureModel(Vector3Int position, GameObject structurePrefab, CellType type)
+    private StructureModel CreateANewStructureModel(Vector3Int position, GameObject structurePrefab, Cell cellType)
     {
-        GameObject structure = new GameObject(type.ToString());
+        GameObject structure = new GameObject(cellType.ToString());
         structure.transform.SetParent(transform);
         structure.transform.localPosition = position;
         var structureModel = structure.AddComponent<StructureModel>();
@@ -109,7 +116,8 @@ public class PlacementManager : MonoBehaviour
         foreach (var structure in temporaryRoadobjects.Values)
         {
             var position = Vector3Int.RoundToInt(structure.transform.position);
-            placementGrid[position.x, position.z] = CellType.Empty;
+            EmptyCell emptyCell = new EmptyCell();
+            placementGrid[position.x, position.z] = emptyCell;
             Destroy(structure.gameObject);
         }
         temporaryRoadobjects.Clear();

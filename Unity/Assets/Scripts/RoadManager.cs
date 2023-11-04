@@ -15,7 +15,7 @@ public class RoadManager : MonoBehaviour
     private bool placementMode = false;
 
     public RoadFixer roadFixer;
-
+    RoadCell roadCell = new RoadCell();
     private void Start()
     {
         roadFixer = GetComponent<RoadFixer>();
@@ -23,10 +23,18 @@ public class RoadManager : MonoBehaviour
 
     public void PlaceRoad(Vector3Int position)
     {
+
         if (placementManager.CheckIfPositionInBound(position) == false)
+        {
+            //Debug.Log("Position is not in bound");
             return;
+        }
+
         if (placementManager.CheckIfPositionIsFree(position) == false)
+        {
+            //Debug.Log("Position is not free");
             return;
+        }
         if (placementMode == false)
         {
             temporaryPlacementPositions.Clear();
@@ -36,7 +44,7 @@ public class RoadManager : MonoBehaviour
             startPosition = position;
 
             temporaryPlacementPositions.Add(position);
-            placementManager.PlaceTemporaryStructure(position, roadFixer.deadEnd, CellType.Road);
+            placementManager.PlaceTemporaryStructure<RoadCell>(position, roadFixer.deadEnd);
 
         }
         else
@@ -60,7 +68,7 @@ public class RoadManager : MonoBehaviour
                     roadPositionsToRecheck.Add(temporaryPosition);
                     continue;
                 }  
-                placementManager.PlaceTemporaryStructure(temporaryPosition, roadFixer.deadEnd, CellType.Road);
+                placementManager.PlaceTemporaryStructure<RoadCell>(temporaryPosition, roadFixer.deadEnd);
             }
         }
 
@@ -73,9 +81,11 @@ public class RoadManager : MonoBehaviour
         foreach (var temporaryPosition in temporaryPlacementPositions)
         {
             roadFixer.FixRoadAtPosition(placementManager, temporaryPosition);
-            var neighbours = placementManager.GetNeighboursOfTypeFor(temporaryPosition, CellType.Road);
+            var neighbours = placementManager.GetNeighboursOfTypeFor<RoadCell>(temporaryPosition);
+            
             foreach (var roadposition in neighbours)
             {
+                Debug.Log(roadposition);
                 if (roadPositionsToRecheck.Contains(roadposition)==false)
                 {
                     roadPositionsToRecheck.Add(roadposition);
