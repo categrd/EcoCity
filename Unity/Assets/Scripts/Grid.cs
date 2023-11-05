@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Unity.VisualScripting.Dependencies.NCalc;
+using UnityEditor.Search;
 
 /// <summary>
 /// Source https://github.com/lordjesus/Packt-Introduction-to-graph-algorithms-for-game-developers
@@ -46,9 +48,43 @@ public class Point
     }
 }
 
+public enum BuildingType
+{
+    Clinic,
+    Hospital,
+    
+    SolarPanel,
+    WindTurbine,
+    CarbonPowerPlant,
+    NuclearPlant,
+    
+    House,
+    HighDensityHouse,
+    
+    Shop,
+    Restaurant,
+    Bar,
+    Cinema,
+    
+    University,
+    FireStation,
+    PoliceStation,
+    
+    Factory,
+    Crop,
+    Livestock,
+    
+    Landfill,
+    IncinerationPlant,
+    WasteToEnergyPlant,
+
+    
+}
+
 
 public class Cell
 {
+    public BuildingType buildingType;
     // Common cell properties and methods
 }
 
@@ -63,26 +99,54 @@ public class RoadCell : Cell
     // Properties and methods specific to road cells
 }
 
+
+
+
+    
+
 public class StructureCell : Cell
 {
-    public string name;
     public int cost;
     public int maintenanceCost;
+    public int incomeGenerated;
     public float beauty;
+    public float energyConsumption;
+    public float wasteProduction;
+    public int numberOfEmployees;
     // Common properties for structures
 }
 
-public class HospitalCell : StructureCell
+public class SanityCell : StructureCell
 {
     public int patientCapacity;
     // Properties and methods specific to hospitals
 }
 
-public class HouseCell : StructureCell
+public class ResidenceCell : StructureCell
 {
     public int numberOfResidents;
     public float comfortLevel;
     // Properties and methods specific to houses
+}
+
+public class EnergyProduction : StructureCell
+{
+    public float energyProduced;
+}
+
+public class Entertainment : StructureCell
+{
+    public float happiness;
+}
+
+public class Industry : StructureCell
+{
+    public float goods;
+}
+
+public class GarbageDisposal : StructureCell
+{
+    public float garbageDisposed;
 }
 
 public class Grid
@@ -130,7 +194,7 @@ public class Grid
             {
                 _roadList.Remove(new Point(i, j));
             }
-            if (value is HospitalCell)
+            if (value is SanityCell)
             {
                 _hospitalList.Add(new Point(i, j));
             }
