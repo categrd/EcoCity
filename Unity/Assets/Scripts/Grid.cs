@@ -84,12 +84,12 @@ public enum BuildingType
 
 public class Cell
 {
-    public BuildingType buildingType;
-    // Common cell properties and methods
+    
 }
 
 public class EmptyCell : Cell
 {
+    
     // Properties and methods specific to empty cells
 }
 
@@ -106,47 +106,341 @@ public class RoadCell : Cell
 
 public class StructureCell : Cell
 {
-    public int cost;
-    public int maintenanceCost;
-    public int incomeGenerated;
-    public float beauty;
-    public float energyConsumption;
-    public float wasteProduction;
-    public int numberOfEmployees;
-    // Common properties for structures
+    private BuildingType _buildingType;
+    private int _maintenanceCost;
+    private int _incomeGenerated;
+    private float _beauty;
+    private float _energyConsumption;
+    private float _wasteProduction;
+    private int _numberOfEmployees;
+
+    public BuildingType BuildingType { get; set; }
+    public int MaintenanceCost { get; set; }
+    public int IncomeGenerated { get; set; }
+    public float Beauty { get; set; }
+    public float EnergyConsumption { get; set; }
+    public float WasteProduction { get; set; }
+    public int NumberOfEmployees { get; set; }
+    
+
+    /* Constructor for Cell
+    public StructureCell(BuildingType buildingType,  int maintenanceCost, int incomeGenerated, float beauty, 
+        float energyConsumption, float wasteProduction, int numberOfEmployees)
+    {
+        BuildingType = buildingType;
+        _maintenanceCost = maintenanceCost;
+        _incomeGenerated = incomeGenerated;
+        _beauty = beauty;
+        _energyConsumption = energyConsumption;
+        _wasteProduction = wasteProduction;
+        _numberOfEmployees = numberOfEmployees;
+    }
+*/
 }
 
 public class SanityCell : StructureCell
 {
-    public int patientCapacity;
+    private int _patientCapacity;
+    public int PatientCapacity { get; set; }
     // Properties and methods specific to hospitals
+    
+    public SanityCell(BuildingType buildingType)
+    {
+        if(buildingType == BuildingType.Clinic)
+        {
+            MaintenanceCost = 200;
+            IncomeGenerated = 0;
+            Beauty = 0;
+            EnergyConsumption = 50;
+            WasteProduction = 20;
+            NumberOfEmployees = 20;
+            PatientCapacity = 100;
+        }
+
+        if (buildingType == BuildingType.Hospital)
+        {
+            MaintenanceCost = 2000;
+            IncomeGenerated = 0;
+            Beauty = 0;
+            EnergyConsumption = 400;
+            WasteProduction = 150;
+            NumberOfEmployees = 150;
+            PatientCapacity = 1500;
+            
+        }
+    }
+
 }
 
 public class ResidenceCell : StructureCell
 {
-    public int numberOfResidents;
-    public float comfortLevel;
+    private int _numberOfResidents;
+    private float _comfortLevel;
+    public int NumberOfResidents { get; set; }
+    public float ComfortLevel { get; set; }
     // Properties and methods specific to houses
+    public ResidenceCell(BuildingType buildingType)
+    {
+        if(buildingType == BuildingType.House)
+        {
+            MaintenanceCost = 0;
+            IncomeGenerated = 100 * _numberOfResidents;
+            Beauty = 1f;
+            EnergyConsumption = 20;
+            WasteProduction = 5;
+            NumberOfEmployees = 0;
+            NumberOfResidents = 4;
+            ComfortLevel = 5;
+        }
+
+        if (buildingType == BuildingType.HighDensityHouse)
+        {
+            MaintenanceCost = 0;
+            IncomeGenerated = 100 * _numberOfResidents;
+            Beauty = -0.1f;
+            EnergyConsumption = 200;
+            WasteProduction = 50;
+            NumberOfEmployees = 0;
+            NumberOfResidents = 40;
+            ComfortLevel = 2;
+        }
+
+    }
 }
 
 public class EnergyProduction : StructureCell
 {
-    public float energyProduced;
+    private float _energyProduced;
+    public float EnergyProduced { get; set; }
+
+    public EnergyProduction(BuildingType buildingType)
+    {
+        if (buildingType == BuildingType.SolarPanel)
+        {
+            MaintenanceCost = 100;
+            IncomeGenerated = 0;
+            Beauty = 1f;
+            EnergyConsumption = 0;
+            WasteProduction = 1;
+            NumberOfEmployees = 2;
+            EnergyProduced = 1000;
+        }
+
+        if (buildingType == BuildingType.WindTurbine)
+        {
+            MaintenanceCost = 100;
+            IncomeGenerated = 0;
+            Beauty = 1f;
+            EnergyConsumption = 0;
+            WasteProduction = 1;
+            NumberOfEmployees = 2;
+            EnergyProduced = 1000;
+
+        }
+
+        if (buildingType == BuildingType.CarbonPowerPlant)
+        {
+            MaintenanceCost = 500;
+            IncomeGenerated = 0;
+            Beauty = -2f;
+            EnergyConsumption = 0;
+            WasteProduction = 20;
+            NumberOfEmployees = 10;
+            EnergyProduced = 10000;
+
+        }
+
+        if (buildingType == BuildingType.NuclearPlant)
+        {
+            MaintenanceCost = 1000;
+            IncomeGenerated = 0;
+            Beauty = 1f;
+            EnergyConsumption = 0;
+            WasteProduction = 1;
+            NumberOfEmployees = 25;
+            EnergyProduced = 50000;
+
+        }
+
+
+    }
 }
 
 public class Entertainment : StructureCell
 {
-    public float happiness;
+    private float _happiness;
+    public float Happiness { get; set; }
+    public Entertainment(BuildingType buildingType)
+    {
+        if (buildingType == BuildingType.Shop)
+        {
+            MaintenanceCost = 0;
+            IncomeGenerated = 1000;
+            Beauty = 0.5f;
+            EnergyConsumption = 50;
+            WasteProduction = 1;
+            NumberOfEmployees = 5;
+            Happiness = 10;
+
+        }
+        if (buildingType == BuildingType.Bar)
+        {
+            MaintenanceCost = 0;
+            IncomeGenerated = 1200;
+            Beauty = -0.5f;
+            EnergyConsumption = 30;
+            WasteProduction = 5;
+            NumberOfEmployees = 5;
+            Happiness = 12;
+
+        }
+        if (buildingType == BuildingType.Restaurant)
+        {
+            MaintenanceCost = 0;
+            IncomeGenerated = 2500;
+            Beauty = 2f;
+            EnergyConsumption = 100;
+            WasteProduction = 10;
+            NumberOfEmployees = 15;
+            Happiness = 20;
+
+        }
+        if (buildingType == BuildingType.Cinema)
+        {
+            MaintenanceCost = 0;
+            IncomeGenerated = 1600;
+            Beauty = 1f;
+            EnergyConsumption = 60;
+            WasteProduction = 3;
+            NumberOfEmployees = 6;
+            Happiness = 15;
+
+        }
+        
+    }
+    
+    
 }
 
+public class PublicService : StructureCell
+{
+    public PublicService(BuildingType buildingType)
+    {
+        if(buildingType == BuildingType.PoliceStation)
+        {
+            MaintenanceCost = 1000;
+            IncomeGenerated = 0;
+            Beauty = 0;
+            EnergyConsumption = 100;
+            WasteProduction = 5;
+            NumberOfEmployees = 20;
+        }
+        if(buildingType == BuildingType.FireStation)
+        {
+            MaintenanceCost = 500;
+            IncomeGenerated = 0;
+            Beauty = 0;
+            EnergyConsumption = 100;
+            WasteProduction = 5;
+            NumberOfEmployees = 10;
+        }
+        if(buildingType == BuildingType.PoliceStation)
+        {
+            MaintenanceCost = 1500;
+            IncomeGenerated = 0;
+            Beauty = 0.5f;
+            EnergyConsumption = 300;
+            WasteProduction = 20;
+            NumberOfEmployees = 30;
+        }
+        
+    }
+}
 public class Industry : StructureCell
 {
-    public float goods;
+    private int _goods;
+    private int _foodProduced;
+    public int Goods { get; set;}
+    public int FoodProduced { get; set; }
+
+    public Industry(BuildingType buildingType)
+    {
+        if (buildingType == BuildingType.Factory)
+        {
+            MaintenanceCost = 0;
+            IncomeGenerated = 4000;
+            Beauty = -1f;
+            EnergyConsumption = 300;
+            WasteProduction = 30;
+            NumberOfEmployees = 50;
+            Goods = 50;
+            FoodProduced = 0;
+
+        }
+        if (buildingType == BuildingType.Crop)
+        {
+            MaintenanceCost = 0;
+            IncomeGenerated = 1500;
+            Beauty = 0.1f;
+            EnergyConsumption = 50;
+            WasteProduction = 10;
+            NumberOfEmployees = 40;
+            Goods = 0;
+            FoodProduced = 100;
+
+        }
+        if (buildingType == BuildingType.Livestock)
+        {
+            MaintenanceCost = 0;
+            IncomeGenerated = 1500;
+            Beauty = 0.2f;
+            EnergyConsumption = 60;
+            WasteProduction = 15;
+            NumberOfEmployees = 30;
+            Goods = 0;
+            FoodProduced = 120;
+        }
+    }
 }
 
 public class GarbageDisposal : StructureCell
 {
-    public float garbageDisposed;
+    private int _garbageDisposed;
+    public int GarbageDisposed { get; set; }
+
+    public GarbageDisposal(BuildingType buildingType)
+    {
+        if (buildingType == BuildingType.Landfill)
+        {
+            MaintenanceCost = 50;
+            IncomeGenerated = 0;
+            Beauty = -5f;
+            EnergyConsumption = 10;
+            WasteProduction = 0;
+            NumberOfEmployees = 10;
+            GarbageDisposed = 500;
+        }
+        if (buildingType == BuildingType.IncinerationPlant)
+        {
+            MaintenanceCost = 500;
+            IncomeGenerated = 0;
+            Beauty = 0f;
+            EnergyConsumption = 150;
+            WasteProduction = 0;
+            NumberOfEmployees = 15;
+            GarbageDisposed = 200;
+        }
+        if (buildingType == BuildingType.WasteToEnergyPlant)
+        {
+            MaintenanceCost = 1000;
+            IncomeGenerated = 0;
+            Beauty = 0f;
+            EnergyConsumption = 0;
+            WasteProduction = 0;
+            NumberOfEmployees = 20;
+            GarbageDisposed = 500;
+        }
+    }
 }
 
 public class Grid

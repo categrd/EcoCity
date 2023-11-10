@@ -6,8 +6,8 @@ using UnityEngine.EventSystems;
 
 public class InputManager : MonoBehaviour
 {
-    public Action<Vector3Int> OnMouseClick, OnMouseHold;
-    public Action OnMouseUp;
+    public Action<Vector3Int> OnMouseClick, OnMouseHold, OnMouseHover;
+    public Action OnMouseUp, OnPressingEsc;
 	private Vector2 cameraMovementVector;
 
 	[SerializeField]
@@ -26,6 +26,8 @@ public class InputManager : MonoBehaviour
 		CheckClickUpEvent();
 		CheckClickHoldEvent();
 		CheckArrowInput();
+		CheckHoveringObjects();
+		CheckPressingEsc();
 	}
 
 	private Vector3Int? RaycastGround()
@@ -75,4 +77,26 @@ public class InputManager : MonoBehaviour
 
 		}
 	}
+
+	private void CheckHoveringObjects()
+	{
+		if (EventSystem.current.IsPointerOverGameObject() == false)
+		{
+			var position = RaycastGround();
+			if (position != null)
+				OnMouseHover?.Invoke(position.Value);
+
+		}
+		
+	}
+
+	private void CheckPressingEsc()
+	{
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			OnPressingEsc?.Invoke();
+		}
+	}
+	
 }
+

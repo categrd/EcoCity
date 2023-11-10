@@ -7,25 +7,131 @@ using UnityEngine;
 
 public class StructureManager : MonoBehaviour
 {
-    public StructurePrefabWeighted[] housesPrefabe, specialPrefabs, bigStructuresPrefabs;
+    public StructurePrefabWeighted[] housesPrefabs, specialPrefabs, bigStructuresPrefabs;
+    public GameObject clinicPrefab,
+        hospitalPrefab,
+        highDensityHousePrefab,
+        solarPanelPrefab,
+        windTurbinePrefab,
+        carbonPowerPlantPrefab,
+        nuclearPlantPrefab,
+        shopPrefab,
+        restaurantPrefab,
+        barPrefab,
+        cinemaPrefab,
+        universityPrefab,
+        fireStationPrefab,
+        policeStationPrefab,
+        factoryPrefab,
+        cropPrefab,
+        livestockPrefab,
+        landfillPrefab,
+        incinerationPlantPrefab,
+        wasteToEnergyPlantPrefab;
+        
     public PlacementManager placementManager;
 
     private float[] houseWeights, specialWeights, bigStructureWeights;
 
     private void Start()
     {
-        houseWeights = housesPrefabe.Select(prefabStats => prefabStats.weight).ToArray();
+        houseWeights = housesPrefabs.Select(prefabStats => prefabStats.weight).ToArray();
         specialWeights = specialPrefabs.Select(prefabStats => prefabStats.weight).ToArray();
         bigStructureWeights = bigStructuresPrefabs.Select(prefabStats => prefabStats.weight).ToArray();
     }
 
+    public void PlaceTemporaryHouse(Vector3Int position)
+    {
+        int randomIndex = GetRandomWeightedIndex(houseWeights);
+        placementManager.PlaceTemporaryStructureWithButton(position, housesPrefabs[randomIndex].prefab);
+    }
     public void PlaceHouse(Vector3Int position)
+    {
+        
+        if (CheckPositionBeforePlacement(position))
+        {
+            ResidenceCell house = new ResidenceCell(BuildingType.House);
+            int randomIndex = GetRandomWeightedIndex(houseWeights);
+            placementManager.buildPermanent = true;
+            placementManager.PlaceTemporaryStructureWithButton(position, housesPrefabs[randomIndex].prefab);
+            placementManager.PlaceObjectOnTheMap(position, housesPrefabs[randomIndex].prefab, house);
+            AudioPlayer.instance.PlayPlacementSound();
+            
+        }
+    }
+    
+    public void PlaceTemporaryClinic(Vector3Int position)
+    {
+        placementManager.PlaceTemporaryStructureWithButton(position, clinicPrefab);
+    }
+    public void PlaceClinic(Vector3Int position)
     {
         if (CheckPositionBeforePlacement(position))
         {
-            StructureCell structureCell = new StructureCell();
+            SanityCell clinic = new SanityCell(BuildingType.Clinic);
+            placementManager.buildPermanent = true;
+            placementManager.PlaceTemporaryStructureWithButton(position, clinicPrefab);
+            placementManager.PlaceObjectOnTheMap(position, clinicPrefab, clinic);
+            AudioPlayer.instance.PlayPlacementSound();
+        }
+    }
+    public void PlaceHospital(Vector3Int position)
+    {
+        if (CheckPositionBeforePlacement(position))
+        {
+            SanityCell hospital = new SanityCell(BuildingType.Hospital);
             int randomIndex = GetRandomWeightedIndex(houseWeights);
-            placementManager.PlaceObjectOnTheMap(position, housesPrefabe[randomIndex].prefab, structureCell);
+            placementManager.PlaceObjectOnTheMap(position, hospitalPrefab, hospital);
+            AudioPlayer.instance.PlayPlacementSound();
+        }
+    }
+    public void PlaceHighDensityHouse(Vector3Int position)
+    {
+        if (CheckPositionBeforePlacement(position))
+        {
+            ResidenceCell highDensityHouse = new ResidenceCell(BuildingType.HighDensityHouse);
+            int randomIndex = GetRandomWeightedIndex(houseWeights);
+            placementManager.PlaceObjectOnTheMap(position, highDensityHousePrefab, highDensityHouse);
+            AudioPlayer.instance.PlayPlacementSound();
+        }
+    }
+    public void PlaceSolarPanel(Vector3Int position)
+    {
+        if (CheckPositionBeforePlacement(position))
+        {
+            EnergyProduction solarPanel = new EnergyProduction(BuildingType.SolarPanel);
+            int randomIndex = GetRandomWeightedIndex(houseWeights);
+            placementManager.PlaceObjectOnTheMap(position, solarPanelPrefab, solarPanel);
+            AudioPlayer.instance.PlayPlacementSound();
+        }
+    }
+    public void PlaceWindTurbine(Vector3Int position)
+    {
+        if (CheckPositionBeforePlacement(position))
+        {
+            EnergyProduction windTurbine = new EnergyProduction(BuildingType.WindTurbine);
+            int randomIndex = GetRandomWeightedIndex(houseWeights);
+            placementManager.PlaceObjectOnTheMap(position, windTurbinePrefab, windTurbine);
+            AudioPlayer.instance.PlayPlacementSound();
+        }
+    }
+    public void PlaceCarbonPowerPlant(Vector3Int position)
+    {
+        if (CheckPositionBeforePlacement(position))
+        {
+            EnergyProduction carbonPowerPlant = new EnergyProduction(BuildingType.CarbonPowerPlant);
+            int randomIndex = GetRandomWeightedIndex(houseWeights);
+            placementManager.PlaceObjectOnTheMap(position, carbonPowerPlantPrefab, carbonPowerPlant);
+            AudioPlayer.instance.PlayPlacementSound();
+        }
+    }
+    public void PlaceNuclearPlant(Vector3Int position)
+    {
+        if (CheckPositionBeforePlacement(position))
+        {
+            EnergyProduction nuclearPlant = new EnergyProduction(BuildingType.NuclearPlant);
+            int randomIndex = GetRandomWeightedIndex(houseWeights);
+            placementManager.PlaceObjectOnTheMap(position, nuclearPlantPrefab, nuclearPlant);
             AudioPlayer.instance.PlayPlacementSound();
         }
     }
@@ -98,7 +204,7 @@ public class StructureManager : MonoBehaviour
         return 0;
     }
 
-    private bool CheckPositionBeforePlacement(Vector3Int position)
+    public bool CheckPositionBeforePlacement(Vector3Int position)
     {
         if (DefaultCheck(position) == false)
         {
