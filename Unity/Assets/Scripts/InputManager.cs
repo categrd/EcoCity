@@ -65,7 +65,9 @@ public class InputManager : MonoBehaviour
 		{
 			var position = RaycastGround();
 			if (position != null)
+			{
 				OnMouseHold?.Invoke(position.Value);
+			}
 
 		}
 	}
@@ -85,7 +87,10 @@ public class InputManager : MonoBehaviour
 		{
 			var position = RaycastGround();
 			if (position != null)
+			{
+				Debug.Log("Check click down event done: " + position.Value);
 				OnMouseClick?.Invoke(position.Value);
+			}
 
 		}
 	}

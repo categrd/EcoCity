@@ -208,12 +208,12 @@ public class ResidenceCell : StructureCell
     }
 }
 
-public class EnergyProduction : StructureCell
+public class EnergyProductionCell : StructureCell
 {
     private float _energyProduced;
     public float EnergyProduced { get; set; }
 
-    public EnergyProduction(BuildingType buildingType)
+    public EnergyProductionCell(BuildingType buildingType)
     {
         if (buildingType == BuildingType.SolarPanel)
         {
@@ -266,11 +266,11 @@ public class EnergyProduction : StructureCell
     }
 }
 
-public class Entertainment : StructureCell
+public class EntertainmentCell : StructureCell
 {
     private float _happiness;
     public float Happiness { get; set; }
-    public Entertainment(BuildingType buildingType)
+    public EntertainmentCell(BuildingType buildingType)
     {
         if (buildingType == BuildingType.Shop)
         {
@@ -322,9 +322,9 @@ public class Entertainment : StructureCell
     
 }
 
-public class PublicService : StructureCell
+public class PublicServiceCell : StructureCell
 {
-    public PublicService(BuildingType buildingType)
+    public PublicServiceCell(BuildingType buildingType)
     {
         if(buildingType == BuildingType.PoliceStation)
         {
@@ -356,14 +356,14 @@ public class PublicService : StructureCell
         
     }
 }
-public class Industry : StructureCell
+public class IndustryCell : StructureCell
 {
     private int _goods;
     private int _foodProduced;
     public int Goods { get; set;}
     public int FoodProduced { get; set; }
 
-    public Industry(BuildingType buildingType)
+    public IndustryCell(BuildingType buildingType)
     {
         if (buildingType == BuildingType.Factory)
         {
@@ -403,12 +403,12 @@ public class Industry : StructureCell
     }
 }
 
-public class GarbageDisposal : StructureCell
+public class GarbageDisposalCell : StructureCell
 {
     private int _garbageDisposed;
     public int GarbageDisposed { get; set; }
 
-    public GarbageDisposal(BuildingType buildingType)
+    public GarbageDisposalCell(BuildingType buildingType)
     {
         if (buildingType == BuildingType.Landfill)
         {

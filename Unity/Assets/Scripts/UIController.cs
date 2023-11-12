@@ -67,24 +67,24 @@ public class UIController : MonoBehaviour
     private void Start()
     {
         buttonList = new List<Button> {
+            destroyStructureButton,
             placeRoadButton,
             placeHouseButton,
             placeClinicButton,
-            destroyStructureButton
+            placePoliceStationButton,
             /*
             placeHospitalButton,
+            placeUniversityButton,
+            placeFireStationButton,
+            placeRestaurantButton,
             placeSolarPanelButton,
             placeWindTurbineButton,
             placeCarbonPowerPlantButton,
             placeNuclearPlantButton,
             placeHighDensityHouseButton,
             placeShopButton,
-            placeRestaurantButton,
             placeBarButton,
             placeCinemaButton,
-            placeUniversityButton,
-            placeFireStationButton,
-            placePoliceStationButton,
             placeFactoryButton,
             placeCropButton,
             placeLivestockButton,
@@ -92,39 +92,35 @@ public class UIController : MonoBehaviour
             placeIncinerationPlantButton,
             placeWasteToEnergyPlantButton
             */
-            
         };
-
-
+        
         // Add click listeners for all the buttons
         AddButtonClickListener(destroyStructureButton, () => { OnDestroyStructure?.Invoke(); });
         AddButtonClickListener(placeRoadButton, () => { OnRoadPlacement?.Invoke(); });
         AddButtonClickListener(placeHouseButton, () => { OnHousePlacement?.Invoke(); });
         AddButtonClickListener(placeClinicButton, () => { OnClinicPlacement?.Invoke(); });
-
-/*
-AddButtonClickListener(placeHospitalButton, () => { OnHospitalPlacement?.Invoke(); });
-AddButtonClickListener(placeSolarPanelButton, () => { OnSolarPanelPlacement?.Invoke(); });
-AddButtonClickListener(placeWindTurbineButton, () => { OnWindTurbinePlacement?.Invoke(); });
-AddButtonClickListener(placeCarbonPowerPlantButton, () => { OnCarbonPowerPlantPlacement?.Invoke(); });
-AddButtonClickListener(placeNuclearPlantButton, () => { OnNuclearPlantPlacement?.Invoke(); });
-AddButtonClickListener(placeHighDensityHouseButton, () => { OnHighDensityHousePlacement?.Invoke(); });
-AddButtonClickListener(placeShopButton, () => { OnShopPlacement?.Invoke(); });
-AddButtonClickListener(placeRestaurantButton, () => { OnRestaurantPlacement?.Invoke(); });
-AddButtonClickListener(placeBarButton, () => { OnBarPlacement?.Invoke(); });
-AddButtonClickListener(placeCinemaButton, () => { OnCinemaPlacement?.Invoke(); });
-AddButtonClickListener(placeUniversityButton, () => { OnUniversityPlacement?.Invoke(); });
-AddButtonClickListener(placeFireStationButton, () => { OnFireStationPlacement?.Invoke(); });
-AddButtonClickListener(placePoliceStationButton, () => { OnPoliceStationPlacement?.Invoke(); });
-AddButtonClickListener(placeFactoryButton, () => { OnFactoryPlacement?.Invoke(); });
-AddButtonClickListener(placeCropButton, () => { OnCropPlacement?.Invoke(); });
-AddButtonClickListener(placeLivestockButton, () => { OnLivestockPlacement?.Invoke(); });
-AddButtonClickListener(placeLandfillButton, () => { OnLandfillPlacement?.Invoke(); });
-AddButtonClickListener(placeIncinerationPlantButton, () => { OnIncinerationPlantPlacement?.Invoke(); });
-AddButtonClickListener(placeWasteToEnergyPlantButton, () => { OnWasteToEnergyPlantPlacement?.Invoke(); });
-*/
+        AddButtonClickListener(placePoliceStationButton, () => { OnPoliceStationPlacement?.Invoke(); });
+        /*
+        AddButtonClickListener(placeHospitalButton, () => { OnHospitalPlacement?.Invoke(); });
+        AddButtonClickListener(placeRestaurantButton, () => { OnRestaurantPlacement?.Invoke(); });
+        AddButtonClickListener(placeUniversityButton, () => { OnUniversityPlacement?.Invoke(); });
+        AddButtonClickListener(placeFireStationButton, () => { OnFireStationPlacement?.Invoke(); });
         
-        
+        AddButtonClickListener(placeSolarPanelButton, () => { OnSolarPanelPlacement?.Invoke(); });
+        AddButtonClickListener(placeWindTurbineButton, () => { OnWindTurbinePlacement?.Invoke(); });
+        AddButtonClickListener(placeCarbonPowerPlantButton, () => { OnCarbonPowerPlantPlacement?.Invoke(); });
+        AddButtonClickListener(placeNuclearPlantButton, () => { OnNuclearPlantPlacement?.Invoke(); });
+        AddButtonClickListener(placeHighDensityHouseButton, () => { OnHighDensityHousePlacement?.Invoke(); });
+        AddButtonClickListener(placeShopButton, () => { OnShopPlacement?.Invoke(); });
+        AddButtonClickListener(placeCinemaButton, () => { OnCinemaPlacement?.Invoke(); });
+        AddButtonClickListener(placeBarButton, () => { OnBarPlacement?.Invoke(); });
+        AddButtonClickListener(placeFactoryButton, () => { OnFactoryPlacement?.Invoke(); });
+        AddButtonClickListener(placeCropButton, () => { OnCropPlacement?.Invoke(); });
+        AddButtonClickListener(placeLivestockButton, () => { OnLivestockPlacement?.Invoke(); });
+        AddButtonClickListener(placeLandfillButton, () => { OnLandfillPlacement?.Invoke(); });
+        AddButtonClickListener(placeIncinerationPlantButton, () => { OnIncinerationPlantPlacement?.Invoke(); });
+        AddButtonClickListener(placeWasteToEnergyPlantButton, () => { OnWasteToEnergyPlantPlacement?.Invoke(); });
+        */
     }
 
     private void ModifyOutline(Button button)
