@@ -12,15 +12,23 @@ namespace SVS
     {
         public Camera gameCamera;
         public float cameraMovementSpeed = 5;
-
+        public float minPossibleZoom, maxPossibleZoom;
         private void Start()
         {
             gameCamera = GetComponent<Camera>();
+            
         }
         public void MoveCamera(Vector3 inputVector)
         {
             var movementVector = Quaternion.Euler(0,30,0) * inputVector;
-            gameCamera.transform.position += movementVector * Time.deltaTime * cameraMovementSpeed;
+            gameCamera.transform.position += Time.deltaTime * cameraMovementSpeed * movementVector;
+        }
+
+        public void ZoomCamera(float zoom)
+        {
+            if(gameCamera.orthographicSize - zoom > minPossibleZoom && gameCamera.orthographicSize + zoom < maxPossibleZoom )
+                gameCamera.orthographicSize -= zoom;
+            
         }
     }
 }

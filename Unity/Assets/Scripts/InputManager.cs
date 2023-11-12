@@ -9,6 +9,7 @@ public class InputManager : MonoBehaviour
     public Action<Vector3Int> OnMouseClick, OnMouseHold, OnMouseHover;
     public Action OnMouseUp, OnPressingEsc;
 	private Vector2 cameraMovementVector;
+	private float zoom;
 
 	[SerializeField]
 	Camera mainCamera;
@@ -19,6 +20,10 @@ public class InputManager : MonoBehaviour
 	{
 		get { return cameraMovementVector; }
 	}
+	public float Zoom
+	{
+		get { return zoom; }
+	}
 
 	private void Update()
 	{
@@ -28,6 +33,7 @@ public class InputManager : MonoBehaviour
 		CheckArrowInput();
 		CheckHoveringObjects();
 		CheckPressingEsc();
+		CheckMouseWheel();
 	}
 
 	private Vector3Int? RaycastGround()
@@ -46,6 +52,12 @@ public class InputManager : MonoBehaviour
 	{
 		cameraMovementVector = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 	}
+
+	private void CheckMouseWheel()
+	{
+		zoom = Input.GetAxis("Mouse ScrollWheel");
+	}
+	
 
 	private void CheckClickHoldEvent()
 	{

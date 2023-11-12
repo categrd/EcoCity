@@ -7,7 +7,7 @@ using UnityEngine;
 public class RoadFixer : MonoBehaviour
 {
     public GameObject deadEnd, roadStraight, corner, threeWay, fourWay;
-    Type roadCellType = typeof(RoadCell);
+    public Type roadCellType = typeof(RoadCell);
 
     public void FixRoadAtPosition(PlacementManager placementManager, Vector3Int temporaryPosition)
     {

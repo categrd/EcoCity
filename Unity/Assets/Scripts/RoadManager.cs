@@ -3,11 +3,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class RoadManager : MonoBehaviour
 {
     public PlacementManager placementManager;
-
+    
     public List<Vector3Int> temporaryPlacementPositions = new List<Vector3Int>();
     public List<Vector3Int> roadPositionsToRecheck = new List<Vector3Int>();
 
@@ -109,4 +110,23 @@ public class RoadManager : MonoBehaviour
         temporaryPlacementPositions.Clear();
         startPosition = Vector3Int.zero;
     }
+
+    public void FixRoadWhenDestroying(Vector3Int position)
+    {
+        Vector3Int[] positionsToCheck = {
+            position + new Vector3Int(1, 0, 0),
+            position - new Vector3Int(1, 0, 0),
+            position + new Vector3Int(0, 0, 1),
+            position + new Vector3Int(0, 0, -1)
+        };
+
+        foreach (Vector3Int item in positionsToCheck)
+        {
+            if (placementManager.CheckIfPositionIsOfType(item, roadFixer.roadCellType))
+            {
+                roadFixer.FixRoadAtPosition(placementManager, item);
+            }
+        }
+    }
+
 }

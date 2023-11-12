@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class StructureManager : MonoBehaviour
 {
+    private BuildingType _buildingType;
     public StructurePrefabWeighted[] housesPrefabs, specialPrefabs, bigStructuresPrefabs;
     public GameObject clinicPrefab,
         hospitalPrefab,
@@ -30,6 +31,8 @@ public class StructureManager : MonoBehaviour
         wasteToEnergyPlantPrefab;
         
     public PlacementManager placementManager;
+    public GameManager gameManager;
+    public RoadManager roadManager;
 
     private float[] houseWeights, specialWeights, bigStructureWeights;
 
@@ -38,6 +41,17 @@ public class StructureManager : MonoBehaviour
         houseWeights = housesPrefabs.Select(prefabStats => prefabStats.weight).ToArray();
         specialWeights = specialPrefabs.Select(prefabStats => prefabStats.weight).ToArray();
         bigStructureWeights = bigStructuresPrefabs.Select(prefabStats => prefabStats.weight).ToArray();
+    }
+
+    public void DestroyStructure(Vector3Int position)
+    {
+        if (!placementManager.CheckIfPositionIsFree(position))
+        {
+            Type structureClass = placementManager.GetTypeOfPosition(position);
+            gameManager.UpdateGameVariablesWhenDestroying(position);
+            placementManager.DestroyGameObjectAt(position);
+            roadManager.FixRoadWhenDestroying(position);
+        }
     }
 
     public void PlaceTemporaryHouse(Vector3Int position)
@@ -216,6 +230,7 @@ public class StructureManager : MonoBehaviour
         
         return true;
     }
+    
 
     private bool RoadCheck(Vector3Int position)
     {

@@ -11,6 +11,11 @@ public class UIController : MonoBehaviour
         OnNuclearPlantPlacement, OnHighDensityHousePlacement, OnShopPlacement, OnRestaurantPlacement, OnBarPlacement, OnCinemaPlacement, OnUniversityPlacement, 
         OnFireStationPlacement, OnPoliceStationPlacement, OnFactoryPlacement, OnCropPlacement, OnLivestockPlacement, OnLandfillPlacement, OnIncinerationPlantPlacement, 
         OnWasteToEnergyPlantPlacement;
+
+    public Action OnDestroyStructure;
+
+    public Button destroyStructureButton;
+    
     public Button placeRoadButton;
     // Healthcare
     public Button placeClinicButton;
@@ -65,6 +70,7 @@ public class UIController : MonoBehaviour
             placeRoadButton,
             placeHouseButton,
             placeClinicButton,
+            destroyStructureButton
             /*
             placeHospitalButton,
             placeSolarPanelButton,
@@ -86,13 +92,16 @@ public class UIController : MonoBehaviour
             placeIncinerationPlantButton,
             placeWasteToEnergyPlantButton
             */
+            
         };
 
 
         // Add click listeners for all the buttons
-AddButtonClickListener(placeRoadButton, () => { OnRoadPlacement?.Invoke(); });
-AddButtonClickListener(placeHouseButton, () => { OnHousePlacement?.Invoke(); });
-AddButtonClickListener(placeClinicButton, () => { OnClinicPlacement?.Invoke(); });
+        AddButtonClickListener(destroyStructureButton, () => { OnDestroyStructure?.Invoke(); });
+        AddButtonClickListener(placeRoadButton, () => { OnRoadPlacement?.Invoke(); });
+        AddButtonClickListener(placeHouseButton, () => { OnHousePlacement?.Invoke(); });
+        AddButtonClickListener(placeClinicButton, () => { OnClinicPlacement?.Invoke(); });
+
 /*
 AddButtonClickListener(placeHospitalButton, () => { OnHospitalPlacement?.Invoke(); });
 AddButtonClickListener(placeSolarPanelButton, () => { OnSolarPanelPlacement?.Invoke(); });
@@ -114,6 +123,7 @@ AddButtonClickListener(placeLandfillButton, () => { OnLandfillPlacement?.Invoke(
 AddButtonClickListener(placeIncinerationPlantButton, () => { OnIncinerationPlantPlacement?.Invoke(); });
 AddButtonClickListener(placeWasteToEnergyPlantButton, () => { OnWasteToEnergyPlantPlacement?.Invoke(); });
 */
+        
         
     }
 

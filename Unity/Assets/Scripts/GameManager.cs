@@ -11,15 +11,17 @@ public class GameManager : MonoBehaviour
     public InputManager inputManager;
 
     public UIController uiController;
-
     public StructureManager structureManager;
     public PlacementManager placementManager;
+
+    public float zoomSpeed;
 
     private void Start()
     {
         uiController.OnRoadPlacement += RoadPlacementHandler;
         uiController.OnHousePlacement += HousePlacementHandler;
         uiController.OnClinicPlacement += ClinicPlacementHandler;
+        uiController.OnDestroyStructure += DestroyStructureHandler;
         /*
         uiController.OnHospitalPlacement += HospitalPlacementHandler;
         uiController.OnSolarPanelPlacement += SolarPanelPlacementHandler;
@@ -43,8 +45,8 @@ public class GameManager : MonoBehaviour
         uiController.OnWasteToEnergyPlantPlacement += WasteToEnergyPlantPlacementHandler;
         */
 
-        
-        
+
+
     }
 /*
     private void BigStructurePlacementHandler()
@@ -59,6 +61,13 @@ public class GameManager : MonoBehaviour
         inputManager.OnMouseClick += structureManager.PlaceSpecial;
     }
 */
+    private void DestroyStructureHandler()
+    {
+        ClearInputActions();
+        inputManager.OnMouseClick += structureManager.DestroyStructure;
+        inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
+        
+    }
     private void HousePlacementHandler()
     {
         ClearInputActions();
@@ -218,5 +227,19 @@ private void LivestockPlacementHandler()
     private void Update()
     {
         cameraMovement.MoveCamera(new Vector3(inputManager.CameraMovementVector.x,0, inputManager.CameraMovementVector.y));
+        cameraMovement.ZoomCamera(inputManager.Zoom);
+    }
+
+    public void UpdateGameVariablesWhenDestroying(Vector3Int position)
+    {
+        if (placementManager.CheckIfPositionIsOfType(position, typeof(ResidenceCell)))
+        {
+            //Update variables relative to ResidenceCell
+        }
+        if (placementManager.CheckIfPositionIsOfType(position, typeof(SanityCell)))
+        {
+            //Update variables relative to SanityCell
+        }
+        
     }
 }

@@ -60,6 +60,28 @@ public class PlacementManager : MonoBehaviour
         }
     }
 
+    public void DestroyGameObjectAt(Vector3Int position)
+    {
+        // Define the ray from above the position pointing downwards
+        Ray ray = new Ray(position + new Vector3(0, 1f, 0), Vector3.down);
+
+        // Set the maximum distance of the ray
+        float maxDistance = 1f;
+
+        // RaycastHit variable to store information about the hit
+        RaycastHit hit;
+
+        // Check if the ray hits any collider
+        if (Physics.Raycast(ray, out hit, maxDistance, 1 << LayerMask.NameToLayer("Structure")))
+        {
+            // Destroy the game object if a collider is hit
+            Destroy(hit.collider.gameObject);
+            placementGrid[position.x, position.z] = new EmptyCell();
+            structureDictionary.Remove(position);
+        }
+    }
+
+
     internal bool CheckIfPositionIsFree(Vector3Int position)
     {
         Type emptyCellType = typeof(EmptyCell);
@@ -67,10 +89,15 @@ public class PlacementManager : MonoBehaviour
     }
 
 
-    private bool CheckIfPositionIsOfType(Vector3Int position, Type cellType)
+    public bool CheckIfPositionIsOfType(Vector3Int position, Type cellType)
     {
         // Use the 'is' keyword to check if the cell at the specified position is of the given type.
         return placementGrid[position.x, position.z].GetType() == cellType;
+    }
+
+    public Type GetTypeOfPosition(Vector3Int position)
+    {
+        return placementGrid[position.x, position.z].GetType();
     }
     
     internal void PlaceTemporaryStructureWithButton(Vector3Int position, GameObject structurePrefab)
