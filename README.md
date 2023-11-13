@@ -50,6 +50,7 @@ Install packages in requirements.txt
   seaborn
   sklearn
   ```
+Unity version(Editor): 2022.3.10f1
 
 <!-- FEATURES -->
 ### Features  DA RIVEDERE
