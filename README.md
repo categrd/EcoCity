@@ -79,6 +79,13 @@ terra nil ???
 
 VIDEO RIFERIMENTO:
 
+<!-- Divisione del Lavoro --> 
+## Divisione del lavoro 
+Massimo: meccaniche di gioco
+Caterina: testi del gioco, quiz del gioco, meccaniche di gioco per menù a tendina e layout magari anche, editare notebook cluster per avere il csv dei data points divisi per cluster
+Alice + Clarysse: Personas creation per presentazione 
+Sofia: ... 
+
 
 <!-- Authors -->
 ## Authors
