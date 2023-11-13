@@ -1,12 +1,8 @@
-﻿//	Created by: Sunny Valley Studio 
-//	https://svstudio.itch.io
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SVS
-{
+
 
     public class CameraMovement : MonoBehaviour
     {
@@ -31,4 +27,3 @@ namespace SVS
             
         }
     }
-}
