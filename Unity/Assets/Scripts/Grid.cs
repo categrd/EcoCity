@@ -84,7 +84,9 @@ public enum BuildingType
 
 public class Cell
 {
-    
+    private int _cost;
+    public int Cost { get; set; }
+
 }
 
 public class EmptyCell : Cell
@@ -121,21 +123,6 @@ public class StructureCell : Cell
     public float EnergyConsumption { get; set; }
     public float WasteProduction { get; set; }
     public int NumberOfEmployees { get; set; }
-    
-
-    /* Constructor for Cell
-    public StructureCell(BuildingType buildingType,  int maintenanceCost, int incomeGenerated, float beauty, 
-        float energyConsumption, float wasteProduction, int numberOfEmployees)
-    {
-        BuildingType = buildingType;
-        _maintenanceCost = maintenanceCost;
-        _incomeGenerated = incomeGenerated;
-        _beauty = beauty;
-        _energyConsumption = energyConsumption;
-        _wasteProduction = wasteProduction;
-        _numberOfEmployees = numberOfEmployees;
-    }
-*/
 }
 
 public class SanityCell : StructureCell
@@ -148,6 +135,7 @@ public class SanityCell : StructureCell
     {
         if(buildingType == BuildingType.Clinic)
         {
+            Cost = 200000;
             MaintenanceCost = 200;
             IncomeGenerated = 0;
             Beauty = 0;
@@ -159,6 +147,7 @@ public class SanityCell : StructureCell
 
         if (buildingType == BuildingType.Hospital)
         {
+            Cost = 1000000;
             MaintenanceCost = 2000;
             IncomeGenerated = 0;
             Beauty = 0;
@@ -183,25 +172,27 @@ public class ResidenceCell : StructureCell
     {
         if(buildingType == BuildingType.House)
         {
+            Cost = 100000;
             MaintenanceCost = 0;
-            IncomeGenerated = 100 * _numberOfResidents;
             Beauty = 1f;
             EnergyConsumption = 20;
             WasteProduction = 5;
             NumberOfEmployees = 0;
             NumberOfResidents = 4;
+            IncomeGenerated = 100 * NumberOfResidents;
             ComfortLevel = 5;
         }
 
         if (buildingType == BuildingType.HighDensityHouse)
         {
+            Cost = 300000;
             MaintenanceCost = 0;
-            IncomeGenerated = 100 * _numberOfResidents;
             Beauty = -0.1f;
             EnergyConsumption = 200;
             WasteProduction = 50;
             NumberOfEmployees = 0;
             NumberOfResidents = 40;
+            IncomeGenerated = 100 * NumberOfResidents;
             ComfortLevel = 2;
         }
 
@@ -217,6 +208,7 @@ public class EnergyProductionCell : StructureCell
     {
         if (buildingType == BuildingType.SolarPanel)
         {
+            Cost = 500000;
             MaintenanceCost = 100;
             IncomeGenerated = 0;
             Beauty = 1f;
@@ -228,6 +220,7 @@ public class EnergyProductionCell : StructureCell
 
         if (buildingType == BuildingType.WindTurbine)
         {
+            Cost = 500000;
             MaintenanceCost = 100;
             IncomeGenerated = 0;
             Beauty = 1f;
@@ -240,6 +233,7 @@ public class EnergyProductionCell : StructureCell
 
         if (buildingType == BuildingType.CarbonPowerPlant)
         {
+            Cost = 1000000;
             MaintenanceCost = 500;
             IncomeGenerated = 0;
             Beauty = -2f;
@@ -252,6 +246,7 @@ public class EnergyProductionCell : StructureCell
 
         if (buildingType == BuildingType.NuclearPlant)
         {
+            Cost = 10000000;
             MaintenanceCost = 1000;
             IncomeGenerated = 0;
             Beauty = 1f;
@@ -261,19 +256,20 @@ public class EnergyProductionCell : StructureCell
             EnergyProduced = 50000;
 
         }
-
-
     }
 }
 
 public class EntertainmentCell : StructureCell
 {
     private float _happiness;
+    
     public float Happiness { get; set; }
+    
     public EntertainmentCell(BuildingType buildingType)
     {
         if (buildingType == BuildingType.Shop)
         {
+            Cost = 100000;
             MaintenanceCost = 0;
             IncomeGenerated = 1000;
             Beauty = 0.5f;
@@ -285,6 +281,7 @@ public class EntertainmentCell : StructureCell
         }
         if (buildingType == BuildingType.Bar)
         {
+            Cost = 50000;
             MaintenanceCost = 0;
             IncomeGenerated = 1200;
             Beauty = -0.5f;
@@ -296,6 +293,7 @@ public class EntertainmentCell : StructureCell
         }
         if (buildingType == BuildingType.Restaurant)
         {
+            Cost = 200000;
             MaintenanceCost = 0;
             IncomeGenerated = 2500;
             Beauty = 2f;
@@ -307,6 +305,7 @@ public class EntertainmentCell : StructureCell
         }
         if (buildingType == BuildingType.Cinema)
         {
+            Cost = 400000;
             MaintenanceCost = 0;
             IncomeGenerated = 1600;
             Beauty = 1f;
@@ -324,19 +323,26 @@ public class EntertainmentCell : StructureCell
 
 public class PublicServiceCell : StructureCell
 {
+    private int _criminalsCovered;
+    private int _firesCovered;
+    public int CriminalsCovered { get; set; }
+    public int FiresCovered { get; set; }
     public PublicServiceCell(BuildingType buildingType)
     {
         if(buildingType == BuildingType.PoliceStation)
         {
+            Cost = 250000;
             MaintenanceCost = 1000;
             IncomeGenerated = 0;
             Beauty = 0;
             EnergyConsumption = 100;
             WasteProduction = 5;
             NumberOfEmployees = 20;
+            CriminalsCovered = 100;
         }
         if(buildingType == BuildingType.FireStation)
         {
+            Cost = 250000;
             MaintenanceCost = 500;
             IncomeGenerated = 0;
             Beauty = 0;
@@ -344,8 +350,9 @@ public class PublicServiceCell : StructureCell
             WasteProduction = 5;
             NumberOfEmployees = 10;
         }
-        if(buildingType == BuildingType.PoliceStation)
+        if(buildingType == BuildingType.University)
         {
+            Cost = 1000000;
             MaintenanceCost = 1500;
             IncomeGenerated = 0;
             Beauty = 0.5f;
@@ -359,46 +366,55 @@ public class PublicServiceCell : StructureCell
 public class IndustryCell : StructureCell
 {
     private int _goods;
-    private int _foodProduced;
-    public int Goods { get; set;}
-    public int FoodProduced { get; set; }
+    private int _vegetablesProduced;
+    private int _meatProduced;
+    public int GoodsProduced { get; set;}
+    public int VegetablesProduced { get; set; }
+    public int MeatProduced { get; set; }
 
     public IndustryCell(BuildingType buildingType)
     {
         if (buildingType == BuildingType.Factory)
         {
+            Cost = 1000000;
             MaintenanceCost = 0;
             IncomeGenerated = 4000;
             Beauty = -1f;
             EnergyConsumption = 300;
             WasteProduction = 30;
             NumberOfEmployees = 50;
-            Goods = 50;
-            FoodProduced = 0;
+            GoodsProduced = 50;
+            VegetablesProduced = 0;
+            MeatProduced = 0;
+
 
         }
         if (buildingType == BuildingType.Crop)
         {
+            Cost = 300000;
             MaintenanceCost = 0;
             IncomeGenerated = 1500;
             Beauty = 0.1f;
             EnergyConsumption = 50;
             WasteProduction = 10;
             NumberOfEmployees = 40;
-            Goods = 0;
-            FoodProduced = 100;
+            GoodsProduced = 0;
+            VegetablesProduced = 120;
+            MeatProduced = 0;
 
         }
         if (buildingType == BuildingType.Livestock)
         {
+            Cost = 350000;
             MaintenanceCost = 0;
             IncomeGenerated = 1500;
             Beauty = 0.2f;
             EnergyConsumption = 60;
             WasteProduction = 15;
             NumberOfEmployees = 30;
-            Goods = 0;
-            FoodProduced = 120;
+            GoodsProduced = 0;
+            VegetablesProduced = 0;
+            MeatProduced = 100;
         }
     }
 }
@@ -412,6 +428,7 @@ public class GarbageDisposalCell : StructureCell
     {
         if (buildingType == BuildingType.Landfill)
         {
+            Cost = 50000;
             MaintenanceCost = 50;
             IncomeGenerated = 0;
             Beauty = -5f;
@@ -422,6 +439,7 @@ public class GarbageDisposalCell : StructureCell
         }
         if (buildingType == BuildingType.IncinerationPlant)
         {
+            Cost = 400000;
             MaintenanceCost = 500;
             IncomeGenerated = 0;
             Beauty = 0f;
@@ -432,6 +450,7 @@ public class GarbageDisposalCell : StructureCell
         }
         if (buildingType == BuildingType.WasteToEnergyPlant)
         {
+            Cost = 1000000;
             MaintenanceCost = 1000;
             IncomeGenerated = 0;
             Beauty = 0f;

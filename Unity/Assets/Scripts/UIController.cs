@@ -4,16 +4,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using TMPro;
 
 public class UIController : MonoBehaviour
 {
+    public GameState gameState;
+    public GameObject menuPanel;
+    
+    public TextMeshProUGUI populationText;
+    public TextMeshProUGUI moneyText;
+    
     public Action OnRoadPlacement, OnHousePlacement, OnClinicPlacement, OnHospitalPlacement, OnSolarPanelPlacement, OnWindTurbinePlacement, OnCarbonPowerPlantPlacement, 
         OnNuclearPlantPlacement, OnHighDensityHousePlacement, OnShopPlacement, OnRestaurantPlacement, OnBarPlacement, OnCinemaPlacement, OnUniversityPlacement, 
         OnFireStationPlacement, OnPoliceStationPlacement, OnFactoryPlacement, OnCropPlacement, OnLivestockPlacement, OnLandfillPlacement, OnIncinerationPlantPlacement, 
-        OnWasteToEnergyPlantPlacement;
+        OnWasteToEnergyPlantPlacement, OnShowMenu;
 
     public Action OnDestroyStructure;
 
+    public Button showMenu;
     public Button destroyStructureButton;
     
     public Button placeRoadButton;
@@ -54,6 +62,7 @@ public class UIController : MonoBehaviour
 
     public Color outlineColor;
     List<Button> buttonList;
+    private double _currentMoney;
     void AddButtonClickListener(Button button, UnityAction action)
     {
         button.onClick.AddListener(() =>
@@ -72,6 +81,7 @@ public class UIController : MonoBehaviour
             placeHouseButton,
             placeClinicButton,
             placePoliceStationButton,
+            //showMenu,
             /*
             placeHospitalButton,
             placeUniversityButton,
@@ -100,6 +110,7 @@ public class UIController : MonoBehaviour
         AddButtonClickListener(placeHouseButton, () => { OnHousePlacement?.Invoke(); });
         AddButtonClickListener(placeClinicButton, () => { OnClinicPlacement?.Invoke(); });
         AddButtonClickListener(placePoliceStationButton, () => { OnPoliceStationPlacement?.Invoke(); });
+        AddButtonClickListener(showMenu, () => { OnShowMenu?.Invoke(); });
         /*
         AddButtonClickListener(placeHospitalButton, () => { OnHospitalPlacement?.Invoke(); });
         AddButtonClickListener(placeRestaurantButton, () => { OnRestaurantPlacement?.Invoke(); });
@@ -137,4 +148,33 @@ public class UIController : MonoBehaviour
             button.GetComponent<Outline>().enabled = false;
         }
     }
+    private void Update()
+    {
+        _currentMoney = gameState.currentMoney;
+        populationText.text = "Population: " + gameState.population;
+        if (_currentMoney >= 1000000)
+        {
+            moneyText.text = "Money: $" + Math.Round(_currentMoney / 1000000,2) + "M";
+        }
+        if (_currentMoney >= 1000 && _currentMoney < 1000000)
+        {
+            moneyText.text = "Money: $" + Math.Round(_currentMoney / 1000,2) + "K";
+        }
+        if(_currentMoney < 1000)
+        {
+            moneyText.text = "Money: $" + Math.Round(_currentMoney,2);
+        }
+    }
+
+    public void ShowMenu()
+    {
+        //Instantiate(menuPanel);
+        menuPanel.SetActive(!menuPanel.activeSelf);
+    }
+    public void HideMenu()
+    {
+        menuPanel.SetActive(false);
+    }
+        
+    
 }

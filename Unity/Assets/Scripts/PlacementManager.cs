@@ -91,9 +91,23 @@ public class PlacementManager : MonoBehaviour
 
     public bool CheckIfPositionIsOfType(Vector3Int position, Type cellType)
     {
-        // Use the 'is' keyword to check if the cell at the specified position is of the given type.
         return placementGrid[position.x, position.z].GetType() == cellType;
     }
+    
+    public bool CheckIfPositionIsBuildingType(Vector3Int position, BuildingType buildingType)
+    {
+        if (placementGrid[position.x, position.z] is StructureCell structureCell)
+        {
+            return structureCell.BuildingType == buildingType;
+        }
+        return false;
+    }
+    
+    public Cell GetCellAtPosition(Vector3Int position)
+    {
+        return placementGrid[position.x, position.z];
+    }
+
 
     public Type GetTypeOfPosition(Vector3Int position)
     {

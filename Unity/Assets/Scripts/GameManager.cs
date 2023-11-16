@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
         uiController.OnHousePlacement += HousePlacementHandler;
         uiController.OnClinicPlacement += ClinicPlacementHandler;
         uiController.OnPoliceStationPlacement += PoliceStationPlacementHandler;
+        uiController.OnShowMenu += ShowMenuHandler;
         /*
         uiController.OnHospitalPlacement += HospitalPlacementHandler;
         uiController.OnSolarPanelPlacement += SolarPanelPlacementHandler;
@@ -60,6 +61,14 @@ public class GameManager : MonoBehaviour
         inputManager.OnMouseClick += structureManager.PlaceSpecial;
     }
 */
+    private void ShowMenuHandler()
+    {
+        ClearInputActions();
+        inputManager.OnMouseClickUI += uiController.ShowMenu;
+        inputManager.OnPressingEsc -= uiController.ShowMenu;
+        inputManager.OnPressingEsc += uiController.HideMenu;
+        inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
+    }
     private void DestroyStructureHandler()
     {
         ClearInputActions();
