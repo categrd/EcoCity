@@ -85,8 +85,17 @@ public enum BuildingType
 public class Cell
 {
     private int _cost;
+    private int height;
+    private int width;
     public int Cost { get; set; }
-
+    public int Height { get; set; }
+    public int Width { get; set; }
+    public Cell()
+    {
+        // Set the default value for _dimensions to 1
+        Height = 1;
+        Width = 1;
+    }
 }
 
 public class EmptyCell : Cell

@@ -76,8 +76,20 @@ public class PlacementManager : MonoBehaviour
         {
             // Destroy the game object if a collider is hit
             Destroy(hit.collider.gameObject);
-            placementGrid[position.x, position.z] = new EmptyCell();
-            structureDictionary.Remove(position);
+            Cell cellToDestroy = placementGrid[position.x, position.z];
+            for (int x = 0; x < cellToDestroy.Width; x++)
+            {
+                for (int z = 0; z < cellToDestroy.Height; z++)
+                {
+                    var newPosition = position + new Vector3Int(x, 0, z);
+                
+                    if(placementGrid[newPosition.x, newPosition.z] ==  cellToDestroy)
+                    {
+                        placementGrid[newPosition.x, newPosition.z] = new EmptyCell();
+                        structureDictionary.Remove(newPosition);
+                    }
+                }
+            }
         }
     }
 
