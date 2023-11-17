@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public GameObject menuPanel;
+    
     public CameraMovement cameraMovement;
     public RoadManager roadManager;
     public InputManager inputManager;
@@ -64,11 +66,19 @@ public class GameManager : MonoBehaviour
     private void ShowMenuHandler()
     {
         ClearInputActions();
-        inputManager.OnMouseClickUI += uiController.ShowMenu;
-        inputManager.OnPressingEsc -= uiController.ShowMenu;
-        inputManager.OnPressingEsc += uiController.HideMenu;
+        if (menuPanel.activeSelf)
+        {
+            ClearInputActionsAndButtonColor();    
+        }
+
+        ToggleMenu();
         inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
+        inputManager.OnPressingEsc += ToggleMenu;
+
     }
+
+    
+    
     private void DestroyStructureHandler()
     {
         ClearInputActions();
@@ -86,7 +96,6 @@ public class GameManager : MonoBehaviour
     }
     private void RoadPlacementHandler()
     {
-        Debug.Log("Entered road placement handler");
         ClearInputActions();
         inputManager.OnMouseClick += roadManager.PlaceRoad;
         inputManager.OnMouseHold += roadManager.PlaceRoad;
@@ -301,6 +310,10 @@ private void LivestockPlacementHandler()
         cameraMovement.MoveCamera(new Vector3(inputManager.CameraMovementVector.x,0, inputManager.CameraMovementVector.y));
         cameraMovement.ZoomCamera(inputManager.Zoom);
 
+    }
+    private void ToggleMenu()
+    {
+        menuPanel.SetActive(!menuPanel.activeSelf);
     }
 
 

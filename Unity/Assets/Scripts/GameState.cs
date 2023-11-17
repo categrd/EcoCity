@@ -48,7 +48,7 @@ public class GameState : MonoBehaviour
     private void Update()
     {
         currentMoney = currentMoney + (_totalIncome - _totalCosts)*Time.deltaTime;
-        Debug.Log("Earnings" + (_totalIncome - _totalCosts));
+        //Debug.Log("Earnings" + (_totalIncome - _totalCosts));
     }
 
     public void UpdateGameVariablesWhenDestroying(Vector3Int position)

@@ -81,7 +81,7 @@ public class UIController : MonoBehaviour
             placeHouseButton,
             placeClinicButton,
             placePoliceStationButton,
-            //showMenu,
+            showMenu,
             /*
             placeHospitalButton,
             placeUniversityButton,
@@ -166,11 +166,7 @@ public class UIController : MonoBehaviour
         }
     }
 
-    public void ShowMenu()
-    {
-        //Instantiate(menuPanel);
-        menuPanel.SetActive(!menuPanel.activeSelf);
-    }
+    
     public void HideMenu()
     {
         menuPanel.SetActive(false);
