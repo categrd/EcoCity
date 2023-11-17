@@ -1,0 +1,11 @@
+Model Information:
+* title:	Coffee Shop Isometric
+* source:	https://sketchfab.com/3d-models/coffee-shop-isometric-051e5ab8bd934bcc995bb3366b47c4d8
+* author:	ChopperManiac (https://sketchfab.com/ChopperManiac)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Coffee Shop Isometric" (https://sketchfab.com/3d-models/coffee-shop-isometric-051e5ab8bd934bcc995bb3366b47c4d8) by ChopperManiac (https://sketchfab.com/ChopperManiac) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
