@@ -400,6 +400,8 @@ public class IndustryCell : StructureCell
         }
         if (buildingType == BuildingType.Crop)
         {
+            Width = 2;
+            Height = 2;
             Cost = 300000;
             MaintenanceCost = 0;
             IncomeGenerated = 1500;

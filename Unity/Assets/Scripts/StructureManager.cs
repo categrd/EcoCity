@@ -255,12 +255,12 @@ public class StructureManager : MonoBehaviour
     }
     public void PlaceCrop(Vector3Int position)
     {
-        if (CheckPositionBeforePlacement(position))
+        if (CheckBigStructure(position, 2 , 2))
         {
             IndustryCell crop = new IndustryCell(BuildingType.Crop);
             placementManager.buildPermanent = true;
             placementManager.PlaceTemporaryStructureWithButton(position, cropPrefab);
-            placementManager.PlaceObjectOnTheMap(position, cropPrefab, crop);
+            placementManager.PlaceObjectOnTheMap(position, cropPrefab, crop,2,2);
             AudioPlayer.instance.PlayPlacementSound();
         }
         gameState.UpdateGameVariablesWhenBuilding(position);

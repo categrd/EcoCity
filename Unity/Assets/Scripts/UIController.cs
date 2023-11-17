@@ -81,6 +81,7 @@ public class UIController : MonoBehaviour
             placeHouseButton,
             placeClinicButton,
             placePoliceStationButton,
+            placeCropButton,
             showMenu,
             /*
             placeHospitalButton,
@@ -96,7 +97,6 @@ public class UIController : MonoBehaviour
             placeBarButton,
             placeCinemaButton,
             placeFactoryButton,
-            placeCropButton,
             placeLivestockButton,
             placeLandfillButton,
             placeIncinerationPlantButton,
@@ -110,6 +110,7 @@ public class UIController : MonoBehaviour
         AddButtonClickListener(placeHouseButton, () => { OnHousePlacement?.Invoke(); });
         AddButtonClickListener(placeClinicButton, () => { OnClinicPlacement?.Invoke(); });
         AddButtonClickListener(placePoliceStationButton, () => { OnPoliceStationPlacement?.Invoke(); });
+        AddButtonClickListener(placeCropButton, () => { OnCropPlacement?.Invoke(); });
         AddButtonClickListener(showMenu, () => { OnShowMenu?.Invoke(); });
         /*
         AddButtonClickListener(placeHospitalButton, () => { OnHospitalPlacement?.Invoke(); });

@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
         uiController.OnHousePlacement += HousePlacementHandler;
         uiController.OnClinicPlacement += ClinicPlacementHandler;
         uiController.OnPoliceStationPlacement += PoliceStationPlacementHandler;
+        uiController.OnCropPlacement += CropPlacementHandler;
         uiController.OnShowMenu += ShowMenuHandler;
         /*
         uiController.OnHospitalPlacement += HospitalPlacementHandler;
@@ -40,7 +41,6 @@ public class GameManager : MonoBehaviour
         uiController.OnUniversityPlacement += UniversityPlacementHandler;
         uiController.OnFireStationPlacement += FireStationPlacementHandler;
         uiController.OnFactoryPlacement += FactoryPlacementHandler;
-        uiController.OnCropPlacement += CropPlacementHandler;
         uiController.OnLivestockPlacement += LivestockPlacementHandler;
         uiController.OnLandfillPlacement += LandfillPlacementHandler;
         uiController.OnIncinerationPlantPlacement += IncinerationPlantPlacementHandler;
