@@ -2991,7 +2991,7 @@ MonoBehaviour:
     weight: 0.912
   - prefab: {fileID: 5985451652230937832, guid: 08bf96a139f4a7e4aaeda03d2c9f932e, type: 3}
     weight: 0.877
-  clinicPrefab: {fileID: 4644155326786961855, guid: b510c14c6b0f55c45b5d26274934de18, type: 3}
+  clinicPrefab: {fileID: 5786580668828074617, guid: 6d29b34b51a7940469e94ea08636da03, type: 3}
   hospitalPrefab: {fileID: 0}
   highDensityHousePrefab: {fileID: 0}
   solarPanelPrefab: {fileID: 0}
@@ -3004,9 +3004,9 @@ MonoBehaviour:
   cinemaPrefab: {fileID: 0}
   universityPrefab: {fileID: 0}
   fireStationPrefab: {fileID: 0}
-  policeStationPrefab: {fileID: 3428900569810811217, guid: 1271c9f6d0daa614e98bc421ee1f8103, type: 3}
+  policeStationPrefab: {fileID: 3620428020477803884, guid: db1c43ec72b2e90448eee0a65b1c7ca1, type: 3}
   factoryPrefab: {fileID: 0}
-  cropPrefab: {fileID: 0}
+  cropPrefab: {fileID: 8441419240512273193, guid: 4e77ed252d6d422478ea24521b3dadd8, type: 3}
   livestockPrefab: {fileID: 0}
   landfillPrefab: {fileID: 0}
   incinerationPlantPrefab: {fileID: 0}
@@ -6505,7 +6505,7 @@ MonoBehaviour:
   placeFireStationButton: {fileID: 0}
   placePoliceStationButton: {fileID: 2156252052546624966}
   placeFactoryButton: {fileID: 0}
-  placeCropButton: {fileID: 0}
+  placeCropButton: {fileID: 5033936814074483594}
   placeLivestockButton: {fileID: 0}
   placeLandfillButton: {fileID: 0}
   placeIncinerationPlantButton: {fileID: 0}
@@ -23859,7 +23859,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Restaurant
+  m_Text: Crop
 --- !u!114 &675964379735709901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24381,7 +24381,7 @@ GameObject:
   - component: {fileID: 5033936814074483594}
   - component: {fileID: 1379477272905582607}
   m_Layer: 5
-  m_Name: 'PlaceRestaurantBtn '
+  m_Name: 'PlaceCropBtn '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

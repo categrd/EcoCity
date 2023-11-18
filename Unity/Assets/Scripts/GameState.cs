@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -38,19 +39,48 @@ public class GameState : MonoBehaviour
     private int _totalNumberOfJobs;
     private int _totalUnemployed;
     private int _totalEmployed;
+    private float _employmentRatio;
+    private float _jobOccupiedRatio;
+    
+    private float _earnings;
+    
+    private float _time;
 
     private void Start()
     {
-        currentMoney = 10000000;
+        currentMoney = 10000000f;
         population = 0;
+        _time = 0f;
+        _totalNumberOfJobs= 0;
     }
 
     private void Update()
     {
-        currentMoney = currentMoney + (_totalIncome - _totalCosts)*Time.deltaTime;
-        //Debug.Log("Earnings" + (_totalIncome - _totalCosts));
+        _time += Time.deltaTime;
+        if(_time >= 1)
+        {
+            UpdateGameVariables();
+            _time = 0;
+        }
     }
 
+    private void UpdateGameVariables()
+    {
+        if (population >= _totalNumberOfJobs)
+        {
+            _totalEmployed = _totalNumberOfJobs;
+            _totalUnemployed = population - _totalNumberOfJobs;
+        }
+        else
+        {
+            _totalEmployed = population;
+            _totalUnemployed = 0;
+        }
+        if(_totalNumberOfJobs!=0) 
+            _jobOccupiedRatio= (float) _totalEmployed / _totalNumberOfJobs;
+        _earnings = (_totalIncome - _totalCosts) * _jobOccupiedRatio;
+        currentMoney += _earnings;
+    }
     public void UpdateGameVariablesWhenDestroying(Vector3Int position)
     {
         Cell cell = placementManager.GetCellAtPosition(position);
