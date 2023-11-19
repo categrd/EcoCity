@@ -20,7 +20,7 @@ public class GameState : MonoBehaviour
     private float _populationHappiness;
     private float _totalBeauty;
     
-    private int _totalPatientCapacity;
+    private int _totalPatientsCovered;
     
     private float _totalEnergyProduced;
     private float _totalEnergyConsumed;
@@ -42,14 +42,9 @@ public class GameState : MonoBehaviour
     private int _totalNumberOfJobs;
     private int _totalUnemployed;
     private int _totalEmployed;
-    private float _employmentRatio;
-    private float _jobOccupiedRatio;
-    
-    private float _earnings;
     
     private float _time;
     
-    private float _qualityOfLife;
 
     private void Start()
     {
@@ -83,7 +78,7 @@ public class GameState : MonoBehaviour
         {
             totalPopulation += (int) Math.Ceiling(populationCapacity * GetQualityOfLife() * 0.01f);
         }
-        else
+        if( totalPopulation > populationCapacity)
         {
             totalPopulation = populationCapacity;
         } 
@@ -109,8 +104,36 @@ public class GameState : MonoBehaviour
         return 0;
     }
     private float GetQualityOfLife()
+    { 
+        var employmentWeight = 3f;
+        return (_totalResidenceComfort + GetCriminalsCoveredRatio()+ GetPatientsCoveredRatio() + GetGoodsDemandSatisfactionRatio() + GetMeatDemandSatisfactionRatio()
+                + GetVegetablesDemandSatisfactionRatio() + (GetEmploymentRatio() * employmentWeight - 0.5f) + _totalBeauty) / 8;
+    }
+    public float GetGoodsDemandSatisfactionRatio()
+    {   var totalGoodsDemanded = totalPopulation * 5 / 100;
+        if(_totalGoodsProduced > totalGoodsDemanded)
+            return 1;
+        if(totalGoodsDemanded!=0)
+            return (float) _totalGoodsProduced / totalGoodsDemanded;
+        return 0;
+    }
+    public float GetVegetablesDemandSatisfactionRatio()
     {
-        return (_totalResidenceComfort + _populationHappiness + _totalBeauty) / 3;
+        var totalVegetablesDemanded = totalPopulation * 10 / 100;
+        if(_totalVegetablesProduced > totalVegetablesDemanded)
+            return 1;
+        if(totalVegetablesDemanded!=0)
+            return (float) _totalVegetablesProduced / totalVegetablesDemanded;
+        return 0;
+    }
+    public float GetMeatDemandSatisfactionRatio()
+    {
+        var totalMeatDemanded = totalPopulation * 5 / 100;
+        if(_totalMeatProduced > totalMeatDemanded)
+            return 1;
+        if(totalMeatDemanded!=0)
+            return (float) _totalMeatProduced / totalMeatDemanded;
+        return 0;
     }
     private float GetEarnings()
     {
@@ -122,6 +145,26 @@ public class GameState : MonoBehaviour
             return (float) _totalEmployed / _totalNumberOfJobs;
         return 0;
     }
+    public float GetCriminalsCoveredRatio()
+    {
+        int numberOfCriminals = totalPopulation * 5 / 100;
+        if (numberOfCriminals == 0)
+            return 0;
+        if(numberOfCriminals <= _totalCriminalsCovered)
+            return 1;
+        return _totalCriminalsCovered/ numberOfCriminals;
+    }
+
+    public float GetPatientsCoveredRatio()
+    {
+       int numberOfPatients = totalPopulation * 15 / 100;
+       if (numberOfPatients == 0)
+           return 0;
+       if(numberOfPatients <= _totalPatientsCovered)
+           return 1;
+       return _totalPatientsCovered/ numberOfPatients;
+    }
+    
     public void UpdateGameVariablesWhenDestroying(Vector3Int position)
     {
         Cell cell = placementManager.GetCellAtPosition(position);
@@ -145,7 +188,7 @@ public class GameState : MonoBehaviour
             _totalEnergyConsumed -= sanityCell.EnergyConsumption;
             _totalWasteProduced -= sanityCell.WasteProduction;
             _totalNumberOfJobs -= sanityCell.NumberOfEmployees;
-            _totalPatientCapacity -= sanityCell.PatientCapacity;
+            _totalPatientsCovered -= sanityCell.PatientCapacity;
         }
         if (cell is RoadCell roadCell)
         {
@@ -169,7 +212,7 @@ public class GameState : MonoBehaviour
             _totalBeauty -= entertainmentCell.Beauty;
             _totalWasteProduced -= entertainmentCell.WasteProduction;
             _totalNumberOfJobs -= entertainmentCell.NumberOfEmployees;
-            _populationHappiness -= entertainmentCell.Happiness;
+            _populationHappiness -= entertainmentCell.Costumers;
         }
         if (cell is IndustryCell industryCell)
         {
@@ -229,7 +272,7 @@ public class GameState : MonoBehaviour
             _totalEnergyConsumed += sanityCell.EnergyConsumption;
             _totalWasteProduced += sanityCell.WasteProduction;
             _totalNumberOfJobs += sanityCell.NumberOfEmployees;
-            _totalPatientCapacity += sanityCell.PatientCapacity;
+            _totalPatientsCovered += sanityCell.PatientCapacity;
             
         }
         if (cell is RoadCell roadCell)
@@ -256,7 +299,7 @@ public class GameState : MonoBehaviour
             _totalBeauty += entertainmentCell.Beauty;
             _totalWasteProduced += entertainmentCell.WasteProduction;
             _totalNumberOfJobs += entertainmentCell.NumberOfEmployees;
-            _populationHappiness += entertainmentCell.Happiness;
+            _populationHappiness += entertainmentCell.Costumers;
             
         }
         if (cell is IndustryCell industryCell)

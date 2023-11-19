@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Serialization;
 
 public class UIController : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class UIController : MonoBehaviour
     public GameObject statsPanel;
     public TextMeshProUGUI populationText;
     public TextMeshProUGUI moneyText;
+    
     
     public Action OnRoadPlacement, OnHousePlacement, OnClinicPlacement, OnHospitalPlacement, OnSolarPanelPlacement, OnWindTurbinePlacement, OnCarbonPowerPlantPlacement, 
         OnNuclearPlantPlacement, OnHighDensityHousePlacement, OnShopPlacement, OnRestaurantPlacement, OnBarPlacement, OnCinemaPlacement, OnUniversityPlacement, 
@@ -61,10 +63,16 @@ public class UIController : MonoBehaviour
     public Button placeIncinerationPlantButton;
     public Button placeWasteToEnergyPlantButton;
     
+    public Text populationCapacityText;
+    
     public Text employmentText;
     public Text jobsOccupiedText;
+    public Text criminalsCoveredText;
+    public Text patientsCoveredText;
     public Slider employmentSlider;
     public Slider jobsOccupiedSlider;
+    public Slider criminalsCoveredSlider;
+    public Slider patientsCoveredSlider;
 
     public Color outlineColor;
     List<Button> buttonList;
@@ -174,9 +182,13 @@ public class UIController : MonoBehaviour
             moneyText.text = "Money: $" + Math.Round(_currentMoney,2);
         }
 
-        employmentText.text = "Employment: " + gameState.GetEmploymentRatio()*100 + "%";
+        employmentText.text = "Employment: " + Math.Round(gameState.GetEmploymentRatio() * 100, 2) + "%";
         employmentSlider.value = (float)gameState.GetEmploymentRatio();
-        jobsOccupiedText.text = "Jobs Occupied: " + gameState.GetJobsOccupiedRatio()*100 + "%";
+        jobsOccupiedText.text = "Jobs Occupied: " + Math.Round(gameState.GetJobsOccupiedRatio()*100,2) + "%";
         jobsOccupiedSlider.value = (float)gameState.GetJobsOccupiedRatio();
+        criminalsCoveredText.text = "Criminals Covered: " + Math.Round(gameState.GetCriminalsCoveredRatio() * 100, 2) + "%";
+        criminalsCoveredSlider.value = (float)gameState.GetCriminalsCoveredRatio();
+        patientsCoveredText.text = "Patients Covered: " + Math.Round(gameState.GetPatientsCoveredRatio()*100,2) + "%";
+        patientsCoveredSlider.value = (float)gameState.GetPatientsCoveredRatio();
     }
 }

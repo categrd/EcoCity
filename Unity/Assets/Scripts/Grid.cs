@@ -151,7 +151,7 @@ public class SanityCell : StructureCell
             EnergyConsumption = 50;
             WasteProduction = 20;
             NumberOfEmployees = 20;
-            PatientCapacity = 100;
+            PatientCapacity = 50;
         }
 
         if (buildingType == BuildingType.Hospital)
@@ -163,7 +163,7 @@ public class SanityCell : StructureCell
             EnergyConsumption = 400;
             WasteProduction = 150;
             NumberOfEmployees = 150;
-            PatientCapacity = 1500;
+            PatientCapacity = 500;
             
         }
     }
@@ -183,26 +183,26 @@ public class ResidenceCell : StructureCell
         {
             Cost = 100000;
             MaintenanceCost = 0;
-            Beauty = 1f;
+            Beauty = 0.1f;
             EnergyConsumption = 20;
             WasteProduction = 5;
             NumberOfEmployees = 0;
             NumberOfResidents = 4;
             IncomeGenerated = 100 * NumberOfResidents;
-            ComfortLevel = 5;
+            ComfortLevel = 0.1f;
         }
 
         if (buildingType == BuildingType.HighDensityHouse)
         {
             Cost = 300000;
             MaintenanceCost = 0;
-            Beauty = -0.1f;
+            Beauty = -0.01f;
             EnergyConsumption = 200;
             WasteProduction = 50;
             NumberOfEmployees = 0;
             NumberOfResidents = 40;
             IncomeGenerated = 100 * NumberOfResidents;
-            ComfortLevel = 2;
+            ComfortLevel = -0.5f;
         }
 
     }
@@ -245,7 +245,7 @@ public class EnergyProductionCell : StructureCell
             Cost = 1000000;
             MaintenanceCost = 500;
             IncomeGenerated = 0;
-            Beauty = -2f;
+            Beauty = -5f;
             EnergyConsumption = 0;
             WasteProduction = 20;
             NumberOfEmployees = 10;
@@ -258,7 +258,7 @@ public class EnergyProductionCell : StructureCell
             Cost = 10000000;
             MaintenanceCost = 1000;
             IncomeGenerated = 0;
-            Beauty = 1f;
+            Beauty = -1f;
             EnergyConsumption = 0;
             WasteProduction = 1;
             NumberOfEmployees = 25;
@@ -270,9 +270,9 @@ public class EnergyProductionCell : StructureCell
 
 public class EntertainmentCell : StructureCell
 {
-    private float _happiness;
+    private float _costumers;
     
-    public float Happiness { get; set; }
+    public float Costumers { get; set; }
     
     public EntertainmentCell(BuildingType buildingType)
     {
@@ -285,7 +285,7 @@ public class EntertainmentCell : StructureCell
             EnergyConsumption = 50;
             WasteProduction = 1;
             NumberOfEmployees = 5;
-            Happiness = 10;
+            Costumers = 20;
 
         }
         if (buildingType == BuildingType.Bar)
@@ -297,7 +297,7 @@ public class EntertainmentCell : StructureCell
             EnergyConsumption = 30;
             WasteProduction = 5;
             NumberOfEmployees = 5;
-            Happiness = 12;
+            Costumers = 10;
 
         }
         if (buildingType == BuildingType.Restaurant)
@@ -309,7 +309,7 @@ public class EntertainmentCell : StructureCell
             EnergyConsumption = 100;
             WasteProduction = 10;
             NumberOfEmployees = 15;
-            Happiness = 20;
+            Costumers = 30;
 
         }
         if (buildingType == BuildingType.Cinema)
@@ -321,7 +321,7 @@ public class EntertainmentCell : StructureCell
             EnergyConsumption = 60;
             WasteProduction = 3;
             NumberOfEmployees = 6;
-            Happiness = 15;
+            Costumers = 40;
 
         }
         
@@ -364,7 +364,7 @@ public class PublicServiceCell : StructureCell
             Cost = 1000000;
             MaintenanceCost = 1500;
             IncomeGenerated = 0;
-            Beauty = 0.5f;
+            Beauty = 2.5f;
             EnergyConsumption = 300;
             WasteProduction = 20;
             NumberOfEmployees = 30;
@@ -442,7 +442,7 @@ public class GarbageDisposalCell : StructureCell
             Cost = 50000;
             MaintenanceCost = 50;
             IncomeGenerated = 0;
-            Beauty = -5f;
+            Beauty = -1f;
             EnergyConsumption = 10;
             WasteProduction = 0;
             NumberOfEmployees = 10;
