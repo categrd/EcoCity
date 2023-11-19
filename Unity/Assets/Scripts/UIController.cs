@@ -9,19 +9,20 @@ using TMPro;
 public class UIController : MonoBehaviour
 {
     public GameState gameState;
-    public GameObject menuPanel;
-    
+    public GameObject statsPanel;
     public TextMeshProUGUI populationText;
     public TextMeshProUGUI moneyText;
     
     public Action OnRoadPlacement, OnHousePlacement, OnClinicPlacement, OnHospitalPlacement, OnSolarPanelPlacement, OnWindTurbinePlacement, OnCarbonPowerPlantPlacement, 
         OnNuclearPlantPlacement, OnHighDensityHousePlacement, OnShopPlacement, OnRestaurantPlacement, OnBarPlacement, OnCinemaPlacement, OnUniversityPlacement, 
         OnFireStationPlacement, OnPoliceStationPlacement, OnFactoryPlacement, OnCropPlacement, OnLivestockPlacement, OnLandfillPlacement, OnIncinerationPlantPlacement, 
-        OnWasteToEnergyPlantPlacement, OnShowMenu;
+        OnWasteToEnergyPlantPlacement, OnShowMenu, OnShowStats;
 
     public Action OnDestroyStructure;
 
     public Button showMenu;
+    public Button showStats;
+    
     public Button destroyStructureButton;
     
     public Button placeRoadButton;
@@ -59,6 +60,11 @@ public class UIController : MonoBehaviour
     public Button placeLandfillButton;
     public Button placeIncinerationPlantButton;
     public Button placeWasteToEnergyPlantButton;
+    
+    public Text employmentText;
+    public Text jobsOccupiedText;
+    public Slider employmentSlider;
+    public Slider jobsOccupiedSlider;
 
     public Color outlineColor;
     List<Button> buttonList;
@@ -83,6 +89,7 @@ public class UIController : MonoBehaviour
             placePoliceStationButton,
             placeCropButton,
             showMenu,
+            showStats,
             /*
             placeHospitalButton,
             placeUniversityButton,
@@ -112,6 +119,7 @@ public class UIController : MonoBehaviour
         AddButtonClickListener(placePoliceStationButton, () => { OnPoliceStationPlacement?.Invoke(); });
         AddButtonClickListener(placeCropButton, () => { OnCropPlacement?.Invoke(); });
         AddButtonClickListener(showMenu, () => { OnShowMenu?.Invoke(); });
+        AddButtonClickListener(showStats, () => { OnShowStats?.Invoke(); });
         /*
         AddButtonClickListener(placeHospitalButton, () => { OnHospitalPlacement?.Invoke(); });
         AddButtonClickListener(placeRestaurantButton, () => { OnRestaurantPlacement?.Invoke(); });
@@ -152,7 +160,7 @@ public class UIController : MonoBehaviour
     private void Update()
     {
         _currentMoney = gameState.currentMoney;
-        populationText.text = "Population: " + gameState.population;
+        populationText.text = "Population: " + gameState.totalPopulation;
         if (_currentMoney >= 1000000)
         {
             moneyText.text = "Money: $" + Math.Round(_currentMoney / 1000000,2) + "M";
@@ -165,13 +173,10 @@ public class UIController : MonoBehaviour
         {
             moneyText.text = "Money: $" + Math.Round(_currentMoney,2);
         }
-    }
 
-    
-    public void HideMenu()
-    {
-        menuPanel.SetActive(false);
+        employmentText.text = "Employment: " + gameState.GetEmploymentRatio()*100 + "%";
+        employmentSlider.value = (float)gameState.GetEmploymentRatio();
+        jobsOccupiedText.text = "Jobs Occupied: " + gameState.GetJobsOccupiedRatio()*100 + "%";
+        jobsOccupiedSlider.value = (float)gameState.GetJobsOccupiedRatio();
     }
-        
-    
 }

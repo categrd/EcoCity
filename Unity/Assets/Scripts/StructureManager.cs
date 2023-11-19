@@ -48,7 +48,6 @@ public class StructureManager : MonoBehaviour
     {
         if (!placementManager.CheckIfPositionIsFree(position))
         {
-            Debug.Log("Destroying structure at " + position);
             gameState.UpdateGameVariablesWhenDestroying(position);
             placementManager.DestroyGameObjectAt(position);
             roadManager.FixRoadWhenDestroying(position);

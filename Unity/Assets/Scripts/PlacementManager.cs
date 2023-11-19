@@ -85,6 +85,7 @@ public class PlacementManager : MonoBehaviour
                 
                     if(placementGrid[newPosition.x, newPosition.z] ==  cellToDestroy)
                     {
+                        Debug.Log("Destroying structure at " + newPosition);
                         placementGrid[newPosition.x, newPosition.z] = new EmptyCell();
                         structureDictionary.Remove(newPosition);
                     }

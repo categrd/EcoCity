@@ -12,7 +12,10 @@ public class GameState : MonoBehaviour
     public float currentMoney;
     private int _totalIncome;
     private int _totalCosts;
-    public int population;
+    
+    public int populationCapacity;
+    public int totalPopulation;
+    
     private float _totalResidenceComfort;
     private float _populationHappiness;
     private float _totalBeauty;
@@ -45,11 +48,13 @@ public class GameState : MonoBehaviour
     private float _earnings;
     
     private float _time;
+    
+    private float _qualityOfLife;
 
     private void Start()
     {
         currentMoney = 10000000f;
-        population = 0;
+        populationCapacity = 0;
         _time = 0f;
         _totalNumberOfJobs= 0;
     }
@@ -66,20 +71,56 @@ public class GameState : MonoBehaviour
 
     private void UpdateGameVariables()
     {
-        if (population >= _totalNumberOfJobs)
+        UpdateTotalPopulation();
+        UpdateEmployment();
+        currentMoney += GetEarnings();
+        
+    }
+
+    private void UpdateTotalPopulation()
+    {
+        if(totalPopulation < populationCapacity)
         {
-            _totalEmployed = _totalNumberOfJobs;
-            _totalUnemployed = population - _totalNumberOfJobs;
+            totalPopulation += (int) Math.Ceiling(populationCapacity * GetQualityOfLife() * 0.01f);
         }
         else
         {
-            _totalEmployed = population;
+            totalPopulation = populationCapacity;
+        } 
+    }
+
+    private void UpdateEmployment()
+    {
+        if (totalPopulation >= _totalNumberOfJobs)
+        {
+            _totalEmployed = _totalNumberOfJobs;
+            _totalUnemployed = totalPopulation - _totalNumberOfJobs;
+        }
+        else
+        {
+            _totalEmployed = totalPopulation;
             _totalUnemployed = 0;
         }
+    }
+    public float GetEmploymentRatio()
+    {
+        if(totalPopulation!=0)
+            return (float) _totalEmployed / totalPopulation;
+        return 0;
+    }
+    private float GetQualityOfLife()
+    {
+        return (_totalResidenceComfort + _populationHappiness + _totalBeauty) / 3;
+    }
+    private float GetEarnings()
+    {
+        return _totalIncome  * GetJobsOccupiedRatio() - _totalCosts;
+    }
+    public float GetJobsOccupiedRatio()
+    {
         if(_totalNumberOfJobs!=0) 
-            _jobOccupiedRatio= (float) _totalEmployed / _totalNumberOfJobs;
-        _earnings = (_totalIncome - _totalCosts) * _jobOccupiedRatio;
-        currentMoney += _earnings;
+            return (float) _totalEmployed / _totalNumberOfJobs;
+        return 0;
     }
     public void UpdateGameVariablesWhenDestroying(Vector3Int position)
     {
@@ -87,7 +128,7 @@ public class GameState : MonoBehaviour
         if (cell is ResidenceCell residenceCell)
         {
             //Update variables relative to ResidenceCell
-            population -= residenceCell.NumberOfResidents;
+            populationCapacity -= residenceCell.NumberOfResidents;
             _totalIncome -= residenceCell.IncomeGenerated;
             _totalCosts -= residenceCell.MaintenanceCost;
            _totalEnergyConsumed -= residenceCell.EnergyConsumption;
@@ -171,7 +212,7 @@ public class GameState : MonoBehaviour
         if (cell is ResidenceCell residenceCell)
         {
             //Update variables relative to ResidenceCell
-            population += residenceCell.NumberOfResidents;
+            populationCapacity += residenceCell.NumberOfResidents;
             _totalIncome += residenceCell.IncomeGenerated;
             _totalCosts += residenceCell.MaintenanceCost;
             _totalEnergyConsumed += residenceCell.EnergyConsumption;

@@ -7,6 +7,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public GameObject menuPanel;
+    public GameObject statsPanel;
     
     public CameraMovement cameraMovement;
     public RoadManager roadManager;
@@ -27,6 +28,7 @@ public class GameManager : MonoBehaviour
         uiController.OnPoliceStationPlacement += PoliceStationPlacementHandler;
         uiController.OnCropPlacement += CropPlacementHandler;
         uiController.OnShowMenu += ShowMenuHandler;
+        uiController.OnShowStats += ShowStatsHandler;
         /*
         uiController.OnHospitalPlacement += HospitalPlacementHandler;
         uiController.OnSolarPanelPlacement += SolarPanelPlacementHandler;
@@ -71,10 +73,27 @@ public class GameManager : MonoBehaviour
             ClearInputActionsAndButtonColor();    
         }
 
-        ToggleMenu();
+        ToggleMenu(menuPanel);
         inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
-        inputManager.OnPressingEsc += ToggleMenu;
+        inputManager.OnPressingEsc += () => ToggleMenu(menuPanel);
 
+    }
+    private void ShowStatsHandler()
+    {
+        ClearInputActions();
+        if (statsPanel.activeSelf)
+        {
+            ClearInputActionsAndButtonColor();    
+        }
+
+        ToggleMenu(statsPanel);
+        inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
+        inputManager.OnPressingEsc += () => ToggleMenu(statsPanel);
+
+    }
+    private void ToggleMenu(GameObject panel)
+    {
+        panel.SetActive(!panel.activeSelf);
     }
 
     
@@ -311,10 +330,7 @@ private void LivestockPlacementHandler()
         cameraMovement.ZoomCamera(inputManager.Zoom);
 
     }
-    private void ToggleMenu()
-    {
-        menuPanel.SetActive(!menuPanel.activeSelf);
-    }
+    
 
 
 }
