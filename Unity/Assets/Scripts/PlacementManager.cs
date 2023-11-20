@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlacementManager : MonoBehaviour
@@ -50,7 +51,141 @@ public class PlacementManager : MonoBehaviour
         }
 
     }
+    public Vector3Int CheckFreeResidence()
+    {
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                if (GetTypeOfPosition(new Vector3Int(i, 0, j)) == typeof(ResidenceCell))
+                {
+                    ResidenceCell cell = (ResidenceCell)placementGrid[i, j];
+                
+                    // Check if cell is not null
+                    if (cell != null)
+                    {
+                        Debug.Log(cell.NumberOfResidentsCapacity + " " + cell.PersonList.Count);
 
+                        // Check if PersonList is not null before accessing Count
+                        if (cell.NumberOfResidentsCapacity > cell.PersonList?.Count)
+                        {
+                            return new Vector3Int(i, 0, j);
+                        }
+                    }
+                    else
+                    {
+                        // Log an error or handle the case where cell is null
+                        Debug.LogError("ResidenceCell is null at position: " + new Vector3Int(i, 0, j));
+                    }
+                }
+            }
+        }
+        return new Vector3Int(-1, -1, -1);
+    }
+
+    public void AddNewPersonInResidence(Vector3Int position, Person person)
+    {
+        ResidenceCell cell = (ResidenceCell)placementGrid[position.x, position.z];
+        cell.PersonList.Add(person);
+    }
+
+    public Vector3Int CheckOccupiedResidence()
+    {
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                if (GetTypeOfPosition(new Vector3Int(i, 0, j)) == typeof(ResidenceCell))
+                {
+                    ResidenceCell cell = (ResidenceCell)placementGrid[i, j];
+                
+                    // Check if cell is not null
+                    if (cell != null)
+                    {
+                        Debug.Log(cell.NumberOfResidentsCapacity + " " + cell.PersonList.Count);
+
+                        // Check if PersonList is not null before accessing Count
+                        if (cell.PersonList?.Count > 0)
+                        {
+                            return new Vector3Int(i, 0, j);
+                        }
+                    }
+                    else
+                    {
+                        // Log an error or handle the case where cell is null
+                        Debug.LogError("ResidenceCell is null at position: " + new Vector3Int(i, 0, j));
+                    }
+                }
+            }
+        }
+        return new Vector3Int(-1, -1, -1);
+    }
+
+    public void RemovePersonFromResidenceAndJob(Vector3Int residencePosition, Vector3Int jobPosition, Person person)
+    {
+        if(residencePosition != new Vector3Int(-1, -1, -1))
+        {
+            ResidenceCell residenceCell = (ResidenceCell)placementGrid[residencePosition.x, residencePosition.z];
+            residenceCell.PersonList.RemoveAt(residenceCell.PersonList.Count - 1);
+        }
+        if(jobPosition != new Vector3Int(-1, -1, -1))
+        {
+            StructureCell jobCell = (StructureCell)placementGrid[jobPosition.x, jobPosition.z];
+            jobCell.EmployeeList.Remove(person);
+        }
+    }
+    public Vector3Int CheckFreeJob()
+    {
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                if (GetCellAtPosition(new Vector3Int(i, 0, j)) is StructureCell structureCell && structureCell.GetType() != typeof(ResidenceCell))
+                {
+                    StructureCell cell = (StructureCell)placementGrid[i, j];
+                    // Check if cell is not null
+                    if (cell != null)
+                    {
+                        Debug.Log("employees capacity: " + cell.NumberOfEmployeesCapacity);
+                        Debug.Log("employees list: " + cell.EmployeeList.Count);
+                        if (cell.NumberOfEmployeesCapacity > cell.EmployeeList.Count)
+                        {
+                            return new Vector3Int(i, 0, j);
+                        }
+                    }
+                    else
+                    {
+                        // Log an error or handle the case where cell is null
+                        Debug.LogError("Structure is null at position: " + new Vector3Int(i, 0, j));
+                    }
+                }
+            }
+        }
+        return new Vector3Int(-1, -1, -1);
+    }
+    public Vector3Int CheckPersonJob(Person person)
+    {
+        
+        if(person.jobPosition != new Vector3Int(-1 , -1, -1))
+            return person.jobPosition;
+        return new Vector3Int(-1, -1, -1);
+    }
+    public List<Person> CheckPeopleAtJob(Vector3Int jobPosition)
+    {
+        StructureCell cell = (StructureCell)placementGrid[jobPosition.x, jobPosition.z];
+        return cell.EmployeeList;
+    }
+    public Person CheckPersonAtPosition(Vector3Int position)
+    {
+        ResidenceCell cell = (ResidenceCell)placementGrid[position.x, position.z];
+        return cell.PersonList[cell.PersonList.Count - 1];
+    }
+    public void AddPersonToJob(Vector3Int jobPosition, Person person)
+    {
+        StructureCell cell = (StructureCell)placementGrid[jobPosition.x, jobPosition.z];
+        cell.EmployeeList.Add(person);
+    }
+    
     private void DestroyNatureAt(Vector3Int position)
     {
         RaycastHit[] hits = Physics.BoxCastAll(position + new Vector3(0, 0.5f, 0), new Vector3(0.5f, 0.5f, 0.5f), transform.up, Quaternion.identity, 1f, 1 << LayerMask.NameToLayer("Nature"));

@@ -9,18 +9,23 @@ using UnityEngine.Serialization;
 public class GameState : MonoBehaviour
 {
     public PlacementManager placementManager;
+    public PopulationManager populationManager;
     public float currentMoney;
     private int _totalIncome;
     private int _totalCosts;
     
     public int populationCapacity;
+    public int PopulationCapacity => populationCapacity;    
+    
     public int totalPopulation;
     
     private float _totalResidenceComfort;
-    private float _populationHappiness;
+    
     private float _totalBeauty;
     
     private int _totalPatientsCovered;
+    
+    private int _totalCostumersCapacity;
     
     private float _totalEnergyProduced;
     private float _totalEnergyConsumed;
@@ -68,15 +73,30 @@ public class GameState : MonoBehaviour
     {
         UpdateTotalPopulation();
         UpdateEmployment();
+        populationManager.FindJob();
         currentMoney += GetEarnings();
-        
     }
 
     private void UpdateTotalPopulation()
     {
         if(totalPopulation < populationCapacity)
         {
-            totalPopulation += (int) Math.Ceiling(populationCapacity * GetQualityOfLife() * 0.01f);
+            totalPopulation += GetPopulationChange();
+            if(GetPopulationChange() >= 0)
+            {
+                for (int i = 0; i < Math.Min(GetPopulationChange(), populationCapacity - totalPopulation); i++)
+                {
+                    populationManager.CreateNewPerson();
+                }
+            }
+            else
+            {
+                for (int i = 0; i < -GetPopulationChange(); i++)
+                {
+                    populationManager.DestroyPerson();
+                }
+            }
+
         }
         if( totalPopulation > populationCapacity)
         {
@@ -105,10 +125,18 @@ public class GameState : MonoBehaviour
     }
     private float GetQualityOfLife()
     { 
-        var employmentWeight = 3f;
-        return (_totalResidenceComfort + GetCriminalsCoveredRatio()+ GetPatientsCoveredRatio() + GetGoodsDemandSatisfactionRatio() + GetMeatDemandSatisfactionRatio()
-                + GetVegetablesDemandSatisfactionRatio() + (GetEmploymentRatio() * employmentWeight - 0.5f) + _totalBeauty) / 8;
+        var employmentWeight = 6f;
+        var beautyWeight = 0.5f;
+        return (_totalResidenceComfort + (GetCriminalsCoveredRatio() - 0.1f)+ (GetPatientsCoveredRatio() - 0.1f) + GetGoodsDemandSatisfactionRatio() + GetMeatDemandSatisfactionRatio()
+                + GetVegetablesDemandSatisfactionRatio() + (GetEmploymentRatio() * employmentWeight - 0.5f) + _totalBeauty * beautyWeight) / 8;
     }
+
+    private int GetPopulationChange()
+    {
+        return (int) Math.Ceiling(populationCapacity * GetQualityOfLife() * 0.01f);
+    }
+    
+    
     public float GetGoodsDemandSatisfactionRatio()
     {   var totalGoodsDemanded = totalPopulation * 5 / 100;
         if(_totalGoodsProduced > totalGoodsDemanded)
@@ -168,10 +196,14 @@ public class GameState : MonoBehaviour
     public void UpdateGameVariablesWhenDestroying(Vector3Int position)
     {
         Cell cell = placementManager.GetCellAtPosition(position);
+        if (cell is StructureCell && cell.GetType() != typeof(ResidenceCell))
+        {
+            populationManager.RemovePeopleFromJob(position);
+        }
         if (cell is ResidenceCell residenceCell)
         {
             //Update variables relative to ResidenceCell
-            populationCapacity -= residenceCell.NumberOfResidents;
+            populationCapacity -= residenceCell.NumberOfResidentsCapacity;
             _totalIncome -= residenceCell.IncomeGenerated;
             _totalCosts -= residenceCell.MaintenanceCost;
            _totalEnergyConsumed -= residenceCell.EnergyConsumption;
@@ -187,7 +219,7 @@ public class GameState : MonoBehaviour
             _totalCosts -= sanityCell.MaintenanceCost;
             _totalEnergyConsumed -= sanityCell.EnergyConsumption;
             _totalWasteProduced -= sanityCell.WasteProduction;
-            _totalNumberOfJobs -= sanityCell.NumberOfEmployees;
+            _totalNumberOfJobs -= sanityCell.NumberOfEmployeesCapacity;
             _totalPatientsCovered -= sanityCell.PatientCapacity;
         }
         if (cell is RoadCell roadCell)
@@ -201,7 +233,7 @@ public class GameState : MonoBehaviour
             _totalEnergyProduced -= energyProductionCell.EnergyProduced;
             _totalWasteProduced -= energyProductionCell.WasteProduction;
             _totalBeauty -= energyProductionCell.Beauty;
-            _totalNumberOfJobs -= energyProductionCell.NumberOfEmployees;
+            _totalNumberOfJobs -= energyProductionCell.NumberOfEmployeesCapacity;
         }
         if (cell is EntertainmentCell entertainmentCell)
         {
@@ -211,8 +243,8 @@ public class GameState : MonoBehaviour
             _totalEnergyConsumed -= entertainmentCell.EnergyConsumption;
             _totalBeauty -= entertainmentCell.Beauty;
             _totalWasteProduced -= entertainmentCell.WasteProduction;
-            _totalNumberOfJobs -= entertainmentCell.NumberOfEmployees;
-            _populationHappiness -= entertainmentCell.Costumers;
+            _totalNumberOfJobs -= entertainmentCell.NumberOfEmployeesCapacity;
+            _totalCostumersCapacity -= entertainmentCell.CostumersCapacity;
         }
         if (cell is IndustryCell industryCell)
         {
@@ -222,7 +254,7 @@ public class GameState : MonoBehaviour
             _totalEnergyConsumed -= industryCell.EnergyConsumption;
             _totalBeauty -= industryCell.Beauty;
             _totalWasteProduced -= industryCell.WasteProduction;
-            _totalNumberOfJobs -= industryCell.NumberOfEmployees;
+            _totalNumberOfJobs -= industryCell.NumberOfEmployeesCapacity;
             _totalGoodsProduced -= industryCell.GoodsProduced;
             _totalMeatProduced -= industryCell.MeatProduced;
             _totalVegetablesProduced -= industryCell.VegetablesProduced;
@@ -235,7 +267,7 @@ public class GameState : MonoBehaviour
             _totalEnergyConsumed -= publicServiceCell.EnergyConsumption;
             _totalBeauty -= publicServiceCell.Beauty;
             _totalWasteProduced -= publicServiceCell.WasteProduction;
-            _totalNumberOfJobs -= publicServiceCell.NumberOfEmployees;
+            _totalNumberOfJobs -= publicServiceCell.NumberOfEmployeesCapacity;
             _totalCriminalsCovered -= publicServiceCell.CriminalsCovered;
         }
         if (cell is GarbageDisposalCell garbageDisposalCell)
@@ -244,7 +276,7 @@ public class GameState : MonoBehaviour
             _totalCosts -= garbageDisposalCell.MaintenanceCost;
             _totalEnergyConsumed -= garbageDisposalCell.EnergyConsumption;
             _totalWasteDisposed -= garbageDisposalCell.GarbageDisposed;
-            _totalNumberOfJobs -= garbageDisposalCell.NumberOfEmployees;
+            _totalNumberOfJobs -= garbageDisposalCell.NumberOfEmployeesCapacity;
             _totalBeauty -= garbageDisposalCell.Beauty;
             
         }
@@ -255,7 +287,7 @@ public class GameState : MonoBehaviour
         if (cell is ResidenceCell residenceCell)
         {
             //Update variables relative to ResidenceCell
-            populationCapacity += residenceCell.NumberOfResidents;
+            populationCapacity += residenceCell.NumberOfResidentsCapacity;
             _totalIncome += residenceCell.IncomeGenerated;
             _totalCosts += residenceCell.MaintenanceCost;
             _totalEnergyConsumed += residenceCell.EnergyConsumption;
@@ -271,7 +303,7 @@ public class GameState : MonoBehaviour
             _totalCosts += sanityCell.MaintenanceCost;
             _totalEnergyConsumed += sanityCell.EnergyConsumption;
             _totalWasteProduced += sanityCell.WasteProduction;
-            _totalNumberOfJobs += sanityCell.NumberOfEmployees;
+            _totalNumberOfJobs += sanityCell.NumberOfEmployeesCapacity;
             _totalPatientsCovered += sanityCell.PatientCapacity;
             
         }
@@ -286,7 +318,7 @@ public class GameState : MonoBehaviour
             _totalEnergyProduced += energyProductionCell.EnergyProduced;
             _totalWasteProduced += energyProductionCell.WasteProduction;
             _totalBeauty += energyProductionCell.Beauty;
-            _totalNumberOfJobs += energyProductionCell.NumberOfEmployees;
+            _totalNumberOfJobs += energyProductionCell.NumberOfEmployeesCapacity;
             
         }
 
@@ -298,8 +330,8 @@ public class GameState : MonoBehaviour
             _totalEnergyConsumed += entertainmentCell.EnergyConsumption;
             _totalBeauty += entertainmentCell.Beauty;
             _totalWasteProduced += entertainmentCell.WasteProduction;
-            _totalNumberOfJobs += entertainmentCell.NumberOfEmployees;
-            _populationHappiness += entertainmentCell.Costumers;
+            _totalNumberOfJobs += entertainmentCell.NumberOfEmployeesCapacity;
+            _totalCostumersCapacity += entertainmentCell.CostumersCapacity;
             
         }
         if (cell is IndustryCell industryCell)
@@ -310,7 +342,7 @@ public class GameState : MonoBehaviour
             _totalEnergyConsumed += industryCell.EnergyConsumption;
             _totalBeauty += industryCell.Beauty;
             _totalWasteProduced += industryCell.WasteProduction;
-            _totalNumberOfJobs += industryCell.NumberOfEmployees;
+            _totalNumberOfJobs += industryCell.NumberOfEmployeesCapacity;
             _totalGoodsProduced += industryCell.GoodsProduced;
             _totalMeatProduced += industryCell.MeatProduced;
             _totalVegetablesProduced += industryCell.VegetablesProduced;
@@ -324,7 +356,7 @@ public class GameState : MonoBehaviour
             _totalEnergyConsumed += publicServiceCell.EnergyConsumption;
             _totalBeauty += publicServiceCell.Beauty;
             _totalWasteProduced += publicServiceCell.WasteProduction;
-            _totalNumberOfJobs += publicServiceCell.NumberOfEmployees;
+            _totalNumberOfJobs += publicServiceCell.NumberOfEmployeesCapacity;
             _totalCriminalsCovered += publicServiceCell.CriminalsCovered;
             
         }
@@ -334,7 +366,7 @@ public class GameState : MonoBehaviour
             _totalCosts += garbageDisposalCell.MaintenanceCost;
             _totalEnergyConsumed += garbageDisposalCell.EnergyConsumption;
             _totalWasteDisposed += garbageDisposalCell.GarbageDisposed;
-            _totalNumberOfJobs += garbageDisposalCell.NumberOfEmployees;
+            _totalNumberOfJobs += garbageDisposalCell.NumberOfEmployeesCapacity;
             _totalBeauty += garbageDisposalCell.Beauty;
         }
         currentMoney -= cell.Cost;

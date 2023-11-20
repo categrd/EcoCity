@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEditor.Search;
+using UnityEngine;
+using Random = System.Random;
 
 /// <summary>
 /// Source https://github.com/lordjesus/Packt-Introduction-to-graph-algorithms-for-game-developers
@@ -81,6 +83,23 @@ public enum BuildingType
     
 }
 
+public class Person
+{
+    public int health;
+    public int education;
+    public int happiness;
+    public int money;
+    public Vector3Int jobPosition;
+    public Vector3Int housePosition;
+    public int water;
+    public int electricity;
+    public int waste;
+    public int pollution;
+    public int crime;
+    public int fire;
+    public int entertainment;
+    public int transport;
+}
 
 public class Cell
 {
@@ -123,7 +142,8 @@ public class StructureCell : Cell
     private float _beauty;
     private float _energyConsumption;
     private float _wasteProduction;
-    private int _numberOfEmployees;
+    private int _numberOfEmployeesCapacity;
+    private List<Person> _employeeList;
 
     public BuildingType BuildingType { get; set; }
     public int MaintenanceCost { get; set; }
@@ -131,7 +151,9 @@ public class StructureCell : Cell
     public float Beauty { get; set; }
     public float EnergyConsumption { get; set; }
     public float WasteProduction { get; set; }
-    public int NumberOfEmployees { get; set; }
+    public int NumberOfEmployeesCapacity { get; set; }
+    public List<Person> EmployeeList { get; set; }
+
 }
 
 public class SanityCell : StructureCell
@@ -142,6 +164,7 @@ public class SanityCell : StructureCell
     
     public SanityCell(BuildingType buildingType)
     {
+        EmployeeList = new List<Person>();
         if(buildingType == BuildingType.Clinic)
         {
             Cost = 200000;
@@ -150,7 +173,7 @@ public class SanityCell : StructureCell
             Beauty = 0;
             EnergyConsumption = 50;
             WasteProduction = 20;
-            NumberOfEmployees = 20;
+            NumberOfEmployeesCapacity = 20;
             PatientCapacity = 50;
         }
 
@@ -162,7 +185,7 @@ public class SanityCell : StructureCell
             Beauty = 0;
             EnergyConsumption = 400;
             WasteProduction = 150;
-            NumberOfEmployees = 150;
+            NumberOfEmployeesCapacity = 150;
             PatientCapacity = 500;
             
         }
@@ -172,13 +195,16 @@ public class SanityCell : StructureCell
 
 public class ResidenceCell : StructureCell
 {
-    private int _numberOfResidents;
+    private int _numberOfResidentsCapacity;
     private float _comfortLevel;
-    public int NumberOfResidents { get; set; }
+    private List<Person> _personList;
+    public int NumberOfResidentsCapacity { get; set; }
     public float ComfortLevel { get; set; }
+    public List<Person> PersonList { get; set; }
     // Properties and methods specific to houses
     public ResidenceCell(BuildingType buildingType)
     {
+        PersonList = new List<Person>();
         if(buildingType == BuildingType.House)
         {
             Cost = 100000;
@@ -186,9 +212,9 @@ public class ResidenceCell : StructureCell
             Beauty = 0.1f;
             EnergyConsumption = 20;
             WasteProduction = 5;
-            NumberOfEmployees = 0;
-            NumberOfResidents = 4;
-            IncomeGenerated = 100 * NumberOfResidents;
+            NumberOfEmployeesCapacity = 0;
+            NumberOfResidentsCapacity = 4;
+            IncomeGenerated = 100 * NumberOfResidentsCapacity;
             ComfortLevel = 0.1f;
         }
 
@@ -199,9 +225,9 @@ public class ResidenceCell : StructureCell
             Beauty = -0.01f;
             EnergyConsumption = 200;
             WasteProduction = 50;
-            NumberOfEmployees = 0;
-            NumberOfResidents = 40;
-            IncomeGenerated = 100 * NumberOfResidents;
+            NumberOfEmployeesCapacity = 0;
+            NumberOfResidentsCapacity = 40;
+            IncomeGenerated = 100 * NumberOfResidentsCapacity;
             ComfortLevel = -0.5f;
         }
 
@@ -215,6 +241,7 @@ public class EnergyProductionCell : StructureCell
 
     public EnergyProductionCell(BuildingType buildingType)
     {
+        EmployeeList = new List<Person>();
         if (buildingType == BuildingType.SolarPanel)
         {
             Cost = 500000;
@@ -223,7 +250,7 @@ public class EnergyProductionCell : StructureCell
             Beauty = 1f;
             EnergyConsumption = 0;
             WasteProduction = 1;
-            NumberOfEmployees = 2;
+            NumberOfEmployeesCapacity = 2;
             EnergyProduced = 1000;
         }
 
@@ -235,7 +262,7 @@ public class EnergyProductionCell : StructureCell
             Beauty = 1f;
             EnergyConsumption = 0;
             WasteProduction = 1;
-            NumberOfEmployees = 2;
+            NumberOfEmployeesCapacity = 2;
             EnergyProduced = 1000;
 
         }
@@ -248,7 +275,7 @@ public class EnergyProductionCell : StructureCell
             Beauty = -5f;
             EnergyConsumption = 0;
             WasteProduction = 20;
-            NumberOfEmployees = 10;
+            NumberOfEmployeesCapacity = 10;
             EnergyProduced = 10000;
 
         }
@@ -261,7 +288,7 @@ public class EnergyProductionCell : StructureCell
             Beauty = -1f;
             EnergyConsumption = 0;
             WasteProduction = 1;
-            NumberOfEmployees = 25;
+            NumberOfEmployeesCapacity = 25;
             EnergyProduced = 50000;
 
         }
@@ -270,12 +297,13 @@ public class EnergyProductionCell : StructureCell
 
 public class EntertainmentCell : StructureCell
 {
-    private float _costumers;
+    private int _costumersCapacity;
     
-    public float Costumers { get; set; }
+    public int CostumersCapacity { get; set; }
     
     public EntertainmentCell(BuildingType buildingType)
     {
+        EmployeeList = new List<Person>();
         if (buildingType == BuildingType.Shop)
         {
             Cost = 100000;
@@ -284,8 +312,8 @@ public class EntertainmentCell : StructureCell
             Beauty = 0.5f;
             EnergyConsumption = 50;
             WasteProduction = 1;
-            NumberOfEmployees = 5;
-            Costumers = 20;
+            NumberOfEmployeesCapacity = 5;
+            CostumersCapacity = 20;
 
         }
         if (buildingType == BuildingType.Bar)
@@ -296,8 +324,8 @@ public class EntertainmentCell : StructureCell
             Beauty = -0.5f;
             EnergyConsumption = 30;
             WasteProduction = 5;
-            NumberOfEmployees = 5;
-            Costumers = 10;
+            NumberOfEmployeesCapacity = 5;
+            CostumersCapacity = 10;
 
         }
         if (buildingType == BuildingType.Restaurant)
@@ -308,8 +336,8 @@ public class EntertainmentCell : StructureCell
             Beauty = 2f;
             EnergyConsumption = 100;
             WasteProduction = 10;
-            NumberOfEmployees = 15;
-            Costumers = 30;
+            NumberOfEmployeesCapacity = 15;
+            CostumersCapacity = 30;
 
         }
         if (buildingType == BuildingType.Cinema)
@@ -320,8 +348,8 @@ public class EntertainmentCell : StructureCell
             Beauty = 1f;
             EnergyConsumption = 60;
             WasteProduction = 3;
-            NumberOfEmployees = 6;
-            Costumers = 40;
+            NumberOfEmployeesCapacity = 6;
+            CostumersCapacity = 40;
 
         }
         
@@ -338,6 +366,7 @@ public class PublicServiceCell : StructureCell
     public int FiresCovered { get; set; }
     public PublicServiceCell(BuildingType buildingType)
     {
+        EmployeeList = new List<Person>();
         if(buildingType == BuildingType.PoliceStation)
         {
             Cost = 250000;
@@ -346,7 +375,7 @@ public class PublicServiceCell : StructureCell
             Beauty = 0;
             EnergyConsumption = 100;
             WasteProduction = 5;
-            NumberOfEmployees = 20;
+            NumberOfEmployeesCapacity = 20;
             CriminalsCovered = 100;
         }
         if(buildingType == BuildingType.FireStation)
@@ -357,7 +386,7 @@ public class PublicServiceCell : StructureCell
             Beauty = 0;
             EnergyConsumption = 100;
             WasteProduction = 5;
-            NumberOfEmployees = 10;
+            NumberOfEmployeesCapacity = 10;
         }
         if(buildingType == BuildingType.University)
         {
@@ -367,7 +396,7 @@ public class PublicServiceCell : StructureCell
             Beauty = 2.5f;
             EnergyConsumption = 300;
             WasteProduction = 20;
-            NumberOfEmployees = 30;
+            NumberOfEmployeesCapacity = 30;
         }
         
     }
@@ -383,6 +412,7 @@ public class IndustryCell : StructureCell
 
     public IndustryCell(BuildingType buildingType)
     {
+        EmployeeList = new List<Person>();
         if (buildingType == BuildingType.Factory)
         {
             Cost = 1000000;
@@ -391,7 +421,7 @@ public class IndustryCell : StructureCell
             Beauty = -1f;
             EnergyConsumption = 300;
             WasteProduction = 30;
-            NumberOfEmployees = 50;
+            NumberOfEmployeesCapacity = 50;
             GoodsProduced = 50;
             VegetablesProduced = 0;
             MeatProduced = 0;
@@ -408,7 +438,7 @@ public class IndustryCell : StructureCell
             Beauty = 0.1f;
             EnergyConsumption = 50;
             WasteProduction = 10;
-            NumberOfEmployees = 40;
+            NumberOfEmployeesCapacity = 40;
             GoodsProduced = 0;
             VegetablesProduced = 120;
             MeatProduced = 0;
@@ -422,7 +452,7 @@ public class IndustryCell : StructureCell
             Beauty = 0.2f;
             EnergyConsumption = 60;
             WasteProduction = 15;
-            NumberOfEmployees = 30;
+            NumberOfEmployeesCapacity = 30;
             GoodsProduced = 0;
             VegetablesProduced = 0;
             MeatProduced = 100;
@@ -437,6 +467,7 @@ public class GarbageDisposalCell : StructureCell
 
     public GarbageDisposalCell(BuildingType buildingType)
     {
+        EmployeeList = new List<Person>();
         if (buildingType == BuildingType.Landfill)
         {
             Cost = 50000;
@@ -445,7 +476,7 @@ public class GarbageDisposalCell : StructureCell
             Beauty = -1f;
             EnergyConsumption = 10;
             WasteProduction = 0;
-            NumberOfEmployees = 10;
+            NumberOfEmployeesCapacity = 10;
             GarbageDisposed = 500;
         }
         if (buildingType == BuildingType.IncinerationPlant)
@@ -456,7 +487,7 @@ public class GarbageDisposalCell : StructureCell
             Beauty = 0f;
             EnergyConsumption = 150;
             WasteProduction = 0;
-            NumberOfEmployees = 15;
+            NumberOfEmployeesCapacity = 15;
             GarbageDisposed = 200;
         }
         if (buildingType == BuildingType.WasteToEnergyPlant)
@@ -467,7 +498,7 @@ public class GarbageDisposalCell : StructureCell
             Beauty = 0f;
             EnergyConsumption = 0;
             WasteProduction = 0;
-            NumberOfEmployees = 20;
+            NumberOfEmployeesCapacity = 20;
             GarbageDisposed = 500;
         }
     }

@@ -190,5 +190,6 @@ public class UIController : MonoBehaviour
         criminalsCoveredSlider.value = (float)gameState.GetCriminalsCoveredRatio();
         patientsCoveredText.text = "Patients Covered: " + Math.Round(gameState.GetPatientsCoveredRatio()*100,2) + "%";
         patientsCoveredSlider.value = (float)gameState.GetPatientsCoveredRatio();
+        populationCapacityText.text = "Population Capacity: " + gameState.PopulationCapacity;
     }
 }
