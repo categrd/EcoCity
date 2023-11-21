@@ -90,7 +90,7 @@ public class Person
     public int happiness;
     public int money;
     public Vector3Int? jobPosition = null;
-    public Vector3Int? housePosition;
+    public Vector3Int? housePosition = null;
     public int water;
     public int electricity;
     public int waste;

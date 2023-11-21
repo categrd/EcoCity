@@ -96,7 +96,7 @@ public class GameState : MonoBehaviour
             {
                 for (int i = 0; i < -GetPopulationChange(); i++)
                 {
-                    populationManager.DestroyRandomPerson();
+                    populationManager.RemoveRandomPerson();
                     
                 }
             }

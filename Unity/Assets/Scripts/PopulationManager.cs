@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
 public class PopulationManager : MonoBehaviour
 {
     public PlacementManager placementManager;
     public List<Person> joblessPeople = new List<Person>();
+    public List<Person> peopleList = new List<Person>();
     public void CreateNewPerson()
     {
         Vector3Int? residencePosition = placementManager.CheckFreeResidence();
@@ -16,6 +18,7 @@ public class PopulationManager : MonoBehaviour
         }
         Person newPerson = new Person();
         joblessPeople.Add(newPerson);
+        peopleList.Add(newPerson);
         
         newPerson.housePosition = residencePosition;
         
@@ -24,21 +27,30 @@ public class PopulationManager : MonoBehaviour
         Debug.Log("new residence position " + residencePosition);
     }
 
-    public void DestroyRandomPerson()
+    public void RemoveRandomPerson()
     {
-        Vector3Int? residencePosition = placementManager.CheckOccupiedResidence();
+        Vector3Int? residencePosition = null;
         Vector3Int? jobPosition = null;
         Person person = null;
+        if(peopleList.Count > 0)
+        {
+            person = peopleList[0];
+        }
+        if (person != null)
+        {
+            residencePosition = person.housePosition;
+            jobPosition = person.jobPosition;
+        }
+        else return;
         if(residencePosition != null)
         {
-            person = placementManager.CheckPersonAtPosition((Vector3Int)residencePosition);
             placementManager.RemovePersonFromResidence((Vector3Int)residencePosition, person);
-            jobPosition = placementManager.CheckPersonJob(person);
         }
         if(jobPosition != null)
         {
             placementManager.RemovePersonFromJob((Vector3Int)jobPosition, person);
         }
+        peopleList.Remove(person);
         
     }
     public void RemovePeopleAt(Vector3Int residencePosition)
@@ -58,6 +70,7 @@ public class PopulationManager : MonoBehaviour
                 else joblessPeople.Remove(person);
             }
             placementManager.RemovePeopleFromResidence((Vector3Int)residencePosition);
+            peopleList.RemoveAll(person => peopleAtPosition.Contains(person));
         }
     }
     
