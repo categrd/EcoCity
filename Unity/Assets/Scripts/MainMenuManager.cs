@@ -10,34 +10,69 @@ using System.Linq;
 
 public class MainMenuManager : MonoBehaviour
 {
+    public Action NewGame, QuitGame;
+
     public GameObject questionPanel;
     public Button play;
     public Button quit;
-    public Boolean NEW_GAME = true;
-    List<Button> buttonList;
+    public Button commitAnswers;
+    public Slider[] answer = new Slider[4];
+    public int[] results = new int[4];
+        
+    private bool isNewGame = true;
 
-    void AddButtonClickListener(Button button, UnityAction action)
+    private void Start()
     {
-        button.onClick.AddListener(() =>
-        {
-            action.Invoke();
-        });
+        Debug.Log("Start method called");
+        // Attach the click events to the buttons
+        play.onClick.AddListener(OnPlayButtonClick);
+        quit.onClick.AddListener(OnQuitButtonClick);
+        commitAnswers.onClick.AddListener(OnCommitAnswerClick);
     }
 
+    public void OnPlayButtonClick()
+    {
+        if (isNewGame)
+        {
+            // Show the QuestionPanel
+            if (questionPanel != null)
+            {
+                Debug.Log("Play Button Clicked");
+                questionPanel.SetActive(true);
+            }
+        }
+        // Otherwise, do nothing
+    }
 
-    AddButtonClickListener(play, () => { ?.Invoke(); });
-    AddButtonClickListener(placeRoadButton, () => { OnRoadPlacement?.Invoke(); });
+    public void OnQuitButtonClick()
+    {
+        // Close the game
+        UnityEditor.EditorApplication.isPlaying = false;
+        Debug.Log("Quit Button Clicked");
+        Application.Quit();
+    }
 
+    public void OnCommitAnswerClick()
+    {
+        for (int i = 0; i < answer.Length; i++)
+            results[i] = (int)answer[i].value;
+        SceneManager.LoadSceneAsync(1);
+    }
 
-
-
-    // Start is called before the first frame update
-    void Start()
+}
+/*
+// Start is called before the first framepdate
+void Start()
     {
         buttonList = new List<Button> {
             play,
             quit
         };
+
+        AddButtonClickListener(play, () => { NewGame?.Invoke(); });
+        AddButtonClickListener(quit, () => { QuitGame?.Invoke(); });
+
+
     }
 
     // Update is called once per frame
@@ -48,8 +83,9 @@ public class MainMenuManager : MonoBehaviour
 
     public void PlayGame()
     {
-#if NEW_GAME
+#if isNewGame
         questionPanel.SetActive(true);
+        isNewGame = false;
 #else
         SceneManager.LoadSceneAsync(1);
         
@@ -58,7 +94,7 @@ public class MainMenuManager : MonoBehaviour
 
 
 
-    public void QuitGame()
+    /*public void QuitGame()
     {
 
 #if UNITY_EDITOR
@@ -66,6 +102,6 @@ public class MainMenuManager : MonoBehaviour
 #else
         Application.Quit()
 #endif
-    }
-}
+    }*/
+
 

@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public CameraMovement cameraMovement;
     public RoadManager roadManager;
     public InputManager inputManager;
+    public MainMenuManager mainMenuManager;
 
     public UIController uiController;
     public StructureManager structureManager;
@@ -17,12 +18,13 @@ public class GameManager : MonoBehaviour
     public float zoomSpeed;
 
     private void Start()
-    {
+    {   
         uiController.OnDestroyStructure += DestroyStructureHandler;
         uiController.OnRoadPlacement += RoadPlacementHandler;
         uiController.OnHousePlacement += HousePlacementHandler;
         uiController.OnClinicPlacement += ClinicPlacementHandler;
         uiController.OnPoliceStationPlacement += PoliceStationPlacementHandler;
+
         /*
         uiController.OnHospitalPlacement += HospitalPlacementHandler;
         uiController.OnSolarPanelPlacement += SolarPanelPlacementHandler;
@@ -60,6 +62,8 @@ public class GameManager : MonoBehaviour
         inputManager.OnMouseClick += structureManager.PlaceSpecial;
     }
 */
+   
+
     private void DestroyStructureHandler()
     {
         ClearInputActions();
