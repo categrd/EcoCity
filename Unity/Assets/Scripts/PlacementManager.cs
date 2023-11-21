@@ -49,9 +49,8 @@ public class PlacementManager : MonoBehaviour
                 DestroyNatureAt(newPosition);
             }
         }
-
     }
-    public Vector3Int CheckFreeResidence()
+    public Vector3Int? CheckFreeResidence()
     {
         for (int i = 0; i < width; i++)
         {
@@ -80,16 +79,16 @@ public class PlacementManager : MonoBehaviour
                 }
             }
         }
-        return new Vector3Int(-1, -1, -1);
+        return null;
     }
 
-    public void AddNewPersonInResidence(Vector3Int position, Person person)
+    public void AddNewPersonInResidence(Vector3Int residencePosition, Person person)
     {
-        ResidenceCell cell = (ResidenceCell)placementGrid[position.x, position.z];
+        ResidenceCell cell = (ResidenceCell)placementGrid[residencePosition.x, residencePosition.z];
         cell.PersonList.Add(person);
     }
 
-    public Vector3Int CheckOccupiedResidence()
+    public Vector3Int? CheckOccupiedResidence()
     {
         for (int i = 0; i < width; i++)
         {
@@ -118,23 +117,28 @@ public class PlacementManager : MonoBehaviour
                 }
             }
         }
-        return new Vector3Int(-1, -1, -1);
+        return null;
     }
 
-    public void RemovePersonFromResidenceAndJob(Vector3Int residencePosition, Vector3Int jobPosition, Person person)
+    public void RemovePeopleFromResidence(Vector3Int residencePosition)
     {
-        if(residencePosition != new Vector3Int(-1, -1, -1))
-        {
-            ResidenceCell residenceCell = (ResidenceCell)placementGrid[residencePosition.x, residencePosition.z];
-            residenceCell.PersonList.RemoveAt(residenceCell.PersonList.Count - 1);
-        }
-        if(jobPosition != new Vector3Int(-1, -1, -1))
-        {
-            StructureCell jobCell = (StructureCell)placementGrid[jobPosition.x, jobPosition.z];
-            jobCell.EmployeeList.Remove(person);
-        }
+        ResidenceCell residenceCell = (ResidenceCell)placementGrid[residencePosition.x, residencePosition.z];
+        residenceCell.PersonList.Clear();
     }
-    public Vector3Int CheckFreeJob()
+    public void RemovePersonFromResidence(Vector3Int residencePosition, Person person)
+    {
+        ResidenceCell residenceCell = (ResidenceCell)placementGrid[residencePosition.x, residencePosition.z];
+        residenceCell.PersonList.Remove(person);
+    }
+    
+    public void RemovePersonFromJob(Vector3Int jobPosition, Person person)
+    {
+        StructureCell jobCell = (StructureCell)placementGrid[jobPosition.x, jobPosition.z];
+        jobCell.EmployeeList.Remove(person);
+    }
+    
+    
+    public Vector3Int? CheckFreeJob()
     {
         for (int i = 0; i < width; i++)
         {
@@ -161,14 +165,11 @@ public class PlacementManager : MonoBehaviour
                 }
             }
         }
-        return new Vector3Int(-1, -1, -1);
+        return null;
     }
-    public Vector3Int CheckPersonJob(Person person)
+    public Vector3Int? CheckPersonJob(Person person)
     {
-        
-        if(person.jobPosition != new Vector3Int(-1 , -1, -1))
             return person.jobPosition;
-        return new Vector3Int(-1, -1, -1);
     }
     public List<Person> CheckPeopleAtJob(Vector3Int jobPosition)
     {
@@ -180,6 +181,12 @@ public class PlacementManager : MonoBehaviour
         ResidenceCell cell = (ResidenceCell)placementGrid[position.x, position.z];
         return cell.PersonList[cell.PersonList.Count - 1];
     }
+    public List<Person> GetPeopleAtPosition(Vector3Int position)
+    {
+        ResidenceCell cell = (ResidenceCell)placementGrid[position.x, position.z];
+        return cell.PersonList;
+    }
+    
     public void AddPersonToJob(Vector3Int jobPosition, Person person)
     {
         StructureCell cell = (StructureCell)placementGrid[jobPosition.x, jobPosition.z];

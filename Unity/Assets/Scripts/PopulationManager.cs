@@ -8,37 +8,64 @@ public class PopulationManager : MonoBehaviour
     public List<Person> joblessPeople = new List<Person>();
     public void CreateNewPerson()
     {
-        Vector3Int residencePosition = placementManager.CheckFreeResidence();
-        if(residencePosition == new Vector3Int(-1, -1, -1))
+        Vector3Int? residencePosition = placementManager.CheckFreeResidence();
+        if(residencePosition == null)
         {
             Debug.Log("No free residence");
             return;
         }
         Person newPerson = new Person();
         joblessPeople.Add(newPerson);
+        
         newPerson.housePosition = residencePosition;
-        placementManager.AddNewPersonInResidence(residencePosition, newPerson);
+        
+        placementManager.AddNewPersonInResidence((Vector3Int)residencePosition, newPerson);
+        
         Debug.Log("new residence position " + residencePosition);
     }
 
-    public void DestroyPerson()
+    public void DestroyRandomPerson()
     {
-        Vector3Int residencePosition = placementManager.CheckOccupiedResidence();
-        Person person = placementManager.CheckPersonAtPosition(residencePosition);
-        Vector3Int jobPosition = placementManager.CheckPersonJob(person);
-        if(residencePosition == new Vector3Int(-1, -1, -1) && jobPosition == new Vector3Int(-1, -1, -1))
+        Vector3Int? residencePosition = placementManager.CheckOccupiedResidence();
+        Vector3Int? jobPosition = null;
+        Person person = null;
+        if(residencePosition != null)
         {
-            Debug.Log("No occupied residence or job");
-            return;
+            person = placementManager.CheckPersonAtPosition((Vector3Int)residencePosition);
+            placementManager.RemovePersonFromResidence((Vector3Int)residencePosition, person);
+            jobPosition = placementManager.CheckPersonJob(person);
         }
-        placementManager.RemovePersonFromResidenceAndJob(residencePosition, jobPosition, person);
+        if(jobPosition != null)
+        {
+            placementManager.RemovePersonFromJob((Vector3Int)jobPosition, person);
+        }
+        
+    }
+    public void RemovePeopleAt(Vector3Int residencePosition)
+    {
+        Vector3Int? jobPosition = null;
+        List<Person> peopleAtPosition = null;
+        if(residencePosition != null)
+        {
+            peopleAtPosition = placementManager.GetPeopleAtPosition((Vector3Int)residencePosition);
+            foreach (Person person in peopleAtPosition)
+            {
+                jobPosition = placementManager.CheckPersonJob(person);
+                if(jobPosition != null)
+                {
+                    placementManager.RemovePersonFromJob((Vector3Int)jobPosition, person);
+                }
+                else joblessPeople.Remove(person);
+            }
+            placementManager.RemovePeopleFromResidence((Vector3Int)residencePosition);
+        }
     }
     
     public void FindJob()
     {
-        Vector3Int jobPosition = placementManager.CheckFreeJob();
+        Vector3Int? jobPosition = placementManager.CheckFreeJob();
         Debug.Log("job position is" + jobPosition);
-        if(jobPosition == new Vector3Int(-1, -1, -1))
+        if(jobPosition == null)
         {
             Debug.Log("No free job");
             return;
@@ -48,17 +75,17 @@ public class PopulationManager : MonoBehaviour
             Debug.Log("No jobless people");
             return;
         }
-        Person person = joblessPeople[joblessPeople.Count - 1];
+        Person person = joblessPeople[0];
         person.jobPosition = jobPosition;
         joblessPeople.Remove(person);
-        placementManager.AddPersonToJob(jobPosition, person);
+        placementManager.AddPersonToJob((Vector3Int)jobPosition, person);
     }
 
-    public void RemovePeopleFromJob(Vector3Int jobPosition)
+    public void RemovePeopleJob(Vector3Int jobPosition)
     {
         foreach (Person person in placementManager.CheckPeopleAtJob(jobPosition))
         {
-            person.jobPosition = new Vector3Int(-1, -1, -1);
+            person.jobPosition = null;
             joblessPeople.Add(person);
         }
     }

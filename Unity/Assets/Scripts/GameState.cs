@@ -75,32 +75,44 @@ public class GameState : MonoBehaviour
         UpdateEmployment();
         populationManager.FindJob();
         currentMoney += GetEarnings();
+        Debug.Log("jobless people:" + populationManager.joblessPeople.Count);
     }
 
     private void UpdateTotalPopulation()
     {
         if(totalPopulation < populationCapacity)
-        {
-            totalPopulation += GetPopulationChange();
+        {   
+            int peopleToCreate = Math.Min(GetPopulationChange(), populationCapacity - totalPopulation);
+            totalPopulation += peopleToCreate;
             if(GetPopulationChange() >= 0)
             {
-                for (int i = 0; i < Math.Min(GetPopulationChange(), populationCapacity - totalPopulation); i++)
+                for (int i = 0; i < peopleToCreate; i++)
                 {
                     populationManager.CreateNewPerson();
                 }
             }
+            
             else
             {
                 for (int i = 0; i < -GetPopulationChange(); i++)
                 {
-                    populationManager.DestroyPerson();
+                    populationManager.DestroyRandomPerson();
+                    
                 }
             }
+            
 
         }
         if( totalPopulation > populationCapacity)
         {
             totalPopulation = populationCapacity;
+            Debug.Log("Population is over capacity");
+            /*
+            for(int i = 0; i < totalPopulation - populationCapacity; i++)
+            {
+                populationManager.DestroyRandomPerson();
+            }
+            */
         } 
     }
 
@@ -196,9 +208,12 @@ public class GameState : MonoBehaviour
     public void UpdateGameVariablesWhenDestroying(Vector3Int position)
     {
         Cell cell = placementManager.GetCellAtPosition(position);
-        if (cell is StructureCell && cell.GetType() != typeof(ResidenceCell))
+        if (cell is StructureCell)
         {
-            populationManager.RemovePeopleFromJob(position);
+            if(cell.GetType() != typeof(ResidenceCell))
+            {
+                populationManager.RemovePeopleJob(position);
+            }
         }
         if (cell is ResidenceCell residenceCell)
         {
@@ -210,7 +225,9 @@ public class GameState : MonoBehaviour
            _totalBeauty -= residenceCell.Beauty;
            _totalResidenceComfort -= residenceCell.ComfortLevel;
            _totalWasteProduced -= residenceCell.WasteProduction;
+           //Remove people from residence
            
+           populationManager.RemovePeopleAt((Vector3Int)position);
         }
         if (cell is SanityCell sanityCell)
         {

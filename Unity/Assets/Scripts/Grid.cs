@@ -89,8 +89,8 @@ public class Person
     public int education;
     public int happiness;
     public int money;
-    public Vector3Int jobPosition;
-    public Vector3Int housePosition;
+    public Vector3Int? jobPosition = null;
+    public Vector3Int? housePosition;
     public int water;
     public int electricity;
     public int waste;
@@ -201,6 +201,7 @@ public class ResidenceCell : StructureCell
     public int NumberOfResidentsCapacity { get; set; }
     public float ComfortLevel { get; set; }
     public List<Person> PersonList { get; set; }
+    
     // Properties and methods specific to houses
     public ResidenceCell(BuildingType buildingType)
     {
