@@ -98,6 +98,7 @@ public class UIController : MonoBehaviour
             placeCropButton,
             showMenu,
             showStats,
+            placeCinemaButton,
             /*
             placeHospitalButton,
             placeUniversityButton,
@@ -110,7 +111,7 @@ public class UIController : MonoBehaviour
             placeHighDensityHouseButton,
             placeShopButton,
             placeBarButton,
-            placeCinemaButton,
+            
             placeFactoryButton,
             placeLivestockButton,
             placeLandfillButton,
@@ -128,6 +129,7 @@ public class UIController : MonoBehaviour
         AddButtonClickListener(placeCropButton, () => { OnCropPlacement?.Invoke(); });
         AddButtonClickListener(showMenu, () => { OnShowMenu?.Invoke(); });
         AddButtonClickListener(showStats, () => { OnShowStats?.Invoke(); });
+        AddButtonClickListener(placeCinemaButton, () => { OnCinemaPlacement?.Invoke(); });
         /*
         AddButtonClickListener(placeHospitalButton, () => { OnHospitalPlacement?.Invoke(); });
         AddButtonClickListener(placeRestaurantButton, () => { OnRestaurantPlacement?.Invoke(); });
@@ -140,7 +142,7 @@ public class UIController : MonoBehaviour
         AddButtonClickListener(placeNuclearPlantButton, () => { OnNuclearPlantPlacement?.Invoke(); });
         AddButtonClickListener(placeHighDensityHouseButton, () => { OnHighDensityHousePlacement?.Invoke(); });
         AddButtonClickListener(placeShopButton, () => { OnShopPlacement?.Invoke(); });
-        AddButtonClickListener(placeCinemaButton, () => { OnCinemaPlacement?.Invoke(); });
+        
         AddButtonClickListener(placeBarButton, () => { OnBarPlacement?.Invoke(); });
         AddButtonClickListener(placeFactoryButton, () => { OnFactoryPlacement?.Invoke(); });
         AddButtonClickListener(placeCropButton, () => { OnCropPlacement?.Invoke(); });

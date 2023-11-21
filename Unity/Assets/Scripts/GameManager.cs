@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
         uiController.OnCropPlacement += CropPlacementHandler;
         uiController.OnShowMenu += ShowMenuHandler;
         uiController.OnShowStats += ShowStatsHandler;
+        uiController.OnCinemaPlacement += CinemaPlacementHandler;
         /*
         uiController.OnHospitalPlacement += HospitalPlacementHandler;
         uiController.OnSolarPanelPlacement += SolarPanelPlacementHandler;
@@ -39,7 +40,7 @@ public class GameManager : MonoBehaviour
         uiController.OnShopPlacement += ShopPlacementHandler;
         uiController.OnRestaurantPlacement += RestaurantPlacementHandler;
         uiController.OnBarPlacement += BarPlacementHandler;
-        uiController.OnCinemaPlacement += CinemaPlacementHandler;
+        
         uiController.OnUniversityPlacement += UniversityPlacementHandler;
         uiController.OnFireStationPlacement += FireStationPlacementHandler;
         uiController.OnFactoryPlacement += FactoryPlacementHandler;

@@ -7,7 +7,7 @@ using UnityEngine;
 public class PlacementManager : MonoBehaviour
 {
     public int width, height;
-    Grid placementGrid;
+    public Grid placementGrid;
     GameObject temporaryStructure = null;
     public bool buildPermanent;
     private bool alreadyPlaced;
@@ -205,10 +205,10 @@ public class PlacementManager : MonoBehaviour
     public void DestroyGameObjectAt(Vector3Int position)
     {
         // Define the ray from above the position pointing downwards
-        Ray ray = new Ray(position + new Vector3(0, 1f, 0), Vector3.down);
+        Ray ray = new Ray(position + new Vector3(0, 5f, 0), Vector3.down);
 
         // Set the maximum distance of the ray
-        float maxDistance = 1f;
+        float maxDistance = 10f;
 
         // RaycastHit variable to store information about the hit
         RaycastHit hit;

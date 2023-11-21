@@ -173,12 +173,12 @@ public class StructureManager : MonoBehaviour
     }
     public void PlaceCinema(Vector3Int position)
     {
-        if (CheckPositionBeforePlacement(position))
+        if (CheckBigStructure(position, 1,2))
         {
             EntertainmentCell cinema = new EntertainmentCell(BuildingType.Cinema);
             placementManager.buildPermanent = true;
             placementManager.PlaceTemporaryStructureWithButton(position, cinemaPrefab);
-            placementManager.PlaceObjectOnTheMap(position, cinemaPrefab, cinema);
+            placementManager.PlaceObjectOnTheMap(position, cinemaPrefab, cinema,1,2);
             AudioPlayer.instance.PlayPlacementSound();
             gameState.UpdateGameVariablesWhenBuilding(position);
         }

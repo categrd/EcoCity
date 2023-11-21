@@ -5,6 +5,7 @@ using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = System.Random;
 
 public class GameState : MonoBehaviour
 {
@@ -75,7 +76,38 @@ public class GameState : MonoBehaviour
         UpdateEmployment();
         populationManager.FindJob();
         currentMoney += GetEarnings();
+        //HandlePeopleMovement();
         Debug.Log("jobless people:" + populationManager.joblessPeople.Count);
+    }
+
+    private void HandlePeopleMovement()
+    {
+        foreach (Person person in populationManager.peopleList)
+        {
+            if (person.isPersonFree && person.currentPosition != null)
+            {
+                Vector3Int personCurrentPosition = (Vector3Int) person.currentPosition;
+                if (placementManager.GetCellAtPosition(personCurrentPosition) is ResidenceCell)
+                {
+                    Random random = new Random();
+                    int randomValue = random.Next(2);
+                    if (randomValue == 0)
+                    {
+                        placementManager.placementGrid.GetRandomPositionOfTypeCell(typeof(EntertainmentCell));  
+                    }
+                    else
+                    {
+                        Vector3Int? jobPosition = null;
+                        jobPosition = person.jobPosition;
+                    }
+                    
+                }
+                if(placementManager.GetCellAtPosition(personCurrentPosition) is JobCell)
+                {
+                    placementManager.placementGrid.GetRandomPositionOfTypeCell(typeof(ResidenceCell));
+                }
+            }
+        }
     }
 
     private void UpdateTotalPopulation()

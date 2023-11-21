@@ -91,10 +91,9 @@ public class Person
     public int money;
     public Vector3Int? jobPosition = null;
     public Vector3Int? housePosition = null;
-    public int water;
-    public int electricity;
-    public int waste;
-    public int pollution;
+    public float busyTime = 0;
+    public bool isPersonFree = true;
+    public Vector3Int? currentPosition = null;
     public int crime;
     public int fire;
     public int entertainment;
@@ -156,7 +155,11 @@ public class StructureCell : Cell
 
 }
 
-public class SanityCell : StructureCell
+public class JobCell : StructureCell
+{
+    
+}
+public class SanityCell : JobCell
 {
     private int _patientCapacity;
     public int PatientCapacity { get; set; }
@@ -235,7 +238,7 @@ public class ResidenceCell : StructureCell
     }
 }
 
-public class EnergyProductionCell : StructureCell
+public class EnergyProductionCell : JobCell
 {
     private float _energyProduced;
     public float EnergyProduced { get; set; }
@@ -296,7 +299,7 @@ public class EnergyProductionCell : StructureCell
     }
 }
 
-public class EntertainmentCell : StructureCell
+public class EntertainmentCell : JobCell
 {
     private int _costumersCapacity;
     
@@ -343,6 +346,8 @@ public class EntertainmentCell : StructureCell
         }
         if (buildingType == BuildingType.Cinema)
         {
+            Width = 1;
+            Height = 2;
             Cost = 400000;
             MaintenanceCost = 0;
             IncomeGenerated = 1600;
@@ -359,7 +364,7 @@ public class EntertainmentCell : StructureCell
     
 }
 
-public class PublicServiceCell : StructureCell
+public class PublicServiceCell : JobCell
 {
     private int _criminalsCovered;
     private int _firesCovered;
@@ -402,7 +407,7 @@ public class PublicServiceCell : StructureCell
         
     }
 }
-public class IndustryCell : StructureCell
+public class IndustryCell : JobCell
 {
     private int _goods;
     private int _vegetablesProduced;
@@ -461,7 +466,7 @@ public class IndustryCell : StructureCell
     }
 }
 
-public class GarbageDisposalCell : StructureCell
+public class GarbageDisposalCell : JobCell
 {
     private int _garbageDisposed;
     public int GarbageDisposed { get; set; }
@@ -667,5 +672,20 @@ public class Grid
             neighbours[1] = _grid[x, y + 1].GetType();
         }
         return neighbours;
+    }
+
+    public Vector3Int? GetRandomPositionOfTypeCell(Type cellType)
+    {
+        for (int i = 0; i < _width; i++)
+        {
+            for (int j = 0; j < _height; j++)
+            {
+                if (_grid[i, j].GetType() == cellType)
+                {
+                    return new Vector3Int(i, j, 0);
+                }
+            }
+        }
+        return null;
     }
 }

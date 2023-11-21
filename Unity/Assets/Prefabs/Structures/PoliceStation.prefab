@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1239365353517229987}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PoliceStation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 6321868973440804498}
   - component: {fileID: 480486179467530944}
   - component: {fileID: 7477396194404766308}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
