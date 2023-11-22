@@ -48,7 +48,6 @@ public class StructureManager : MonoBehaviour
     {
         if (!placementManager.CheckIfPositionIsFree(position))
         {
-            Type structureClass = placementManager.GetTypeOfPosition(position);
             gameState.UpdateGameVariablesWhenDestroying(position);
             placementManager.DestroyGameObjectAt(position);
             roadManager.FixRoadWhenDestroying(position);
@@ -62,7 +61,6 @@ public class StructureManager : MonoBehaviour
     }
     public void PlaceHouse(Vector3Int position)
     {
-        
         if (CheckPositionBeforePlacement(position))
         {
             ResidenceCell house = new ResidenceCell(BuildingType.House);
@@ -71,8 +69,9 @@ public class StructureManager : MonoBehaviour
             placementManager.PlaceTemporaryStructureWithButton(position, housesPrefabs[randomIndex].prefab);
             placementManager.PlaceObjectOnTheMap(position, housesPrefabs[randomIndex].prefab, house);
             AudioPlayer.instance.PlayPlacementSound();
-            
+            gameState.UpdateGameVariablesWhenBuilding(position);
         }
+        
     }
     public void PlaceTemporaryHighDensityHouse(Vector3Int position)
     {
@@ -86,6 +85,7 @@ public class StructureManager : MonoBehaviour
             int randomIndex = GetRandomWeightedIndex(houseWeights);
             placementManager.PlaceObjectOnTheMap(position, highDensityHousePrefab, highDensityHouse);
             AudioPlayer.instance.PlayPlacementSound();
+            gameState.UpdateGameVariablesWhenBuilding(position);
         }
     }
     public void PlaceTemporaryClinic(Vector3Int position)
@@ -101,6 +101,7 @@ public class StructureManager : MonoBehaviour
             placementManager.PlaceTemporaryStructureWithButton(position, clinicPrefab);
             placementManager.PlaceObjectOnTheMap(position, clinicPrefab, clinic);
             AudioPlayer.instance.PlayPlacementSound();
+            gameState.UpdateGameVariablesWhenBuilding(position);
         }
     }
     public void PlaceTemporaryHospital(Vector3Int position)
@@ -115,6 +116,7 @@ public class StructureManager : MonoBehaviour
             int randomIndex = GetRandomWeightedIndex(houseWeights);
             placementManager.PlaceObjectOnTheMap(position, hospitalPrefab, hospital);
             AudioPlayer.instance.PlayPlacementSound();
+            gameState.UpdateGameVariablesWhenBuilding(position);
         }
     }
     public void PlaceTemporaryRestaurant(Vector3Int position)
@@ -130,6 +132,7 @@ public class StructureManager : MonoBehaviour
             placementManager.PlaceTemporaryStructureWithButton(position, restaurantPrefab);
             placementManager.PlaceObjectOnTheMap(position, restaurantPrefab, restaurant);
             AudioPlayer.instance.PlayPlacementSound();
+            gameState.UpdateGameVariablesWhenBuilding(position);
         }
     }
     public void PlaceTemporaryShop(Vector3Int position)
@@ -145,6 +148,7 @@ public class StructureManager : MonoBehaviour
             placementManager.PlaceTemporaryStructureWithButton(position, shopPrefab);
             placementManager.PlaceObjectOnTheMap(position, shopPrefab, shop);
             AudioPlayer.instance.PlayPlacementSound();
+            gameState.UpdateGameVariablesWhenBuilding(position);
         }
     }
     public void PlaceTemporaryBar(Vector3Int position)
@@ -160,6 +164,7 @@ public class StructureManager : MonoBehaviour
             placementManager.PlaceTemporaryStructureWithButton(position, barPrefab);
             placementManager.PlaceObjectOnTheMap(position, barPrefab, bar);
             AudioPlayer.instance.PlayPlacementSound();
+            gameState.UpdateGameVariablesWhenBuilding(position);
         }
     }
     public void PlaceTemporaryCinema(Vector3Int position)
@@ -168,13 +173,14 @@ public class StructureManager : MonoBehaviour
     }
     public void PlaceCinema(Vector3Int position)
     {
-        if (CheckPositionBeforePlacement(position))
+        if (CheckBigStructure(position, 1,2))
         {
             EntertainmentCell cinema = new EntertainmentCell(BuildingType.Cinema);
             placementManager.buildPermanent = true;
             placementManager.PlaceTemporaryStructureWithButton(position, cinemaPrefab);
-            placementManager.PlaceObjectOnTheMap(position, cinemaPrefab, cinema);
+            placementManager.PlaceObjectOnTheMap(position, cinemaPrefab, cinema,1,2);
             AudioPlayer.instance.PlayPlacementSound();
+            gameState.UpdateGameVariablesWhenBuilding(position);
         }
     }
     public void PlaceTemporaryUniversity(Vector3Int position)
@@ -190,6 +196,7 @@ public class StructureManager : MonoBehaviour
             placementManager.PlaceTemporaryStructureWithButton(position, universityPrefab);
             placementManager.PlaceObjectOnTheMap(position, universityPrefab, university);
             AudioPlayer.instance.PlayPlacementSound();
+            gameState.UpdateGameVariablesWhenBuilding(position);
         }
     }
     public void PlaceTemporaryFireStation(Vector3Int position)
@@ -205,6 +212,7 @@ public class StructureManager : MonoBehaviour
             placementManager.PlaceTemporaryStructureWithButton(position, fireStationPrefab);
             placementManager.PlaceObjectOnTheMap(position, fireStationPrefab, fireStation);
             AudioPlayer.instance.PlayPlacementSound();
+            gameState.UpdateGameVariablesWhenBuilding(position);
         }
     }
     public void PlaceTemporaryPoliceStation(Vector3Int position)
@@ -220,6 +228,7 @@ public class StructureManager : MonoBehaviour
             placementManager.PlaceTemporaryStructureWithButton(position, policeStationPrefab);
             placementManager.PlaceObjectOnTheMap(position, policeStationPrefab, policeStation);
             AudioPlayer.instance.PlayPlacementSound();
+            gameState.UpdateGameVariablesWhenBuilding(position);
         }
     }
     public void PlaceTemporaryFactory(Vector3Int position)
@@ -235,6 +244,7 @@ public class StructureManager : MonoBehaviour
             placementManager.PlaceTemporaryStructureWithButton(position, factoryPrefab);
             placementManager.PlaceObjectOnTheMap(position, factoryPrefab, factory);
             AudioPlayer.instance.PlayPlacementSound();
+            gameState.UpdateGameVariablesWhenBuilding(position);
         }
     }
     public void PlaceTemporaryCrop(Vector3Int position)
@@ -243,13 +253,14 @@ public class StructureManager : MonoBehaviour
     }
     public void PlaceCrop(Vector3Int position)
     {
-        if (CheckPositionBeforePlacement(position))
+        if (CheckBigStructure(position, 2 , 2))
         {
             IndustryCell crop = new IndustryCell(BuildingType.Crop);
             placementManager.buildPermanent = true;
             placementManager.PlaceTemporaryStructureWithButton(position, cropPrefab);
-            placementManager.PlaceObjectOnTheMap(position, cropPrefab, crop);
+            placementManager.PlaceObjectOnTheMap(position, cropPrefab, crop,2,2);
             AudioPlayer.instance.PlayPlacementSound();
+            gameState.UpdateGameVariablesWhenBuilding(position);
         }
     }
     public void PlaceTemporaryLivestock(Vector3Int position)
@@ -265,6 +276,7 @@ public class StructureManager : MonoBehaviour
             placementManager.PlaceTemporaryStructureWithButton(position, livestockPrefab);
             placementManager.PlaceObjectOnTheMap(position, livestockPrefab, livestock);
             AudioPlayer.instance.PlayPlacementSound();
+            gameState.UpdateGameVariablesWhenBuilding(position);
         }
     }
     public void PlaceTemporaryLandfill(Vector3Int position)
@@ -280,6 +292,7 @@ public class StructureManager : MonoBehaviour
             placementManager.PlaceTemporaryStructureWithButton(position, landfillPrefab);
             placementManager.PlaceObjectOnTheMap(position, landfillPrefab, landfill);
             AudioPlayer.instance.PlayPlacementSound();
+            gameState.UpdateGameVariablesWhenBuilding(position);
         }
     }
     public void PlaceTemporaryIncinerationPlant(Vector3Int position)
@@ -295,6 +308,7 @@ public class StructureManager : MonoBehaviour
             placementManager.PlaceTemporaryStructureWithButton(position, incinerationPlantPrefab);
             placementManager.PlaceObjectOnTheMap(position, incinerationPlantPrefab, incinerationPlant);
             AudioPlayer.instance.PlayPlacementSound();
+            gameState.UpdateGameVariablesWhenBuilding(position);
         }
     }
     public void PlaceTemporaryWasteToEnergyPlant(Vector3Int position)
@@ -310,6 +324,7 @@ public class StructureManager : MonoBehaviour
             placementManager.PlaceTemporaryStructureWithButton(position, wasteToEnergyPlantPrefab);
             placementManager.PlaceObjectOnTheMap(position, wasteToEnergyPlantPrefab, wasteToEnergyPlant);
             AudioPlayer.instance.PlayPlacementSound();
+            gameState.UpdateGameVariablesWhenBuilding(position);
         }
     }
     public void PlaceTemporarySolarPanel(Vector3Int position)
@@ -324,6 +339,7 @@ public class StructureManager : MonoBehaviour
             int randomIndex = GetRandomWeightedIndex(houseWeights);
             placementManager.PlaceObjectOnTheMap(position, solarPanelPrefab, solarPanel);
             AudioPlayer.instance.PlayPlacementSound();
+            gameState.UpdateGameVariablesWhenBuilding(position);
         }
     }
     public void PlaceTemporaryWindTurbine(Vector3Int position)
@@ -338,6 +354,7 @@ public class StructureManager : MonoBehaviour
             int randomIndex = GetRandomWeightedIndex(houseWeights);
             placementManager.PlaceObjectOnTheMap(position, windTurbinePrefab, windTurbine);
             AudioPlayer.instance.PlayPlacementSound();
+            gameState.UpdateGameVariablesWhenBuilding(position);
         }
     }
     public void PlaceTemporaryCarbonPowerPlant(Vector3Int position)
@@ -352,6 +369,7 @@ public class StructureManager : MonoBehaviour
             int randomIndex = GetRandomWeightedIndex(houseWeights);
             placementManager.PlaceObjectOnTheMap(position, carbonPowerPlantPrefab, carbonPowerPlant);
             AudioPlayer.instance.PlayPlacementSound();
+            gameState.UpdateGameVariablesWhenBuilding(position);
         }
     }
     public void PlaceTemporaryNuclearPlant(Vector3Int position)
@@ -366,6 +384,7 @@ public class StructureManager : MonoBehaviour
             int randomIndex = GetRandomWeightedIndex(houseWeights);
             placementManager.PlaceObjectOnTheMap(position, nuclearPlantPrefab, nuclearPlant);
             AudioPlayer.instance.PlayPlacementSound();
+            gameState.UpdateGameVariablesWhenBuilding(position);
         }
     }
     

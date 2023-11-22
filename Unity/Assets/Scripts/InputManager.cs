@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class InputManager : MonoBehaviour
 {
     public Action<Vector3Int> OnMouseClick, OnMouseHold, OnMouseHover;
-    public Action OnMouseUp, OnPressingEsc;
+    public Action OnMouseUp, OnPressingEsc, OnMouseClickUI;
 	private Vector2 cameraMovementVector;
 	private float zoom;
 
@@ -34,6 +34,7 @@ public class InputManager : MonoBehaviour
 		CheckHoveringObjects();
 		CheckPressingEsc();
 		CheckMouseWheel();
+		CheckClickDownEventUI();
 	}
 
 	private Vector3Int? RaycastGround()
@@ -88,10 +89,16 @@ public class InputManager : MonoBehaviour
 			var position = RaycastGround();
 			if (position != null)
 			{
-				Debug.Log("Check click down event done: " + position.Value);
 				OnMouseClick?.Invoke(position.Value);
 			}
 
+		}
+	}
+	private void CheckClickDownEventUI()
+	{
+		if (Input.GetMouseButtonDown(0))
+		{
+				OnMouseClickUI?.Invoke();
 		}
 	}
 

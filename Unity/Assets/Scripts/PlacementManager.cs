@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlacementManager : MonoBehaviour
 {
     public int width, height;
-    Grid placementGrid;
+    public Grid placementGrid;
     GameObject temporaryStructure = null;
     public bool buildPermanent;
     private bool alreadyPlaced;
@@ -48,9 +49,150 @@ public class PlacementManager : MonoBehaviour
                 DestroyNatureAt(newPosition);
             }
         }
+    }
+    public Vector3Int? CheckFreeResidence()
+    {
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                if (GetTypeOfPosition(new Vector3Int(i, 0, j)) == typeof(ResidenceCell))
+                {
+                    ResidenceCell cell = (ResidenceCell)placementGrid[i, j];
+                
+                    // Check if cell is not null
+                    if (cell != null)
+                    {
+                        Debug.Log(cell.NumberOfResidentsCapacity + " " + cell.PersonList.Count);
 
+                        // Check if PersonList is not null before accessing Count
+                        if (cell.NumberOfResidentsCapacity > cell.PersonList?.Count)
+                        {
+                            return new Vector3Int(i, 0, j);
+                        }
+                    }
+                    else
+                    {
+                        // Log an error or handle the case where cell is null
+                        Debug.LogError("ResidenceCell is null at position: " + new Vector3Int(i, 0, j));
+                    }
+                }
+            }
+        }
+        return null;
     }
 
+    public void AddNewPersonInResidence(Vector3Int residencePosition, Person person)
+    {
+        ResidenceCell cell = (ResidenceCell)placementGrid[residencePosition.x, residencePosition.z];
+        cell.PersonList.Add(person);
+    }
+
+    public Vector3Int? CheckOccupiedResidence()
+    {
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                if (GetTypeOfPosition(new Vector3Int(i, 0, j)) == typeof(ResidenceCell))
+                {
+                    ResidenceCell cell = (ResidenceCell)placementGrid[i, j];
+                
+                    // Check if cell is not null
+                    if (cell != null)
+                    {
+                        Debug.Log(cell.NumberOfResidentsCapacity + " " + cell.PersonList.Count);
+
+                        // Check if PersonList is not null before accessing Count
+                        if (cell.PersonList?.Count > 0)
+                        {
+                            return new Vector3Int(i, 0, j);
+                        }
+                    }
+                    else
+                    {
+                        // Log an error or handle the case where cell is null
+                        Debug.LogError("ResidenceCell is null at position: " + new Vector3Int(i, 0, j));
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public void RemovePeopleFromResidence(Vector3Int residencePosition)
+    {
+        ResidenceCell residenceCell = (ResidenceCell)placementGrid[residencePosition.x, residencePosition.z];
+        residenceCell.PersonList.Clear();
+    }
+    public void RemovePersonFromResidence(Vector3Int residencePosition, Person person)
+    {
+        ResidenceCell residenceCell = (ResidenceCell)placementGrid[residencePosition.x, residencePosition.z];
+        residenceCell.PersonList.Remove(person);
+    }
+    
+    public void RemovePersonFromJob(Vector3Int jobPosition, Person person)
+    {
+        StructureCell jobCell = (StructureCell)placementGrid[jobPosition.x, jobPosition.z];
+        jobCell.EmployeeList.Remove(person);
+    }
+    
+    
+    public Vector3Int? CheckFreeJob()
+    {
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                if (GetCellAtPosition(new Vector3Int(i, 0, j)) is StructureCell structureCell && structureCell.GetType() != typeof(ResidenceCell))
+                {
+                    StructureCell cell = (StructureCell)placementGrid[i, j];
+                    // Check if cell is not null
+                    if (cell != null)
+                    {
+                        Debug.Log("employees capacity: " + cell.NumberOfEmployeesCapacity);
+                        Debug.Log("employees list: " + cell.EmployeeList.Count);
+                        if (cell.NumberOfEmployeesCapacity > cell.EmployeeList.Count)
+                        {
+                            return new Vector3Int(i, 0, j);
+                        }
+                    }
+                    else
+                    {
+                        // Log an error or handle the case where cell is null
+                        Debug.LogError("Structure is null at position: " + new Vector3Int(i, 0, j));
+                    }
+                }
+            }
+        }
+        return null;
+    }
+    public Vector3Int? CheckPersonJob(Person person)
+    {
+            return person.jobPosition;
+    }
+    public List<Person> CheckPeopleAtJob(Vector3Int jobPosition)
+    {
+        StructureCell cell = (StructureCell)placementGrid[jobPosition.x, jobPosition.z];
+        return cell.EmployeeList;
+    }
+    public Person CheckPersonAtPosition(Vector3Int position)
+    {
+        ResidenceCell cell = (ResidenceCell)placementGrid[position.x, position.z];
+        return cell.PersonList[cell.PersonList.Count - 1];
+    }
+    public List<Person> GetPeopleAtPosition(Vector3Int position)
+    {
+        ResidenceCell cell = (ResidenceCell)placementGrid[position.x, position.z];
+        return cell.PersonList;
+    }
+    
+    public void AddPersonToJob(Vector3Int jobPosition, Person person)
+    {
+        StructureCell cell = (StructureCell)placementGrid[jobPosition.x, jobPosition.z];
+        cell.EmployeeList.Add(person);
+    }
+    
     private void DestroyNatureAt(Vector3Int position)
     {
         RaycastHit[] hits = Physics.BoxCastAll(position + new Vector3(0, 0.5f, 0), new Vector3(0.5f, 0.5f, 0.5f), transform.up, Quaternion.identity, 1f, 1 << LayerMask.NameToLayer("Nature"));
@@ -63,10 +205,10 @@ public class PlacementManager : MonoBehaviour
     public void DestroyGameObjectAt(Vector3Int position)
     {
         // Define the ray from above the position pointing downwards
-        Ray ray = new Ray(position + new Vector3(0, 1f, 0), Vector3.down);
+        Ray ray = new Ray(position + new Vector3(0, 10f, 0), Vector3.down);
 
         // Set the maximum distance of the ray
-        float maxDistance = 1f;
+        float maxDistance = 20f;
 
         // RaycastHit variable to store information about the hit
         RaycastHit hit;
@@ -76,8 +218,21 @@ public class PlacementManager : MonoBehaviour
         {
             // Destroy the game object if a collider is hit
             Destroy(hit.collider.gameObject);
-            placementGrid[position.x, position.z] = new EmptyCell();
-            structureDictionary.Remove(position);
+            Cell cellToDestroy = placementGrid[position.x, position.z];
+            for (int x = 0; x < cellToDestroy.Width; x++)
+            {
+                for (int z = 0; z < cellToDestroy.Height; z++)
+                {
+                    var newPosition = position + new Vector3Int(x, 0, z);
+                
+                    if(placementGrid[newPosition.x, newPosition.z] ==  cellToDestroy)
+                    {
+                        Debug.Log("Destroying structure at " + newPosition);
+                        placementGrid[newPosition.x, newPosition.z] = new EmptyCell();
+                        structureDictionary.Remove(newPosition);
+                    }
+                }
+            }
         }
     }
 
@@ -91,9 +246,23 @@ public class PlacementManager : MonoBehaviour
 
     public bool CheckIfPositionIsOfType(Vector3Int position, Type cellType)
     {
-        // Use the 'is' keyword to check if the cell at the specified position is of the given type.
         return placementGrid[position.x, position.z].GetType() == cellType;
     }
+    
+    public bool CheckIfPositionIsBuildingType(Vector3Int position, BuildingType buildingType)
+    {
+        if (placementGrid[position.x, position.z] is StructureCell structureCell)
+        {
+            return structureCell.BuildingType == buildingType;
+        }
+        return false;
+    }
+    
+    public Cell GetCellAtPosition(Vector3Int position)
+    {
+        return placementGrid[position.x, position.z];
+    }
+
 
     public Type GetTypeOfPosition(Vector3Int position)
     {
