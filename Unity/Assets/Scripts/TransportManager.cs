@@ -7,5 +7,6 @@ public class TransportManager : MonoBehaviour
     public void MovePersonToPosition(Person person, Vector3Int targetPosition)
     {
         
+        
     }
 }

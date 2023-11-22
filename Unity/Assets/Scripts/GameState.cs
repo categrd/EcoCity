@@ -88,34 +88,29 @@ public class GameState : MonoBehaviour
             if (person.isPersonFree && person.currentPosition != null)
             {
                 Vector3Int personCurrentPosition = (Vector3Int) person.currentPosition;
+                Vector3Int? targetPosition = null;
                 if (placementManager.GetCellAtPosition(personCurrentPosition) is ResidenceCell)
                 {
                     Random random = new Random();
                     int randomValue = random.Next(2);
                     if (randomValue == 0)
                     {
-                        Vector3Int? entertainmentPosition = placementManager.placementGrid.GetRandomPositionOfTypeCell(typeof(EntertainmentCell));
-                        if (entertainmentPosition != null)
-                        {
-                            transportManager.MovePersonToPosition(person, (Vector3Int) entertainmentPosition);
-                        }
+                        targetPosition = placementManager.placementGrid.GetRandomPositionOfTypeCell(typeof(EntertainmentCell));
+                        
                     }
                     else
                     {
-                        Vector3Int? jobPosition = person.jobPosition;
-                        if(jobPosition != null)
-                        {
-                            transportManager.MovePersonToPosition(person, (Vector3Int)jobPosition);
-                        }
+                        targetPosition = person.jobPosition;
                     }
                 }
                 if(placementManager.GetCellAtPosition(personCurrentPosition) is JobCell)
                 {
-                    Vector3Int? residencePosition = person.housePosition;
-                    if(residencePosition != null)
-                    {
-                        transportManager.MovePersonToPosition(person, (Vector3Int)residencePosition);
-                    }
+                    targetPosition = person.housePosition;
+                    
+                }
+                if (targetPosition != null)
+                {
+                    transportManager.MovePersonToPosition(person, (Vector3Int) targetPosition);
                 }
             }
         }
@@ -153,7 +148,7 @@ public class GameState : MonoBehaviour
             /*
             for(int i = 0; i < totalPopulation - populationCapacity; i++)
             {
-                populationManager.DestroyRandomPerson();
+                populationManager.RemoveRandomPerson();
             }
             */
         } 
@@ -161,16 +156,8 @@ public class GameState : MonoBehaviour
 
     private void UpdateEmployment()
     {
-        if (totalPopulation >= _totalNumberOfJobs)
-        {
-            _totalEmployed = _totalNumberOfJobs;
-            _totalUnemployed = totalPopulation - _totalNumberOfJobs;
-        }
-        else
-        {
-            _totalEmployed = totalPopulation;
-            _totalUnemployed = 0;
-        }
+        _totalUnemployed = populationManager.joblessPeople.Count;
+        _totalEmployed = totalPopulation - _totalUnemployed;
     }
     public float GetEmploymentRatio()
     {
@@ -269,7 +256,6 @@ public class GameState : MonoBehaviour
            _totalResidenceComfort -= residenceCell.ComfortLevel;
            _totalWasteProduced -= residenceCell.WasteProduction;
            //Remove people from residence
-           
            populationManager.RemovePeopleAt((Vector3Int)position);
         }
         if (cell is SanityCell sanityCell)
