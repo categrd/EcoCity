@@ -11,6 +11,7 @@ public class GameState : MonoBehaviour
 {
     public PlacementManager placementManager;
     public PopulationManager populationManager;
+    public TransportManager transportManager;
     public float currentMoney;
     private int _totalIncome;
     private int _totalCosts;
@@ -93,18 +94,28 @@ public class GameState : MonoBehaviour
                     int randomValue = random.Next(2);
                     if (randomValue == 0)
                     {
-                        placementManager.placementGrid.GetRandomPositionOfTypeCell(typeof(EntertainmentCell));  
+                        Vector3Int? entertainmentPosition = placementManager.placementGrid.GetRandomPositionOfTypeCell(typeof(EntertainmentCell));
+                        if (entertainmentPosition != null)
+                        {
+                            transportManager.MovePersonToPosition(person, (Vector3Int) entertainmentPosition);
+                        }
                     }
                     else
                     {
-                        Vector3Int? jobPosition = null;
-                        jobPosition = person.jobPosition;
+                        Vector3Int? jobPosition = person.jobPosition;
+                        if(jobPosition != null)
+                        {
+                            transportManager.MovePersonToPosition(person, (Vector3Int)jobPosition);
+                        }
                     }
-                    
                 }
                 if(placementManager.GetCellAtPosition(personCurrentPosition) is JobCell)
                 {
-                    placementManager.placementGrid.GetRandomPositionOfTypeCell(typeof(ResidenceCell));
+                    Vector3Int? residencePosition = person.housePosition;
+                    if(residencePosition != null)
+                    {
+                        transportManager.MovePersonToPosition(person, (Vector3Int)residencePosition);
+                    }
                 }
             }
         }

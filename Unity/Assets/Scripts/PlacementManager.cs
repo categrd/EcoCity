@@ -205,10 +205,10 @@ public class PlacementManager : MonoBehaviour
     public void DestroyGameObjectAt(Vector3Int position)
     {
         // Define the ray from above the position pointing downwards
-        Ray ray = new Ray(position + new Vector3(0, 5f, 0), Vector3.down);
+        Ray ray = new Ray(position + new Vector3(0, 10f, 0), Vector3.down);
 
         // Set the maximum distance of the ray
-        float maxDistance = 10f;
+        float maxDistance = 20f;
 
         // RaycastHit variable to store information about the hit
         RaycastHit hit;
