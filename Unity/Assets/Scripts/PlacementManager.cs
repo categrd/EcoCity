@@ -8,12 +8,12 @@ public class PlacementManager : MonoBehaviour
 {
     public int width, height;
     public Grid placementGrid;
-    GameObject temporaryStructure = null;
+    private GameObject _temporaryStructure = null;
     public bool buildPermanent;
-    private bool alreadyPlaced;
+    private bool _alreadyPlaced;
 
-    private Dictionary<Vector3Int, StructureModel> temporaryRoadobjects = new Dictionary<Vector3Int, StructureModel>();
-    private Dictionary<Vector3Int, StructureModel> structureDictionary = new Dictionary<Vector3Int, StructureModel>();
+    private Dictionary<Vector3Int, StructureModel> _temporaryRoadObjects = new Dictionary<Vector3Int, StructureModel>();
+    private Dictionary<Vector3Int, StructureModel> _structureDictionary = new Dictionary<Vector3Int, StructureModel>();
 
     public StructureManager structureManager;
     private void Start()
@@ -35,30 +35,30 @@ public class PlacementManager : MonoBehaviour
         return false;
     }
 
-    internal void PlaceObjectOnTheMap(Vector3Int position, GameObject structurePrefab, Cell type, int width = 1, int height = 1)
+    internal void PlaceObjectOnTheMap(Vector3Int position, GameObject structurePrefab, Cell type, int structureWidth = 1, int structureHeight = 1)
     {
         StructureModel structure = CreateANewStructureModel(position, structurePrefab, type);
-        for (int x = 0; x < width; x++)
+        for (var x = 0; x < structureWidth; x++)
         {
-            for (int z = 0; z < height; z++)
+            for (var z = 0; z < structureHeight; z++)
             {
                 var newPosition = position + new Vector3Int(x, 0, z);
                 placementGrid[newPosition.x, newPosition.z] = type;
                 Debug.Log(placementGrid[newPosition.x, newPosition.z]);
-                structureDictionary.Add(newPosition, structure);
+                _structureDictionary.Add(newPosition, structure);
                 DestroyNatureAt(newPosition);
             }
         }
     }
     public Vector3Int? CheckFreeResidence()
     {
-        for (int i = 0; i < width; i++)
+        for (var i = 0; i < width; i++)
         {
-            for (int j = 0; j < height; j++)
+            for (var j = 0; j < height; j++)
             {
                 if (GetTypeOfPosition(new Vector3Int(i, 0, j)) == typeof(ResidenceCell))
                 {
-                    ResidenceCell cell = (ResidenceCell)placementGrid[i, j];
+                    var cell = (ResidenceCell)placementGrid[i, j];
                 
                     // Check if cell is not null
                     if (cell != null)
@@ -84,15 +84,15 @@ public class PlacementManager : MonoBehaviour
 
     public void AddNewPersonInResidence(Vector3Int residencePosition, Person person)
     {
-        ResidenceCell cell = (ResidenceCell)placementGrid[residencePosition.x, residencePosition.z];
+        var cell = (ResidenceCell)placementGrid[residencePosition.x, residencePosition.z];
         cell.PersonList.Add(person);
     }
 
     public Vector3Int? CheckOccupiedResidence()
     {
-        for (int i = 0; i < width; i++)
+        for (var i = 0; i < width; i++)
         {
-            for (int j = 0; j < height; j++)
+            for (var j = 0; j < height; j++)
             {
                 if (GetTypeOfPosition(new Vector3Int(i, 0, j)) == typeof(ResidenceCell))
                 {
@@ -122,31 +122,31 @@ public class PlacementManager : MonoBehaviour
 
     public void RemovePeopleFromResidence(Vector3Int residencePosition)
     {
-        ResidenceCell residenceCell = (ResidenceCell)placementGrid[residencePosition.x, residencePosition.z];
+        var residenceCell = (ResidenceCell)placementGrid[residencePosition.x, residencePosition.z];
         residenceCell.PersonList.Clear();
     }
     public void RemovePersonFromResidence(Vector3Int residencePosition, Person person)
     {
-        ResidenceCell residenceCell = (ResidenceCell)placementGrid[residencePosition.x, residencePosition.z];
+        var residenceCell = (ResidenceCell)placementGrid[residencePosition.x, residencePosition.z];
         residenceCell.PersonList.Remove(person);
     }
     
     public void RemovePersonFromJob(Vector3Int jobPosition, Person person)
     {
-        StructureCell jobCell = (StructureCell)placementGrid[jobPosition.x, jobPosition.z];
+        var jobCell = (StructureCell)placementGrid[jobPosition.x, jobPosition.z];
         jobCell.EmployeeList.Remove(person);
     }
     
     
     public Vector3Int? CheckFreeJob()
     {
-        for (int i = 0; i < width; i++)
+        for (var i = 0; i < width; i++)
         {
-            for (int j = 0; j < height; j++)
+            for (var j = 0; j < height; j++)
             {
                 if (GetCellAtPosition(new Vector3Int(i, 0, j)) is StructureCell structureCell && structureCell.GetType() != typeof(ResidenceCell))
                 {
-                    StructureCell cell = (StructureCell)placementGrid[i, j];
+                    var cell = (StructureCell)placementGrid[i, j];
                     // Check if cell is not null
                     if (cell != null)
                     {
@@ -219,9 +219,9 @@ public class PlacementManager : MonoBehaviour
             // Destroy the game object if a collider is hit
             Destroy(hit.collider.gameObject);
             Cell cellToDestroy = placementGrid[position.x, position.z];
-            for (int x = 0; x < cellToDestroy.StructureWidth; x++)
+            for (var x = 0; x < cellToDestroy.StructureWidth; x++)
             {
-                for (int z = 0; z < cellToDestroy.StructureHeight; z++)
+                for (var z = 0; z < cellToDestroy.StructureHeight; z++)
                 {
                     var newPosition = position + new Vector3Int(x, 0, z);
                 
@@ -229,7 +229,7 @@ public class PlacementManager : MonoBehaviour
                     {
                         Debug.Log("Destroying structure at " + newPosition);
                         placementGrid[newPosition.x, newPosition.z] = new EmptyCell();
-                        structureDictionary.Remove(newPosition);
+                        _structureDictionary.Remove(newPosition);
                     }
                 }
             }
@@ -274,17 +274,17 @@ public class PlacementManager : MonoBehaviour
         var (structureWidth, structureHeight, cost) = Cell.GetAttributesForBuildingType(buildingType);
         if(structureManager.CheckBigStructure(position, structureWidth , structureHeight))
         {
-            if (alreadyPlaced == false)
+            if (_alreadyPlaced == false)
             {
-                temporaryStructure = new GameObject("TemporaryStructure");
-                temporaryStructure.transform.SetParent(transform);
-                temporaryStructure.transform.localPosition = position;
-                var structureModel = temporaryStructure.AddComponent<StructureModel>();
+                _temporaryStructure = new GameObject("TemporaryStructure");
+                _temporaryStructure.transform.SetParent(transform);
+                _temporaryStructure.transform.localPosition = position;
+                var structureModel = _temporaryStructure.AddComponent<StructureModel>();
                 structureModel.CreateModel(structurePrefab);
-                alreadyPlaced = true;
+                _alreadyPlaced = true;
             }
 
-            temporaryStructure.transform.position = position;
+            _temporaryStructure.transform.position = position;
             if (buildPermanent)
             {
                 DestroyTemporaryStructure();
@@ -294,8 +294,8 @@ public class PlacementManager : MonoBehaviour
 
     public void DestroyTemporaryStructure()
     {
-        Destroy(temporaryStructure);
-        alreadyPlaced = false;
+        Destroy(_temporaryStructure);
+        _alreadyPlaced = false;
         buildPermanent = false;
     }
 
@@ -305,7 +305,7 @@ public class PlacementManager : MonoBehaviour
         T cellType = new T();
         placementGrid[position.x, position.z] = cellType;
         StructureModel structure = CreateANewStructureModel(position, structurePrefab, cellType);
-        temporaryRoadobjects.Add(position, structure);
+        _temporaryRoadObjects.Add(position, structure);
     }
 
     internal List<Vector3Int> GetNeighboursOfTypeFor<T>(Vector3Int position) where T : Cell, new()
@@ -343,31 +343,31 @@ public class PlacementManager : MonoBehaviour
 
     internal void RemoveAllTemporaryStructures()
     {
-        foreach (var structure in temporaryRoadobjects.Values)
+        foreach (var structure in _temporaryRoadObjects.Values)
         {
             var position = Vector3Int.RoundToInt(structure.transform.position);
             EmptyCell emptyCell = new EmptyCell();
             placementGrid[position.x, position.z] = emptyCell;
             Destroy(structure.gameObject);
         }
-        temporaryRoadobjects.Clear();
+        _temporaryRoadObjects.Clear();
     }
 
-    internal void AddtemporaryStructuresToStructureDictionary()
+    internal void AddTemporaryStructuresToStructureDictionary()
     {
-        foreach (var structure in temporaryRoadobjects)
+        foreach (var structure in _temporaryRoadObjects)
         {
-            structureDictionary.Add(structure.Key, structure.Value);
+            _structureDictionary.Add(structure.Key, structure.Value);
             DestroyNatureAt(structure.Key);
         }
-        temporaryRoadobjects.Clear();
+        _temporaryRoadObjects.Clear();
     }
 
     public void ModifyStructureModel(Vector3Int position, GameObject newModel, Quaternion rotation)
     {
-        if (temporaryRoadobjects.ContainsKey(position))
-            temporaryRoadobjects[position].SwapModel(newModel, rotation);
-        else if (structureDictionary.ContainsKey(position))
-            structureDictionary[position].SwapModel(newModel, rotation);
+        if (_temporaryRoadObjects.ContainsKey(position))
+            _temporaryRoadObjects[position].SwapModel(newModel, rotation);
+        else if (_structureDictionary.ContainsKey(position))
+            _structureDictionary[position].SwapModel(newModel, rotation);
     }
 }

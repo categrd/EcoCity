@@ -127,6 +127,11 @@ public class Cell
                 return (2, 2, 300000);
             case BuildingType.PoliceStation:
                 return (1, 1, 250000);
+            case BuildingType.SolarPanel:
+                return (3, 3, 500000);
+            case BuildingType.Bar:
+                return (1, 1, 50000);
+            
             // Add more cases for other building types
             default:
                 return (0, 0, 0); // Default values if the building type is not recognized

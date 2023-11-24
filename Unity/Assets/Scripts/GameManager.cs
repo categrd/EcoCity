@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 {
     public GameObject menuPanel;
     public GameObject statsPanel;
+    public GameObject environmentStatsPanel;
     
     public CameraMovement cameraMovement;
     public RoadManager roadManager;
@@ -23,49 +24,35 @@ public class GameManager : MonoBehaviour
     {
         uiController.OnDestroyStructure += DestroyStructureHandler;
         uiController.OnRoadPlacement += RoadPlacementHandler;
-        uiController.OnHousePlacement += HousePlacementHandler;
-        uiController.OnClinicPlacement += ClinicPlacementHandler;
-        uiController.OnPoliceStationPlacement += PoliceStationPlacementHandler;
-        uiController.OnCropPlacement += CropPlacementHandler;
+        uiController.OnCinemaPlacement += () => StructurePlacementHandler(BuildingType.Cinema);
+        uiController.OnHousePlacement += () => StructurePlacementHandler(BuildingType.House);
+        uiController.OnClinicPlacement += () => StructurePlacementHandler(BuildingType.Clinic);
+        uiController.OnHospitalPlacement += () => StructurePlacementHandler(BuildingType.Hospital);
+        uiController.OnSolarPanelPlacement += () => StructurePlacementHandler(BuildingType.SolarPanel);
+        uiController.OnWindTurbinePlacement += () => StructurePlacementHandler(BuildingType.WindTurbine);
+        uiController.OnCarbonPowerPlantPlacement += () => StructurePlacementHandler(BuildingType.CarbonPowerPlant);
+        uiController.OnNuclearPlantPlacement += () => StructurePlacementHandler(BuildingType.NuclearPlant);
+        uiController.OnHighDensityHousePlacement += () => StructurePlacementHandler(BuildingType.HighDensityHouse);
+        uiController.OnShopPlacement += () => StructurePlacementHandler(BuildingType.Shop);
+        uiController.OnRestaurantPlacement += () => StructurePlacementHandler(BuildingType.Restaurant);
+        uiController.OnBarPlacement += () => StructurePlacementHandler(BuildingType.Bar);
+        uiController.OnUniversityPlacement += () => StructurePlacementHandler(BuildingType.University);
+        uiController.OnFireStationPlacement += () => StructurePlacementHandler(BuildingType.FireStation);
+        uiController.OnPoliceStationPlacement += () => StructurePlacementHandler(BuildingType.PoliceStation);
+        uiController.OnFactoryPlacement += () => StructurePlacementHandler(BuildingType.Factory);
+        uiController.OnCropPlacement += () => StructurePlacementHandler(BuildingType.Crop);
+        uiController.OnLivestockPlacement += () => StructurePlacementHandler(BuildingType.Livestock);
+        uiController.OnLandfillPlacement += () => StructurePlacementHandler(BuildingType.Landfill);
+        uiController.OnIncinerationPlantPlacement += () => StructurePlacementHandler(BuildingType.IncinerationPlant);
+        uiController.OnWasteToEnergyPlantPlacement += () => StructurePlacementHandler(BuildingType.WasteToEnergyPlant);
+        
         uiController.OnShowMenu += ShowMenuHandler;
         uiController.OnShowStats += ShowStatsHandler;
-        uiController.OnCinemaPlacement += CinemaPlacementHandler;
-        /*
-        uiController.OnHospitalPlacement += HospitalPlacementHandler;
-        uiController.OnSolarPanelPlacement += SolarPanelPlacementHandler;
-        uiController.OnWindTurbinePlacement += WindTurbinePlacementHandler;
-        uiController.OnCarbonPowerPlantPlacement += CarbonPowerPlantPlacementHandler;
-        uiController.OnNuclearPlantPlacement += NuclearPlantPlacementHandler;
-        uiController.OnHighDensityHousePlacement += HighDensityHousePlacementHandler;
-        uiController.OnShopPlacement += ShopPlacementHandler;
-        uiController.OnRestaurantPlacement += RestaurantPlacementHandler;
-        uiController.OnBarPlacement += BarPlacementHandler;
         
-        uiController.OnUniversityPlacement += UniversityPlacementHandler;
-        uiController.OnFireStationPlacement += FireStationPlacementHandler;
-        uiController.OnFactoryPlacement += FactoryPlacementHandler;
-        uiController.OnLivestockPlacement += LivestockPlacementHandler;
-        uiController.OnLandfillPlacement += LandfillPlacementHandler;
-        uiController.OnIncinerationPlantPlacement += IncinerationPlantPlacementHandler;
-        uiController.OnWasteToEnergyPlantPlacement += WasteToEnergyPlantPlacementHandler;
-        */
-
-
-
-    }
-/*
-    private void BigStructurePlacementHandler()
-    {
-        ClearInputActions();
-        inputManager.OnMouseClick += structureManager.PlaceBigStructure;
+        uiController.OnShowEnvironmentStats += ShowEnvironmentStatsHandler;
+        
     }
 
-    private void SpecialPlacementHandler()
-    {
-        ClearInputActions();
-        inputManager.OnMouseClick += structureManager.PlaceSpecial;
-    }
-*/
     private void ShowMenuHandler()
     {
         ClearInputActions();
@@ -92,12 +79,25 @@ public class GameManager : MonoBehaviour
         inputManager.OnPressingEsc += () => ToggleMenu(statsPanel);
 
     }
+
+    private void ShowEnvironmentStatsHandler()
+    {
+        ClearInputActions();
+        if (environmentStatsPanel.activeSelf)
+        {
+            ClearInputActionsAndButtonColor();    
+        }
+
+        ToggleMenu(environmentStatsPanel);
+        inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
+        inputManager.OnPressingEsc += () => ToggleMenu(environmentStatsPanel);
+
+    }
+
     private void ToggleMenu(GameObject panel)
     {
         panel.SetActive(!panel.activeSelf);
     }
-
-    
     
     private void DestroyStructureHandler()
     {
@@ -106,12 +106,21 @@ public class GameManager : MonoBehaviour
         inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
         
     }
-    private void HousePlacementHandler()
+    private void StructurePlacementHandler(BuildingType buildingType)
     {
         ClearInputActions();
-        inputManager.OnMouseHover += structureManager.PlaceTemporaryHouse;
-        inputManager.OnMouseClick -= structureManager.PlaceTemporaryHouse;
-        inputManager.OnMouseClick += structureManager.PlaceHouse;
+        inputManager.OnMouseHover += (hoverPosition) =>
+        {
+            structureManager.PlaceStructure(hoverPosition, buildingType, true );
+        };
+        inputManager.OnMouseClick -= (hoverPosition) =>
+        {
+            structureManager.PlaceStructure(hoverPosition, buildingType, true );
+        };
+        inputManager.OnMouseClick += (hoverPosition) =>
+        {
+            structureManager.PlaceStructure(hoverPosition, buildingType, false );
+        };
         inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
     }
     private void RoadPlacementHandler()
@@ -122,189 +131,6 @@ public class GameManager : MonoBehaviour
         inputManager.OnMouseUp += roadManager.FinishPlacingRoad;
         inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
         
-    }
-
-private void ClinicPlacementHandler()
-{
-    ClearInputActions();
-    inputManager.OnMouseHover += structureManager.PlaceTemporaryClinic;
-    inputManager.OnMouseClick -= structureManager.PlaceTemporaryClinic;
-    inputManager.OnMouseClick += structureManager.PlaceClinic;
-    inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
-}
-
-private void HospitalPlacementHandler()
-{
-    ClearInputActions();
-    inputManager.OnMouseHover += structureManager.PlaceTemporaryHospital;
-    inputManager.OnMouseClick -= structureManager.PlaceTemporaryHospital;
-    inputManager.OnMouseClick += structureManager.PlaceHospital;
-    inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
-}
-
-private void SolarPanelPlacementHandler()
-{
-    ClearInputActions();
-    inputManager.OnMouseHover += structureManager.PlaceTemporarySolarPanel;
-    inputManager.OnMouseClick -= structureManager.PlaceTemporarySolarPanel;
-    inputManager.OnMouseClick += structureManager.PlaceSolarPanel;
-    inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
-}
-
-private void WindTurbinePlacementHandler()
-{
-    ClearInputActions();
-    inputManager.OnMouseHover += structureManager.PlaceTemporaryWindTurbine;
-    inputManager.OnMouseClick -= structureManager.PlaceTemporaryWindTurbine;
-    inputManager.OnMouseClick += structureManager.PlaceWindTurbine;
-    inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
-}
-
-private void CarbonPowerPlantPlacementHandler()
-{
-    ClearInputActions();
-    inputManager.OnMouseHover += structureManager.PlaceTemporaryCarbonPowerPlant;
-    inputManager.OnMouseClick -= structureManager.PlaceTemporaryCarbonPowerPlant;
-    inputManager.OnMouseClick += structureManager.PlaceCarbonPowerPlant;
-    inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
-    
-}
-
-private void NuclearPlantPlacementHandler()
-{
-    ClearInputActions();
-    inputManager.OnMouseHover += structureManager.PlaceTemporaryNuclearPlant;
-    inputManager.OnMouseClick -= structureManager.PlaceTemporaryNuclearPlant;
-    inputManager.OnMouseClick += structureManager.PlaceNuclearPlant;
-    inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
-}
-
-private void HighDensityHousePlacementHandler()
-{
-    ClearInputActions();
-    inputManager.OnMouseHover += structureManager.PlaceTemporaryHighDensityHouse;
-    inputManager.OnMouseClick -= structureManager.PlaceTemporaryHighDensityHouse;
-    inputManager.OnMouseClick += structureManager.PlaceHighDensityHouse;
-    inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
-}
-
-private void ShopPlacementHandler()
-{
-    ClearInputActions();
-    inputManager.OnMouseHover += structureManager.PlaceTemporaryShop;
-    inputManager.OnMouseClick -= structureManager.PlaceTemporaryShop;
-    inputManager.OnMouseClick += structureManager.PlaceShop;
-    inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
-    
-}
-
-private void RestaurantPlacementHandler()
-{
-    ClearInputActions();
-    inputManager.OnMouseHover += structureManager.PlaceTemporaryRestaurant;
-    inputManager.OnMouseClick -= structureManager.PlaceTemporaryRestaurant;
-    inputManager.OnMouseClick += structureManager.PlaceRestaurant;
-    inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
-}
-
-private void UniversityPlacementHandler()
-{
-    ClearInputActions();
-    inputManager.OnMouseHover += structureManager.PlaceTemporaryUniversity;
-    inputManager.OnMouseClick -= structureManager.PlaceTemporaryUniversity;
-    inputManager.OnMouseClick += structureManager.PlaceUniversity;
-    inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
-}
-private void FireStationPlacementHandler()
-{
-    ClearInputActions();
-    inputManager.OnMouseHover += structureManager.PlaceTemporaryFireStation;
-    inputManager.OnMouseClick -= structureManager.PlaceTemporaryFireStation;
-    inputManager.OnMouseClick += structureManager.PlaceFireStation;
-    inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
-}
-private void PoliceStationPlacementHandler()
-{
-    ClearInputActions();
-    inputManager.OnMouseHover += structureManager.PlaceTemporaryPoliceStation;
-    inputManager.OnMouseClick -= structureManager.PlaceTemporaryPoliceStation;
-    inputManager.OnMouseClick += structureManager.PlacePoliceStation;
-    inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
-}
-
-
- private void BarPlacementHandler()
-{
-    ClearInputActions();
-    inputManager.OnMouseHover += structureManager.PlaceTemporaryBar;
-    inputManager.OnMouseClick -= structureManager.PlaceTemporaryBar;
-    inputManager.OnMouseClick += structureManager.PlaceBar;
-    inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
-}
-private void CinemaPlacementHandler()
-{
-    ClearInputActions();
-    inputManager.OnMouseHover += structureManager.PlaceTemporaryCinema;
-    inputManager.OnMouseClick -= structureManager.PlaceTemporaryCinema;
-    inputManager.OnMouseClick += structureManager.PlaceCinema;
-    inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
-}
-
-private void LandfillPlacementHandler()
-{
-    ClearInputActions();
-    inputManager.OnMouseHover += structureManager.PlaceTemporaryLandfill;
-    inputManager.OnMouseClick -= structureManager.PlaceTemporaryLandfill;
-    inputManager.OnMouseClick += structureManager.PlaceLandfill;
-    inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
-}
-
-private void IncinerationPlantPlacementHandler()
-{
-    ClearInputActions();
-    inputManager.OnMouseHover += structureManager.PlaceTemporaryIncinerationPlant;
-    inputManager.OnMouseClick -= structureManager.PlaceTemporaryIncinerationPlant;
-    inputManager.OnMouseClick += structureManager.PlaceIncinerationPlant;
-    inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
-}
-
-private void WasteToEnergyPlantPlacementHandler()
-{
-    ClearInputActions();
-    inputManager.OnMouseHover += structureManager.PlaceTemporaryWasteToEnergyPlant;
-    inputManager.OnMouseClick -= structureManager.PlaceTemporaryWasteToEnergyPlant;
-    inputManager.OnMouseClick += structureManager.PlaceWasteToEnergyPlant;
-    inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
-    
-}
-
-private void FactoryPlacementHandler()
-{
-    ClearInputActions();
-    inputManager.OnMouseHover += structureManager.PlaceTemporaryFactory;
-    inputManager.OnMouseClick -= structureManager.PlaceTemporaryFactory;
-    inputManager.OnMouseClick += structureManager.PlaceFactory;
-    inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
-}
-
-
-
-private void LivestockPlacementHandler()
-{
-    ClearInputActions();
-    inputManager.OnMouseHover += structureManager.PlaceTemporaryLivestock;
-    inputManager.OnMouseClick -= structureManager.PlaceTemporaryLivestock;
-    inputManager.OnMouseClick += structureManager.PlaceLivestock;
-    inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
-}
-
-    private void CropPlacementHandler()
-    {
-        ClearInputActions();
-        inputManager.OnMouseHover += structureManager.PlaceTemporaryCrop;
-        inputManager.OnMouseClick -= structureManager.PlaceTemporaryCrop;
-        inputManager.OnMouseClick += structureManager.PlaceCrop;
-        inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
     }
     
     private void ClearInputActions()

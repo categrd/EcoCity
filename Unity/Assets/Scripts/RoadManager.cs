@@ -102,7 +102,7 @@ public class RoadManager : MonoBehaviour
     public void FinishPlacingRoad()
     {
         placementMode = false;
-        placementManager.AddtemporaryStructuresToStructureDictionary();
+        placementManager.AddTemporaryStructuresToStructureDictionary();
         if (temporaryPlacementPositions.Count > 0)
         {
             AudioPlayer.instance.PlayPlacementSound();

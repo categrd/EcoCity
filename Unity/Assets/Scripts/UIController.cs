@@ -11,6 +11,7 @@ public class UIController : MonoBehaviour
 {
     public GameState gameState;
     public GameObject statsPanel;
+    //public GameObject environmentStatsPanel;
     public TextMeshProUGUI populationText;
     public TextMeshProUGUI moneyText;
     
@@ -18,12 +19,14 @@ public class UIController : MonoBehaviour
     public Action OnRoadPlacement, OnHousePlacement, OnClinicPlacement, OnHospitalPlacement, OnSolarPanelPlacement, OnWindTurbinePlacement, OnCarbonPowerPlantPlacement, 
         OnNuclearPlantPlacement, OnHighDensityHousePlacement, OnShopPlacement, OnRestaurantPlacement, OnBarPlacement, OnCinemaPlacement, OnUniversityPlacement, 
         OnFireStationPlacement, OnPoliceStationPlacement, OnFactoryPlacement, OnCropPlacement, OnLivestockPlacement, OnLandfillPlacement, OnIncinerationPlantPlacement, 
-        OnWasteToEnergyPlantPlacement, OnShowMenu, OnShowStats;
+        OnWasteToEnergyPlantPlacement, OnShowMenu, OnShowStats, OnShowEnvironmentStats;
 
     public Action OnDestroyStructure;
 
     public Button showMenu;
     public Button showStats;
+
+    public Button showEnvironmentStats;
     
     public Button destroyStructureButton;
     
@@ -98,13 +101,15 @@ public class UIController : MonoBehaviour
             placeCropButton,
             showMenu,
             showStats,
+            showEnvironmentStats,
             placeCinemaButton,
+            placeSolarPanelButton,
             /*
             placeHospitalButton,
             placeUniversityButton,
             placeFireStationButton,
             placeRestaurantButton,
-            placeSolarPanelButton,
+            
             placeWindTurbineButton,
             placeCarbonPowerPlantButton,
             placeNuclearPlantButton,
@@ -129,14 +134,16 @@ public class UIController : MonoBehaviour
         AddButtonClickListener(placeCropButton, () => { OnCropPlacement?.Invoke(); });
         AddButtonClickListener(showMenu, () => { OnShowMenu?.Invoke(); });
         AddButtonClickListener(showStats, () => { OnShowStats?.Invoke(); });
+        AddButtonClickListener(showEnvironmentStats, () => { OnShowEnvironmentStats?.Invoke(); });
         AddButtonClickListener(placeCinemaButton, () => { OnCinemaPlacement?.Invoke(); });
+        AddButtonClickListener(placeSolarPanelButton, () => { OnSolarPanelPlacement?.Invoke(); });
         /*
         AddButtonClickListener(placeHospitalButton, () => { OnHospitalPlacement?.Invoke(); });
         AddButtonClickListener(placeRestaurantButton, () => { OnRestaurantPlacement?.Invoke(); });
         AddButtonClickListener(placeUniversityButton, () => { OnUniversityPlacement?.Invoke(); });
         AddButtonClickListener(placeFireStationButton, () => { OnFireStationPlacement?.Invoke(); });
         
-        AddButtonClickListener(placeSolarPanelButton, () => { OnSolarPanelPlacement?.Invoke(); });
+        
         AddButtonClickListener(placeWindTurbineButton, () => { OnWindTurbinePlacement?.Invoke(); });
         AddButtonClickListener(placeCarbonPowerPlantButton, () => { OnCarbonPowerPlantPlacement?.Invoke(); });
         AddButtonClickListener(placeNuclearPlantButton, () => { OnNuclearPlantPlacement?.Invoke(); });
