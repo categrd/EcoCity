@@ -9,7 +9,12 @@ public class GameManager : MonoBehaviour
     public GameObject menuPanel;
     public GameObject statsPanel;
     public GameObject environmentStatsPanel;
-    
+
+
+    public GameObject housePanel, decorationPanel, publicservicesPanel, industryPanel, shopPanel, wastedisposalPanel,
+     watersourcePanel, energysourcePanel;   
+
+
     public CameraMovement cameraMovement;
     public RoadManager roadManager;
     public InputManager inputManager;
@@ -46,13 +51,21 @@ public class GameManager : MonoBehaviour
         uiController.OnIncinerationPlantPlacement += () => StructurePlacementHandler(BuildingType.IncinerationPlant);
         uiController.OnWasteToEnergyPlantPlacement += () => StructurePlacementHandler(BuildingType.WasteToEnergyPlant);
         
-        uiController.OnShowMenu += ShowMenuHandler;
-        uiController.OnShowStats += ShowStatsHandler;
-        
-        uiController.OnShowEnvironmentStats += ShowEnvironmentStatsHandler;
+        uiController.OnShowMenu += () => PanelHandler(menuPanel);
+        uiController.OnShowStats += () => PanelHandler(statsPanel);
+        uiController.OnShowEnvironmentStats += () => PanelHandler(environmentStatsPanel);
+
+        uiController.OnHouseMenu += () => PanelHandler(housePanel);
+        uiController.OnIndustryMenu += () => PanelHandler(industryPanel);
+        uiController.OnWaterSourceMenu += () => PanelHandler(watersourcePanel);
+        uiController.OnEnergySourceMenu += () => PanelHandler(energysourcePanel);
+        uiController.OnWasteDisposalMenu += () => PanelHandler(wastedisposalPanel);
+        uiController.OnShopMenu += () => PanelHandler(shopPanel);
+        uiController.OnDecorationMenu += () => PanelHandler(decorationPanel);
+        uiController.OnPublicServiceMenu += () => PanelHandler(publicservicesPanel);
         
     }
-
+  
     private void ShowMenuHandler()
     {
         ClearInputActions();
@@ -93,6 +106,21 @@ public class GameManager : MonoBehaviour
         inputManager.OnPressingEsc += () => ToggleMenu(environmentStatsPanel);
 
     }
+
+    private void PanelHandler(GameObject panel)
+    {
+        ClearInputActions();
+        if (panel.activeSelf)
+        {
+            ClearInputActionsAndButtonColor();    
+        }
+
+        ToggleMenu(panel);
+        inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
+        inputManager.OnPressingEsc += () => ToggleMenu(panel);
+    }
+
+    
 
     private void ToggleMenu(GameObject panel)
     {
@@ -144,12 +172,7 @@ public class GameManager : MonoBehaviour
     }
     private void ClearInputActionsAndButtonColor()
     {
-        placementManager.DestroyTemporaryStructure();
-        inputManager.OnMouseClick = null;
-        inputManager.OnMouseHold = null;
-        inputManager.OnMouseUp = null;
-        inputManager.OnMouseHover = null;
-        inputManager.OnPressingEsc = null;
+        ClearInputActions();
         uiController.ResetButtonColor();
     }
 
@@ -157,6 +180,5 @@ public class GameManager : MonoBehaviour
     {
         cameraMovement.MoveCamera(new Vector3(inputManager.CameraMovementVector.x,0, inputManager.CameraMovementVector.y));
         cameraMovement.ZoomCamera(inputManager.Zoom);
-
     }
 }

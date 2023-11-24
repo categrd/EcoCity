@@ -14,23 +14,48 @@ public class UIController : MonoBehaviour
     //public GameObject environmentStatsPanel;
     public TextMeshProUGUI populationText;
     public TextMeshProUGUI moneyText;
-    
-    
-    public Action OnRoadPlacement, OnHousePlacement, OnClinicPlacement, OnHospitalPlacement, OnSolarPanelPlacement, OnWindTurbinePlacement, OnCarbonPowerPlantPlacement, 
-        OnNuclearPlantPlacement, OnHighDensityHousePlacement, OnShopPlacement, OnRestaurantPlacement, OnBarPlacement, OnCinemaPlacement, OnUniversityPlacement, 
-        OnFireStationPlacement, OnPoliceStationPlacement, OnFactoryPlacement, OnCropPlacement, OnLivestockPlacement, OnLandfillPlacement, OnIncinerationPlantPlacement, 
-        OnWasteToEnergyPlantPlacement, OnShowMenu, OnShowStats, OnShowEnvironmentStats;
 
-    public Action OnDestroyStructure;
+
+    public Action OnRoadPlacement, OnHousePlacement, OnClinicPlacement, OnHospitalPlacement, OnSolarPanelPlacement, OnWindTurbinePlacement, OnCarbonPowerPlantPlacement,
+        OnNuclearPlantPlacement, OnHighDensityHousePlacement, OnShopPlacement, OnRestaurantPlacement, OnBarPlacement, OnCinemaPlacement, OnUniversityPlacement,
+        OnFireStationPlacement, OnPoliceStationPlacement, OnFactoryPlacement, OnCropPlacement, OnLivestockPlacement, OnLandfillPlacement, OnIncinerationPlantPlacement,
+        OnWasteToEnergyPlantPlacement, OnShowMenu, OnShowStats, OnShowEnvironmentStats, OnDestroyStructure, OnPublicServiceMenu, OnEnergySourceMenu, OnWaterSourceMenu,
+        OnWasteDisposalMenu, OnIndustryMenu, OnDecorationMenu, OnShopMenu, OnHouseMenu;
+
 
     public Button showMenu;
     public Button showStats;
-
     public Button showEnvironmentStats;
-    
+
+
+
     public Button destroyStructureButton;
-    
+
+
+
     public Button placeRoadButton;
+    public Button openHouseMenuButton;
+    public Button openPublicServiceMenuButton;
+    public Button openEnergySourceMenuButton;
+    public Button openWaterSourceMenuButton;
+    public Button openWasteDisposalMenuButton;
+    public Button openIndustryMenuButton;
+    public Button openDecorationMenuButton;
+    public Button openShopMenuButton;
+
+
+    public GameObject HousePanel;
+    public GameObject PublicServicePanel;
+    public GameObject EnergySourcePanel;
+    public GameObject WaterSourcePanel;
+    public GameObject WasteDisposalPanel;
+    public GameObject IndustryPanel;
+    public GameObject DecorationPanel;
+    public GameObject ShopPanel;
+
+
+
+
     // Healthcare
     public Button placeClinicButton;
     public Button placeHospitalButton;
@@ -65,9 +90,9 @@ public class UIController : MonoBehaviour
     public Button placeLandfillButton;
     public Button placeIncinerationPlantButton;
     public Button placeWasteToEnergyPlantButton;
-    
+
     public Text populationCapacityText;
-    
+
     public Text employmentText;
     public Text jobsOccupiedText;
     public Text criminalsCoveredText;
@@ -104,6 +129,17 @@ public class UIController : MonoBehaviour
             showEnvironmentStats,
             placeCinemaButton,
             placeSolarPanelButton,
+            placeRoadButton,
+            openHouseMenuButton,
+            openPublicServiceMenuButton,
+            openEnergySourceMenuButton,
+            openWaterSourceMenuButton,
+            openWasteDisposalMenuButton,
+            openIndustryMenuButton,
+            openDecorationMenuButton,
+            openShopMenuButton
+
+
             /*
             placeHospitalButton,
             placeUniversityButton,
@@ -124,8 +160,8 @@ public class UIController : MonoBehaviour
             placeWasteToEnergyPlantButton
             */
         };
-        
-        // Add click listeners for all the buttons
+
+         // Add click listeners for all the buttons
         AddButtonClickListener(destroyStructureButton, () => { OnDestroyStructure?.Invoke(); });
         AddButtonClickListener(placeRoadButton, () => { OnRoadPlacement?.Invoke(); });
         AddButtonClickListener(placeHouseButton, () => { OnHousePlacement?.Invoke(); });
@@ -136,7 +172,17 @@ public class UIController : MonoBehaviour
         AddButtonClickListener(showStats, () => { OnShowStats?.Invoke(); });
         AddButtonClickListener(showEnvironmentStats, () => { OnShowEnvironmentStats?.Invoke(); });
         AddButtonClickListener(placeCinemaButton, () => { OnCinemaPlacement?.Invoke(); });
-        AddButtonClickListener(placeSolarPanelButton, () => { OnSolarPanelPlacement?.Invoke(); });
+
+
+        AddButtonClickListener(openHouseMenuButton, () => { OnHouseMenu?.Invoke(); });
+        AddButtonClickListener(openPublicServiceMenuButton, () => { OnPublicServiceMenu?.Invoke(); });
+        AddButtonClickListener(openEnergySourceMenuButton, () => { OnEnergySourceMenu?.Invoke(); });
+        AddButtonClickListener(openWaterSourceMenuButton, () => { OnWaterSourceMenu?.Invoke(); });
+        AddButtonClickListener(openWasteDisposalMenuButton, () => { OnWasteDisposalMenu?.Invoke(); });
+        AddButtonClickListener(openIndustryMenuButton, () => { OnIndustryMenu?.Invoke(); });
+        AddButtonClickListener(openDecorationMenuButton, () => { OnDecorationMenu?.Invoke(); });
+        AddButtonClickListener(openShopMenuButton, () => { OnShopMenu?.Invoke(); });
+
         /*
         AddButtonClickListener(placeHospitalButton, () => { OnHospitalPlacement?.Invoke(); });
         AddButtonClickListener(placeRestaurantButton, () => { OnRestaurantPlacement?.Invoke(); });
@@ -160,45 +206,45 @@ public class UIController : MonoBehaviour
         */
     }
 
-    private void ModifyOutline(Button button)
+private void ModifyOutline(Button button)
+{
+    var outline = button.GetComponent<Outline>();
+    outline.effectColor = outlineColor;
+    outline.enabled = true;
+}
+
+public void ResetButtonColor()
+{
+    foreach (Button button in buttonList)
     {
-        var outline = button.GetComponent<Outline>();
-        outline.effectColor = outlineColor;
-        outline.enabled = true;
+        button.GetComponent<Outline>().enabled = false;
+    }
+}
+private void Update()
+{
+    _currentMoney = gameState.currentMoney;
+    populationText.text = "Population: " + gameState.totalPopulation;
+    if (_currentMoney >= 1000000)
+    {
+        moneyText.text = "Money: $" + Math.Round(_currentMoney / 1000000, 2) + "M";
+    }
+    if (_currentMoney >= 1000 && _currentMoney < 1000000)
+    {
+        moneyText.text = "Money: $" + Math.Round(_currentMoney / 1000, 2) + "K";
+    }
+    if (_currentMoney < 1000)
+    {
+        moneyText.text = "Money: $" + Math.Round(_currentMoney, 2);
     }
 
-    public void ResetButtonColor()
-    {
-        foreach (Button button in buttonList)
-        {
-            button.GetComponent<Outline>().enabled = false;
-        }
-    }
-    private void Update()
-    {
-        _currentMoney = gameState.currentMoney;
-        populationText.text = "Population: " + gameState.totalPopulation;
-        if (_currentMoney >= 1000000)
-        {
-            moneyText.text = "Money: $" + Math.Round(_currentMoney / 1000000,2) + "M";
-        }
-        if (_currentMoney >= 1000 && _currentMoney < 1000000)
-        {
-            moneyText.text = "Money: $" + Math.Round(_currentMoney / 1000,2) + "K";
-        }
-        if(_currentMoney < 1000)
-        {
-            moneyText.text = "Money: $" + Math.Round(_currentMoney,2);
-        }
-
-        employmentText.text = "Employment: " + Math.Round(gameState.GetEmploymentRatio() * 100, 2) + "%";
-        employmentSlider.value = (float)gameState.GetEmploymentRatio();
-        jobsOccupiedText.text = "Jobs Occupied: " + Math.Round(gameState.GetJobsOccupiedRatio()*100,2) + "%";
-        jobsOccupiedSlider.value = (float)gameState.GetJobsOccupiedRatio();
-        criminalsCoveredText.text = "Criminals Covered: " + Math.Round(gameState.GetCriminalsCoveredRatio() * 100, 2) + "%";
-        criminalsCoveredSlider.value = (float)gameState.GetCriminalsCoveredRatio();
-        patientsCoveredText.text = "Patients Covered: " + Math.Round(gameState.GetPatientsCoveredRatio()*100,2) + "%";
-        patientsCoveredSlider.value = (float)gameState.GetPatientsCoveredRatio();
-        populationCapacityText.text = "Population Capacity: " + gameState.PopulationCapacity;
-    }
+    employmentText.text = "Employment: " + Math.Round(gameState.GetEmploymentRatio() * 100, 2) + "%";
+    employmentSlider.value = (float)gameState.GetEmploymentRatio();
+    jobsOccupiedText.text = "Jobs Occupied: " + Math.Round(gameState.GetJobsOccupiedRatio() * 100, 2) + "%";
+    jobsOccupiedSlider.value = (float)gameState.GetJobsOccupiedRatio();
+    criminalsCoveredText.text = "Criminals Covered: " + Math.Round(gameState.GetCriminalsCoveredRatio() * 100, 2) + "%";
+    criminalsCoveredSlider.value = (float)gameState.GetCriminalsCoveredRatio();
+    patientsCoveredText.text = "Patients Covered: " + Math.Round(gameState.GetPatientsCoveredRatio() * 100, 2) + "%";
+    patientsCoveredSlider.value = (float)gameState.GetPatientsCoveredRatio();
+    populationCapacityText.text = "Population Capacity: " + gameState.PopulationCapacity;
+}
 }
