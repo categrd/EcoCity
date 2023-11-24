@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class StructureManager : MonoBehaviour
@@ -30,7 +31,10 @@ public class StructureManager : MonoBehaviour
         landfillPrefab,
         incinerationPlantPrefab,
         wasteToEnergyPlantPrefab;
-        
+    
+    private GameObject _prefab;
+    private Cell _structure;
+    
     public PlacementManager placementManager;
     public GameManager gameManager;
     public RoadManager roadManager;
@@ -53,361 +57,138 @@ public class StructureManager : MonoBehaviour
             roadManager.FixRoadWhenDestroying(position);
         }
     }
-
-    public void PlaceTemporaryHouse(Vector3Int position)
+    
+    
+    public void PlaceStructure(Vector3Int position, BuildingType buildingType, bool temporaryPlacementMode)
     {
-        int randomIndex = GetRandomWeightedIndex(houseWeights);
-        placementManager.PlaceTemporaryStructureWithButton(position, housesPrefabs[randomIndex].prefab, BuildingType.House);
-    }
-    public void PlaceHouse(Vector3Int position)
-    {
-        if (CheckPositionBeforePlacement(position))
+        var (structureWidth, structureHeight, cost) = Cell.GetAttributesForBuildingType(buildingType);
+        if (CheckBigStructure(position, structureWidth, structureHeight ))
         {
-            ResidenceCell house = new ResidenceCell(BuildingType.House);
-            int randomIndex = GetRandomWeightedIndex(houseWeights);
-            placementManager.buildPermanent = true;
-            placementManager.PlaceTemporaryStructureWithButton(position, housesPrefabs[randomIndex].prefab, BuildingType.House);
-            placementManager.PlaceObjectOnTheMap(position, housesPrefabs[randomIndex].prefab, house);
-            AudioPlayer.instance.PlayPlacementSound();
-            gameState.UpdateGameVariablesWhenBuilding(position);
-        }
-        
-    }
-    public void PlaceTemporaryHighDensityHouse(Vector3Int position)
-    {
-        placementManager.PlaceTemporaryStructureWithButton(position, highDensityHousePrefab, BuildingType.HighDensityHouse);
-    }
-    public void PlaceHighDensityHouse(Vector3Int position)
-    {
-        if (CheckPositionBeforePlacement(position))
-        {
-            ResidenceCell highDensityHouse = new ResidenceCell(BuildingType.HighDensityHouse);
-            int randomIndex = GetRandomWeightedIndex(houseWeights);
-            placementManager.PlaceObjectOnTheMap(position, highDensityHousePrefab, highDensityHouse);
-            AudioPlayer.instance.PlayPlacementSound();
-            gameState.UpdateGameVariablesWhenBuilding(position);
+            switch (buildingType)
+            {
+                case BuildingType.House:
+                    var house = new ResidenceCell(BuildingType.House);
+                    _structure = house;
+                    int randomIndex = GetRandomWeightedIndex(houseWeights);
+                    _prefab = housesPrefabs[randomIndex].prefab;
+                    break;
+                case BuildingType.HighDensityHouse:
+                    var highDensityHouse = new ResidenceCell(BuildingType.House);
+                    _structure =  highDensityHouse;
+                    _prefab = highDensityHousePrefab;
+                    break;
+                case BuildingType.Clinic:
+                    var clinic = new SanityCell(BuildingType.Clinic);
+                    _structure = clinic;
+                    _prefab = clinicPrefab;
+                    break;
+                case BuildingType.Hospital:
+                    var hospital = new SanityCell(BuildingType.Hospital);
+                    _structure = hospital;
+                    _prefab = hospitalPrefab;
+                    break;
+                case BuildingType.Restaurant:
+                    var restaurant = new EntertainmentCell(BuildingType.Restaurant);
+                    _structure = restaurant;
+                    _prefab = restaurantPrefab;
+                    break;
+                case BuildingType.Shop:
+                    var shop = new EntertainmentCell(BuildingType.Shop);
+                    _structure = shop;
+                    _prefab = shopPrefab;
+                    break;
+                case BuildingType.Bar:
+                    var bar = new EntertainmentCell(BuildingType.Bar);
+                    _structure = bar;
+                    _prefab = barPrefab;
+                    break;
+                case BuildingType.Cinema:
+                    var cinema = new EntertainmentCell(BuildingType.Cinema);
+                    _structure = cinema;
+                    _prefab = cinemaPrefab;
+                    break;
+                case BuildingType.University:
+                    var university = new PublicServiceCell(BuildingType.University);
+                    _structure = university;
+                    _prefab = universityPrefab;
+                    break;
+                case BuildingType.FireStation:
+                    var fireStation = new PublicServiceCell(BuildingType.FireStation);
+                    _structure = fireStation;
+                    _prefab = fireStationPrefab;
+                    break;
+                case BuildingType.PoliceStation:
+                    var policeStation = new PublicServiceCell(BuildingType.PoliceStation);
+                    _structure = policeStation;
+                    _prefab = policeStationPrefab;
+                    break;
+                case BuildingType.Factory:
+                    var factory = new IndustryCell(BuildingType.Factory);
+                    _structure = factory;
+                    _prefab = factoryPrefab;
+                    break;
+                case BuildingType.Crop:
+                    var crop = new IndustryCell(BuildingType.Crop);
+                    _structure = crop;
+                    _prefab = cropPrefab;
+                    break;
+                case BuildingType.Livestock:
+                    var livestock = new IndustryCell(BuildingType.Livestock);
+                    _structure = livestock;
+                    _prefab = livestockPrefab;
+                    break; 
+                case BuildingType.Landfill:
+                    var landfill = new GarbageDisposalCell(BuildingType.Landfill);
+                    _structure = landfill;
+                    _prefab = landfillPrefab;
+                    break;
+                case BuildingType.IncinerationPlant:
+                    var incinerationPlant = new GarbageDisposalCell(BuildingType.IncinerationPlant);
+                    _structure = incinerationPlant;
+                    _prefab = incinerationPlantPrefab;
+                    break;
+                case BuildingType.WasteToEnergyPlant:
+                    var wasteToEnergyPlant = new GarbageDisposalCell(BuildingType.WasteToEnergyPlant);
+                    _structure = wasteToEnergyPlant;
+                    _prefab = wasteToEnergyPlantPrefab;
+                    break;
+                case BuildingType.SolarPanel:
+                    var solarPanel = new EnergyProductionCell(BuildingType.SolarPanel);
+                    _structure = solarPanel;
+                    _prefab = solarPanelPrefab;
+                    break;
+                case BuildingType.WindTurbine:
+                    var windTurbine = new EnergyProductionCell(BuildingType.WindTurbine);
+                    _structure = windTurbine;  
+                    _prefab = windTurbinePrefab;
+                    break;
+                case BuildingType.CarbonPowerPlant:
+                    var carbonPowerPlant = new EnergyProductionCell(BuildingType.CarbonPowerPlant);
+                    _structure = carbonPowerPlant;
+                    _prefab = carbonPowerPlantPrefab;
+                    break;
+                case BuildingType.NuclearPlant:
+                    var nuclearPlant = new EnergyProductionCell(BuildingType.NuclearPlant);
+                    _structure = nuclearPlant;
+                    _prefab = nuclearPlantPrefab;
+                    break;
+            }
+            if(temporaryPlacementMode)
+            {
+                placementManager.PlaceTemporaryStructureWithButton(position, _prefab, buildingType);
+            }
+            else
+            {
+                placementManager.buildPermanent = true;
+                placementManager.PlaceTemporaryStructureWithButton(position, _prefab, buildingType);
+                placementManager.PlaceObjectOnTheMap(position, _prefab, _structure, structureWidth, structureHeight);
+                AudioPlayer.instance.PlayPlacementSound();
+                gameState.UpdateGameVariablesWhenBuilding(position);
+            }
+            
         }
     }
     
-    public void PlaceTemporaryClinic(Vector3Int position)
-    {
-        placementManager.PlaceTemporaryStructureWithButton(position, clinicPrefab, BuildingType.Clinic);
-    }
-    public void PlaceClinic(Vector3Int position)
-    {
-        if (CheckPositionBeforePlacement(position))
-        {
-            SanityCell clinic = new SanityCell(BuildingType.Clinic);
-            placementManager.buildPermanent = true;
-            placementManager.PlaceTemporaryStructureWithButton(position, clinicPrefab, BuildingType.Clinic);
-            placementManager.PlaceObjectOnTheMap(position, clinicPrefab, clinic);
-            AudioPlayer.instance.PlayPlacementSound();
-            gameState.UpdateGameVariablesWhenBuilding(position);
-        }
-    }
-    public void PlaceTemporaryHospital(Vector3Int position)
-    {
-        placementManager.PlaceTemporaryStructureWithButton(position, hospitalPrefab, BuildingType.Hospital);
-    }
-    public void PlaceHospital(Vector3Int position)
-    {
-        if (CheckPositionBeforePlacement(position))
-        {
-            SanityCell hospital = new SanityCell(BuildingType.Hospital);
-            int randomIndex = GetRandomWeightedIndex(houseWeights);
-            placementManager.PlaceObjectOnTheMap(position, hospitalPrefab, hospital);
-            AudioPlayer.instance.PlayPlacementSound();
-            gameState.UpdateGameVariablesWhenBuilding(position);
-        }
-    }
-    public void PlaceTemporaryRestaurant(Vector3Int position)
-    {
-        placementManager.PlaceTemporaryStructureWithButton(position, restaurantPrefab, BuildingType.Restaurant);
-    }
-    public void PlaceRestaurant(Vector3Int position)
-    {
-        if (CheckPositionBeforePlacement(position))
-        {
-            EntertainmentCell restaurant = new EntertainmentCell(BuildingType.Restaurant);
-            placementManager.buildPermanent = true;
-            placementManager.PlaceTemporaryStructureWithButton(position, restaurantPrefab, BuildingType.Restaurant);
-            placementManager.PlaceObjectOnTheMap(position, restaurantPrefab, restaurant);
-            AudioPlayer.instance.PlayPlacementSound();
-            gameState.UpdateGameVariablesWhenBuilding(position);
-        }
-    }
-    public void PlaceTemporaryShop(Vector3Int position)
-    {
-        placementManager.PlaceTemporaryStructureWithButton(position, shopPrefab, BuildingType.Shop);
-    }
-    public void PlaceShop(Vector3Int position)
-    {
-        if (CheckPositionBeforePlacement(position))
-        {
-            EntertainmentCell shop = new EntertainmentCell(BuildingType.Shop);
-            placementManager.buildPermanent = true;
-            placementManager.PlaceTemporaryStructureWithButton(position, shopPrefab, BuildingType.Shop);
-            placementManager.PlaceObjectOnTheMap(position, shopPrefab, shop);
-            AudioPlayer.instance.PlayPlacementSound();
-            gameState.UpdateGameVariablesWhenBuilding(position);
-        }
-    }
-    public void PlaceTemporaryBar(Vector3Int position)
-    {
-        placementManager.PlaceTemporaryStructureWithButton(position, barPrefab, BuildingType.Bar);
-    }
-    public void PlaceBar(Vector3Int position)
-    {
-        if (CheckPositionBeforePlacement(position))
-        {
-            EntertainmentCell bar = new EntertainmentCell(BuildingType.Bar);
-            placementManager.buildPermanent = true;
-            placementManager.PlaceTemporaryStructureWithButton(position, barPrefab, BuildingType.Bar);
-            placementManager.PlaceObjectOnTheMap(position, barPrefab, bar);
-            AudioPlayer.instance.PlayPlacementSound();
-            gameState.UpdateGameVariablesWhenBuilding(position);
-        }
-    }
-    public void PlaceTemporaryCinema(Vector3Int position)
-    {
-        placementManager.PlaceTemporaryStructureWithButton(position, cinemaPrefab, BuildingType.Cinema);
-    }
-    public void PlaceCinema(Vector3Int position)
-    {
-        if (CheckBigStructure(position, 1,2))
-        {
-            EntertainmentCell cinema = new EntertainmentCell(BuildingType.Cinema);
-            placementManager.buildPermanent = true;
-            placementManager.PlaceTemporaryStructureWithButton(position, cinemaPrefab, BuildingType.Cinema);
-            placementManager.PlaceObjectOnTheMap(position, cinemaPrefab, cinema,1,2);
-            AudioPlayer.instance.PlayPlacementSound();
-            gameState.UpdateGameVariablesWhenBuilding(position);
-        }
-    }
-    public void PlaceTemporaryUniversity(Vector3Int position)
-    {
-        placementManager.PlaceTemporaryStructureWithButton(position, universityPrefab, BuildingType.University);
-    }
-    public void PlaceUniversity(Vector3Int position)
-    {
-        if (CheckPositionBeforePlacement(position))
-        {
-            PublicServiceCell university = new PublicServiceCell(BuildingType.University);
-            placementManager.buildPermanent = true;
-            placementManager.PlaceTemporaryStructureWithButton(position, universityPrefab, BuildingType.University);
-            placementManager.PlaceObjectOnTheMap(position, universityPrefab, university);
-            AudioPlayer.instance.PlayPlacementSound();
-            gameState.UpdateGameVariablesWhenBuilding(position);
-        }
-    }
-    public void PlaceTemporaryFireStation(Vector3Int position)
-    {
-        placementManager.PlaceTemporaryStructureWithButton(position, fireStationPrefab, BuildingType.FireStation);
-    }
-    public void PlaceFireStation(Vector3Int position)
-    {
-        if (CheckPositionBeforePlacement(position))
-        {
-            PublicServiceCell fireStation = new PublicServiceCell(BuildingType.FireStation);
-            placementManager.buildPermanent = true;
-            placementManager.PlaceTemporaryStructureWithButton(position, fireStationPrefab, BuildingType.FireStation);
-            placementManager.PlaceObjectOnTheMap(position, fireStationPrefab, fireStation);
-            AudioPlayer.instance.PlayPlacementSound();
-            gameState.UpdateGameVariablesWhenBuilding(position);
-        }
-    }
-    public void PlaceTemporaryPoliceStation(Vector3Int position)
-    {
-        placementManager.PlaceTemporaryStructureWithButton(position, policeStationPrefab, BuildingType.PoliceStation);
-    }
-    public void PlacePoliceStation(Vector3Int position)
-    {
-        if (CheckPositionBeforePlacement(position))
-        {
-            PublicServiceCell policeStation = new PublicServiceCell(BuildingType.PoliceStation);
-            placementManager.buildPermanent = true;
-            placementManager.PlaceTemporaryStructureWithButton(position, policeStationPrefab, BuildingType.PoliceStation);
-            placementManager.PlaceObjectOnTheMap(position, policeStationPrefab, policeStation);
-            AudioPlayer.instance.PlayPlacementSound();
-            gameState.UpdateGameVariablesWhenBuilding(position);
-        }
-    }
-    public void PlaceTemporaryFactory(Vector3Int position)
-    {
-        placementManager.PlaceTemporaryStructureWithButton(position, factoryPrefab, BuildingType.Factory);
-    }
-    public void PlaceFactory(Vector3Int position)
-    {
-        if (CheckPositionBeforePlacement(position))
-        {
-            IndustryCell factory = new IndustryCell(BuildingType.Factory);
-            placementManager.buildPermanent = true;
-            placementManager.PlaceTemporaryStructureWithButton(position, factoryPrefab, BuildingType.Factory);
-            placementManager.PlaceObjectOnTheMap(position, factoryPrefab, factory);
-            AudioPlayer.instance.PlayPlacementSound();
-            gameState.UpdateGameVariablesWhenBuilding(position);
-        }
-    }
-    
-    public void PlaceTemporaryCrop(Vector3Int position)
-    {
-        placementManager.PlaceTemporaryStructureWithButton(position, cropPrefab, BuildingType.Crop);
-    }
-    public void PlaceCrop(Vector3Int position)
-    {
-        if (CheckBigStructure(position, 2 , 2))
-        {
-            IndustryCell crop = new IndustryCell(BuildingType.Crop);
-            placementManager.buildPermanent = true;
-            placementManager.PlaceTemporaryStructureWithButton(position, cropPrefab, BuildingType.Crop);
-            placementManager.PlaceObjectOnTheMap(position, cropPrefab, crop,2,2);
-            AudioPlayer.instance.PlayPlacementSound();
-            gameState.UpdateGameVariablesWhenBuilding(position);
-        }
-    }
-    public void PlaceTemporaryLivestock(Vector3Int position)
-    {
-        placementManager.PlaceTemporaryStructureWithButton(position, livestockPrefab, BuildingType.Livestock);
-    }
-    public void PlaceLivestock(Vector3Int position)
-    {
-        if (CheckPositionBeforePlacement(position))
-        {
-            IndustryCell livestock = new IndustryCell(BuildingType.Livestock);
-            placementManager.buildPermanent = true;
-            placementManager.PlaceTemporaryStructureWithButton(position, livestockPrefab, BuildingType.Livestock);
-            placementManager.PlaceObjectOnTheMap(position, livestockPrefab, livestock);
-            AudioPlayer.instance.PlayPlacementSound();
-            gameState.UpdateGameVariablesWhenBuilding(position);
-        }
-    }
-    public void PlaceTemporaryLandfill(Vector3Int position)
-    {
-        placementManager.PlaceTemporaryStructureWithButton(position, landfillPrefab, BuildingType.Landfill);
-    }
-    public void PlaceLandfill(Vector3Int position)
-    {
-        if (CheckPositionBeforePlacement(position))
-        {
-            GarbageDisposalCell landfill = new GarbageDisposalCell(BuildingType.Landfill);
-            placementManager.buildPermanent = true;
-            placementManager.PlaceTemporaryStructureWithButton(position, landfillPrefab, BuildingType.Landfill);
-            placementManager.PlaceObjectOnTheMap(position, landfillPrefab, landfill);
-            AudioPlayer.instance.PlayPlacementSound();
-            gameState.UpdateGameVariablesWhenBuilding(position);
-        }
-    }
-    public void PlaceTemporaryIncinerationPlant(Vector3Int position)
-    {
-        placementManager.PlaceTemporaryStructureWithButton(position, incinerationPlantPrefab, BuildingType.IncinerationPlant);
-    }
-    public void PlaceIncinerationPlant(Vector3Int position)
-    {
-        if (CheckPositionBeforePlacement(position))
-        {
-            GarbageDisposalCell incinerationPlant = new GarbageDisposalCell(BuildingType.IncinerationPlant);
-            placementManager.buildPermanent = true;
-            placementManager.PlaceTemporaryStructureWithButton(position, incinerationPlantPrefab, BuildingType.IncinerationPlant);
-            placementManager.PlaceObjectOnTheMap(position, incinerationPlantPrefab, incinerationPlant);
-            AudioPlayer.instance.PlayPlacementSound();
-            gameState.UpdateGameVariablesWhenBuilding(position);
-        }
-    }
-    public void PlaceTemporaryWasteToEnergyPlant(Vector3Int position)
-    {
-        placementManager.PlaceTemporaryStructureWithButton(position, wasteToEnergyPlantPrefab, BuildingType.WasteToEnergyPlant);
-    }
-    public void PlaceWasteToEnergyPlant(Vector3Int position)
-    {
-        if (CheckPositionBeforePlacement(position))
-        {
-            GarbageDisposalCell wasteToEnergyPlant = new GarbageDisposalCell(BuildingType.WasteToEnergyPlant);
-            placementManager.buildPermanent = true;
-            placementManager.PlaceTemporaryStructureWithButton(position, wasteToEnergyPlantPrefab, BuildingType.WasteToEnergyPlant);
-            placementManager.PlaceObjectOnTheMap(position, wasteToEnergyPlantPrefab, wasteToEnergyPlant);
-            AudioPlayer.instance.PlayPlacementSound();
-            gameState.UpdateGameVariablesWhenBuilding(position);
-        }
-    }
-    public void PlaceTemporarySolarPanel(Vector3Int position)
-    {
-        placementManager.PlaceTemporaryStructureWithButton(position, solarPanelPrefab, BuildingType.SolarPanel);
-    }
-    public void PlaceSolarPanel(Vector3Int position)
-    {
-        if (CheckPositionBeforePlacement(position))
-        {
-            EnergyProductionCell solarPanel = new EnergyProductionCell(BuildingType.SolarPanel);
-            placementManager.buildPermanent = true;
-            placementManager.PlaceTemporaryStructureWithButton(position, solarPanelPrefab, BuildingType.SolarPanel);
-            placementManager.PlaceObjectOnTheMap(position, solarPanelPrefab, solarPanel);
-            AudioPlayer.instance.PlayPlacementSound();
-            gameState.UpdateGameVariablesWhenBuilding(position);
-        }
-    }
-    public void PlaceTemporaryWindTurbine(Vector3Int position)
-    {
-        placementManager.PlaceTemporaryStructureWithButton(position, windTurbinePrefab, BuildingType.WindTurbine);
-    }
-    public void PlaceWindTurbine(Vector3Int position)
-    {
-        if (CheckPositionBeforePlacement(position))
-        {
-            EnergyProductionCell windTurbine = new EnergyProductionCell(BuildingType.WindTurbine);
-            placementManager.buildPermanent = true;
-            placementManager.PlaceTemporaryStructureWithButton(position, windTurbinePrefab, BuildingType.WindTurbine);
-            placementManager.PlaceObjectOnTheMap(position, windTurbinePrefab, windTurbine);
-            AudioPlayer.instance.PlayPlacementSound();
-            gameState.UpdateGameVariablesWhenBuilding(position);
-        }
-    }
-    public void PlaceTemporaryCarbonPowerPlant(Vector3Int position)
-    {
-        placementManager.PlaceTemporaryStructureWithButton(position, carbonPowerPlantPrefab, BuildingType.CarbonPowerPlant);
-    }
-    public void PlaceCarbonPowerPlant(Vector3Int position)
-    {
-        if (CheckPositionBeforePlacement(position))
-        {
-            EnergyProductionCell carbonPowerPlant = new EnergyProductionCell(BuildingType.CarbonPowerPlant);
-            placementManager.buildPermanent = true;
-            placementManager.PlaceTemporaryStructureWithButton(position, carbonPowerPlantPrefab, BuildingType.CarbonPowerPlant);
-            placementManager.PlaceObjectOnTheMap(position, carbonPowerPlantPrefab, carbonPowerPlant);
-            AudioPlayer.instance.PlayPlacementSound();
-            gameState.UpdateGameVariablesWhenBuilding(position);
-        }
-    }
-    public void PlaceTemporaryNuclearPlant(Vector3Int position)
-    {
-        placementManager.PlaceTemporaryStructureWithButton(position, nuclearPlantPrefab, BuildingType.NuclearPlant);
-    }
-    public void PlaceNuclearPlant(Vector3Int position)
-    {
-        if (CheckPositionBeforePlacement(position))
-        {
-            EnergyProductionCell nuclearPlant = new EnergyProductionCell(BuildingType.NuclearPlant);
-            placementManager.buildPermanent = true;
-            placementManager.PlaceTemporaryStructureWithButton(position, nuclearPlantPrefab, BuildingType.NuclearPlant);
-            placementManager.PlaceObjectOnTheMap(position, nuclearPlantPrefab, nuclearPlant);
-            AudioPlayer.instance.PlayPlacementSound();
-            gameState.UpdateGameVariablesWhenBuilding(position);
-        }
-    }
-    
-
-    internal void PlaceBigStructure(Vector3Int position)
-    {
-        int width = 2;
-        int height = 2;
-        if(CheckBigStructure(position, width , height))
-        {
-            StructureCell structureCell = new StructureCell();
-            int randomIndex = GetRandomWeightedIndex(bigStructureWeights);
-            placementManager.PlaceObjectOnTheMap(position, bigStructuresPrefabs[randomIndex].prefab, structureCell, width, height);
-            AudioPlayer.instance.PlayPlacementSound();
-        }
-    }
-
     public bool CheckBigStructure(Vector3Int position, int width, int height)
     {
         bool nearRoad = false;
@@ -428,17 +209,6 @@ public class StructureManager : MonoBehaviour
             }
         }
         return nearRoad;
-    }
-
-    public void PlaceSpecial(Vector3Int position)
-    {
-        if (CheckPositionBeforePlacement(position))
-        {
-            StructureCell structureCell = new StructureCell();
-            int randomIndex = GetRandomWeightedIndex(specialWeights);
-            placementManager.PlaceObjectOnTheMap(position, specialPrefabs[randomIndex].prefab, structureCell);
-            AudioPlayer.instance.PlayPlacementSound();
-        }
     }
 
     private int GetRandomWeightedIndex(float[] weights)

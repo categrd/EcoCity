@@ -35,6 +35,8 @@ public class InputManager : MonoBehaviour
 		CheckPressingEsc();
 		CheckMouseWheel();
 		CheckClickDownEventUI();
+		CheckPressingE();
+		CheckPressingQ();
 	}
 
 	private Vector3Int? RaycastGround()
@@ -121,6 +123,21 @@ public class InputManager : MonoBehaviour
 			OnPressingEsc?.Invoke();
 		}
 	}
+	private void CheckPressingQ()
+	{
+		if (Input.GetKeyDown(KeyCode.Q))
+		{
+			OnPressingEsc?.Invoke();
+		}
+	}
+	private void CheckPressingE()
+	{
+		if (Input.GetKeyDown(KeyCode.E))
+		{
+			OnPressingEsc?.Invoke();
+		}
+	}
+	
 	
 }
 
