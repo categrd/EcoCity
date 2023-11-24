@@ -59,9 +59,15 @@ public class StructureManager : MonoBehaviour
     }
     
     
-    public void PlaceStructure(Vector3Int position, BuildingType buildingType, bool temporaryPlacementMode)
+    public void PlaceStructure(Vector3Int position, BuildingType buildingType,int structureRotation, bool temporaryPlacementMode)
     {
         var (structureWidth, structureHeight, cost) = Cell.GetAttributesForBuildingType(buildingType);
+        if(structureRotation == 90 || structureRotation == 270)
+        {
+            var temp = structureWidth;
+            structureWidth = structureHeight;
+            structureHeight = temp;
+        }
         if (CheckBigStructure(position, structureWidth, structureHeight ))
         {
             switch (buildingType)

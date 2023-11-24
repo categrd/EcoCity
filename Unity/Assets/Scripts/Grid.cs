@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Unity.VisualScripting.Dependencies.NCalc;
+using UnityEditor.Search;
 using UnityEngine;
 using Random = System.Random;
 
@@ -78,6 +79,8 @@ public enum BuildingType
     Landfill,
     IncinerationPlant,
     WasteToEnergyPlant,
+    
+    Park
 
     
 }
@@ -132,6 +135,11 @@ public class Cell
                 return (1, 1, 50000);
             case BuildingType.WindTurbine:
                 return (1, 1, 50000);
+            case BuildingType.Shop:
+                return (1, 1, 100000);
+            case BuildingType.Park:
+                return (1, 1, 10000);
+            
             // Add more cases for other building types
             default:
                 return (0, 0, 0); // Default values if the building type is not recognized

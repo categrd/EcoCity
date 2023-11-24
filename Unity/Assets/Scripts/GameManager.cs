@@ -109,17 +109,22 @@ public class GameManager : MonoBehaviour
     private void StructurePlacementHandler(BuildingType buildingType)
     {
         ClearInputActions();
+        int structureRotation = 0;
         inputManager.OnMouseHover += (hoverPosition) =>
         {
-            structureManager.PlaceStructure(hoverPosition, buildingType, true );
+            if(inputManager.CheckPressingE())
+                structureRotation += 90;
+            if(inputManager.CheckPressingQ())
+                structureRotation -= 90;
+            structureManager.PlaceStructure(hoverPosition, buildingType, structureRotation, true );
         };
         inputManager.OnMouseClick -= (hoverPosition) =>
         {
-            structureManager.PlaceStructure(hoverPosition, buildingType, true );
+            structureManager.PlaceStructure(hoverPosition, buildingType,structureRotation, true );
         };
         inputManager.OnMouseClick += (hoverPosition) =>
         {
-            structureManager.PlaceStructure(hoverPosition, buildingType, false );
+            structureManager.PlaceStructure(hoverPosition, buildingType,structureRotation, false );
         };
         inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
     }
