@@ -219,9 +219,9 @@ public class PlacementManager : MonoBehaviour
             // Destroy the game object if a collider is hit
             Destroy(hit.collider.gameObject);
             Cell cellToDestroy = placementGrid[position.x, position.z];
-            for (int x = 0; x < cellToDestroy.Width; x++)
+            for (int x = 0; x < cellToDestroy.StructureWidth; x++)
             {
-                for (int z = 0; z < cellToDestroy.Height; z++)
+                for (int z = 0; z < cellToDestroy.StructureHeight; z++)
                 {
                     var newPosition = position + new Vector3Int(x, 0, z);
                 
@@ -269,13 +269,18 @@ public class PlacementManager : MonoBehaviour
         return placementGrid[position.x, position.z].GetType();
     }
     
-    internal void PlaceTemporaryStructureWithButton(Vector3Int position, GameObject structurePrefab)
+    internal void PlaceTemporaryStructureWithButton(Vector3Int position, GameObject structurePrefab, BuildingType buildingType)
     {
-        if(structureManager.CheckPositionBeforePlacement(position))
+        var (structureWidth, structureHeight, cost) = Cell.GetAttributesForBuildingType(buildingType);
+        if(structureManager.CheckBigStructure(position, structureWidth , structureHeight))
         {
             if (alreadyPlaced == false)
             {
-                temporaryStructure = Instantiate(structurePrefab);
+                temporaryStructure = new GameObject("TemporaryStructure");
+                temporaryStructure.transform.SetParent(transform);
+                temporaryStructure.transform.localPosition = position;
+                var structureModel = temporaryStructure.AddComponent<StructureModel>();
+                structureModel.CreateModel(structurePrefab);
                 alreadyPlaced = true;
             }
 

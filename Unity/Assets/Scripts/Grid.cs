@@ -103,16 +103,40 @@ public class Person
 public class Cell
 {
     private int _cost;
-    private int height;
-    private int width;
+    private int _structureHeight;
+    private int _structureWidth;
     public int Cost { get; set; }
-    public int Height { get; set; }
-    public int Width { get; set; }
+    public int StructureHeight { get; set; }
+    public int StructureWidth { get; set; }
+    public static (int _structureWidth, int _structureHeight, int cost) GetAttributesForBuildingType(BuildingType buildingType)
+    {
+        // Provide the width, height, and cost based on the building type
+        switch (buildingType)
+        {
+            case BuildingType.House:
+                return (1, 1, 100000);
+            case BuildingType.HighDensityHouse:
+                return (1, 1, 300000);
+            case BuildingType.Clinic:
+                return (1, 1, 200000);
+            case BuildingType.Hospital:
+                return (1, 1, 1000000);
+            case BuildingType.Cinema:
+                return (1, 2, 400000);
+            case BuildingType.Crop:
+                return (2, 2, 300000);
+            case BuildingType.PoliceStation:
+                return (1, 1, 250000);
+            // Add more cases for other building types
+            default:
+                return (0, 0, 0); // Default values if the building type is not recognized
+        }
+    }
     public Cell()
     {
         // Set the default value for _dimensions to 1
-        Height = 1;
-        Width = 1;
+        StructureHeight = 1;
+        StructureWidth = 1;
     }
 }
 
@@ -346,8 +370,8 @@ public class EntertainmentCell : JobCell
         }
         if (buildingType == BuildingType.Cinema)
         {
-            Width = 1;
-            Height = 2;
+            StructureWidth = 1;
+            StructureHeight = 2;
             Cost = 400000;
             MaintenanceCost = 0;
             IncomeGenerated = 1600;
@@ -436,8 +460,8 @@ public class IndustryCell : JobCell
         }
         if (buildingType == BuildingType.Crop)
         {
-            Width = 2;
-            Height = 2;
+            StructureWidth = 2;
+            StructureHeight = 2;
             Cost = 300000;
             MaintenanceCost = 0;
             IncomeGenerated = 1500;
