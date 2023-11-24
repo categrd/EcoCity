@@ -106,7 +106,7 @@ public class UIController : MonoBehaviour
     List<Button> buttonList;
     private double _currentMoney;
     void AddButtonClickListener(Button button, UnityAction action)
-    {
+    {   
         button.onClick.AddListener(() =>
         {
             ResetButtonColor();
@@ -129,8 +129,8 @@ public class UIController : MonoBehaviour
             showEnvironmentStats,
             placeCinemaButton,
             placeSolarPanelButton,
-<<<<<<< HEAD
             placeRoadButton,
+            placeWindTurbineButton,
             openHouseMenuButton,
             openPublicServiceMenuButton,
             openEnergySourceMenuButton,
@@ -140,16 +140,12 @@ public class UIController : MonoBehaviour
             openDecorationMenuButton,
             openShopMenuButton
 
-=======
-            placeWindTurbineButton,
->>>>>>> 12e3edefc5fb7f724d02863220309b51af755075
 
             /*
             placeHospitalButton,
             placeUniversityButton,
             placeFireStationButton,
             placeRestaurantButton,
-            
             placeCarbonPowerPlantButton,
             placeNuclearPlantButton,
             placeHighDensityHouseButton,
@@ -175,7 +171,6 @@ public class UIController : MonoBehaviour
         AddButtonClickListener(showStats, () => { OnShowStats?.Invoke(); });
         AddButtonClickListener(showEnvironmentStats, () => { OnShowEnvironmentStats?.Invoke(); });
         AddButtonClickListener(placeCinemaButton, () => { OnCinemaPlacement?.Invoke(); });
-<<<<<<< HEAD
 
 
         AddButtonClickListener(openHouseMenuButton, () => { OnHouseMenu?.Invoke(); });
@@ -187,23 +182,19 @@ public class UIController : MonoBehaviour
         AddButtonClickListener(openDecorationMenuButton, () => { OnDecorationMenu?.Invoke(); });
         AddButtonClickListener(openShopMenuButton, () => { OnShopMenu?.Invoke(); });
 
-=======
-        AddButtonClickListener(placeSolarPanelButton, () => { OnSolarPanelPlacement?.Invoke(); });
-        AddButtonClickListener(placeWindTurbineButton, () => { OnWindTurbinePlacement?.Invoke(); });
-        
->>>>>>> 12e3edefc5fb7f724d02863220309b51af755075
         /*
         AddButtonClickListener(placeHospitalButton, () => { OnHospitalPlacement?.Invoke(); });
         AddButtonClickListener(placeRestaurantButton, () => { OnRestaurantPlacement?.Invoke(); });
         AddButtonClickListener(placeUniversityButton, () => { OnUniversityPlacement?.Invoke(); });
         AddButtonClickListener(placeFireStationButton, () => { OnFireStationPlacement?.Invoke(); });
-
-
+        
+        
+        AddButtonClickListener(placeWindTurbineButton, () => { OnWindTurbinePlacement?.Invoke(); });
         AddButtonClickListener(placeCarbonPowerPlantButton, () => { OnCarbonPowerPlantPlacement?.Invoke(); });
         AddButtonClickListener(placeNuclearPlantButton, () => { OnNuclearPlantPlacement?.Invoke(); });
         AddButtonClickListener(placeHighDensityHouseButton, () => { OnHighDensityHousePlacement?.Invoke(); });
         AddButtonClickListener(placeShopButton, () => { OnShopPlacement?.Invoke(); });
-
+        
         AddButtonClickListener(placeBarButton, () => { OnBarPlacement?.Invoke(); });
         AddButtonClickListener(placeFactoryButton, () => { OnFactoryPlacement?.Invoke(); });
         AddButtonClickListener(placeCropButton, () => { OnCropPlacement?.Invoke(); });
@@ -214,45 +205,45 @@ public class UIController : MonoBehaviour
         */
     }
 
-private void ModifyOutline(Button button)
-{
-    var outline = button.GetComponent<Outline>();
-    outline.effectColor = outlineColor;
-    outline.enabled = true;
-}
-
-public void ResetButtonColor()
-{
-    foreach (Button button in buttonList)
+    private void ModifyOutline(Button button)
     {
-        button.GetComponent<Outline>().enabled = false;
-    }
-}
-private void Update()
-{
-    _currentMoney = gameState.currentMoney;
-    populationText.text = "Population: " + gameState.totalPopulation;
-    if (_currentMoney >= 1000000)
-    {
-        moneyText.text = "Money: $" + Math.Round(_currentMoney / 1000000, 2) + "M";
-    }
-    if (_currentMoney >= 1000 && _currentMoney < 1000000)
-    {
-        moneyText.text = "Money: $" + Math.Round(_currentMoney / 1000, 2) + "K";
-    }
-    if (_currentMoney < 1000)
-    {
-        moneyText.text = "Money: $" + Math.Round(_currentMoney, 2);
+        var outline = button.GetComponent<Outline>();
+        outline.effectColor = outlineColor;
+        outline.enabled = true;
     }
 
-    employmentText.text = "Employment: " + Math.Round(gameState.GetEmploymentRatio() * 100, 2) + "%";
-    employmentSlider.value = (float)gameState.GetEmploymentRatio();
-    jobsOccupiedText.text = "Jobs Occupied: " + Math.Round(gameState.GetJobsOccupiedRatio() * 100, 2) + "%";
-    jobsOccupiedSlider.value = (float)gameState.GetJobsOccupiedRatio();
-    criminalsCoveredText.text = "Criminals Covered: " + Math.Round(gameState.GetCriminalsCoveredRatio() * 100, 2) + "%";
-    criminalsCoveredSlider.value = (float)gameState.GetCriminalsCoveredRatio();
-    patientsCoveredText.text = "Patients Covered: " + Math.Round(gameState.GetPatientsCoveredRatio() * 100, 2) + "%";
-    patientsCoveredSlider.value = (float)gameState.GetPatientsCoveredRatio();
-    populationCapacityText.text = "Population Capacity: " + gameState.PopulationCapacity;
-}
+    public void ResetButtonColor()
+    {
+        foreach (Button button in buttonList)
+        {
+            button.GetComponent<Outline>().enabled = false;
+        }
+    }
+    private void Update()
+    {
+        _currentMoney = gameState.currentMoney;
+        populationText.text = "Population: " + gameState.totalPopulation;
+        if (_currentMoney >= 1000000)
+        {
+            moneyText.text = "Money: $" + Math.Round(_currentMoney / 1000000, 2) + "M";
+        }
+        if (_currentMoney >= 1000 && _currentMoney < 1000000)
+        {
+            moneyText.text = "Money: $" + Math.Round(_currentMoney / 1000, 2) + "K";
+        }
+        if (_currentMoney < 1000)
+        {
+            moneyText.text = "Money: $" + Math.Round(_currentMoney, 2);
+        }
+
+        employmentText.text = "Employment: " + Math.Round(gameState.GetEmploymentRatio() * 100, 2) + "%";
+        employmentSlider.value = (float)gameState.GetEmploymentRatio();
+        jobsOccupiedText.text = "Jobs Occupied: " + Math.Round(gameState.GetJobsOccupiedRatio() * 100, 2) + "%";
+        jobsOccupiedSlider.value = (float)gameState.GetJobsOccupiedRatio();
+        criminalsCoveredText.text = "Criminals Covered: " + Math.Round(gameState.GetCriminalsCoveredRatio() * 100, 2) + "%";
+        criminalsCoveredSlider.value = (float)gameState.GetCriminalsCoveredRatio();
+        patientsCoveredText.text = "Patients Covered: " + Math.Round(gameState.GetPatientsCoveredRatio() * 100, 2) + "%";
+        patientsCoveredSlider.value = (float)gameState.GetPatientsCoveredRatio();
+        populationCapacityText.text = "Population Capacity: " + gameState.PopulationCapacity;
+    }
 }
