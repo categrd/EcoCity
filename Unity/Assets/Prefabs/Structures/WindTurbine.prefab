@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3250953444253610696}
   - component: {fileID: 6208914108399545861}
   - component: {fileID: 7479693856047234312}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Blades
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4063675675304135750}
   - component: {fileID: 6318841305229623366}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: WindTurbine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,8 +135,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 38.32, y: 154.6, z: 35.72}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 38.32, y: -84.5, z: 35.72}
+  m_Center: {x: 0, y: 35.2, z: 0}
 --- !u!1 &3751117807435962521
 GameObject:
   m_ObjectHideFlags: 0
@@ -146,7 +146,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4559179292091384355}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sketchfab_2020_12_13_15_47_50
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -181,7 +181,7 @@ GameObject:
   - component: {fileID: 7466613081329921068}
   - component: {fileID: 2651428018670543174}
   - component: {fileID: 3457631591978568449}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Main Unit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
