@@ -79,6 +79,8 @@ public enum BuildingType
     Landfill,
     IncinerationPlant,
     WasteToEnergyPlant,
+    
+    Park
 
     
 }
@@ -131,6 +133,12 @@ public class Cell
                 return (3, 3, 500000);
             case BuildingType.Bar:
                 return (1, 1, 50000);
+            case BuildingType.WindTurbine:
+                return (1, 1, 50000);
+            case BuildingType.Shop:
+                return (1, 1, 100000);
+            case BuildingType.Park:
+                return (1, 1, 10000);
             
             // Add more cases for other building types
             default:

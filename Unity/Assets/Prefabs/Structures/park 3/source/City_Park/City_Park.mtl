@@ -1,0 +1,184 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# File Created: 12.01.2020 16:12:45
+
+newmtl 08___Default
+	Ns 10.000
+	Ni 1.500
+	d 1.000
+	Tr 0.000
+	Tf 1.000 1.000 1.000 
+	illum 2
+	Ka 0.588 0.588 0.588
+	Kd 0.588 0.588 0.588
+	Ks 0.000 0.000 0.000
+	Ke 0.000 0.000 0.000
+	map_Ka Map__3_Cellular.png
+	map_Kd Map__3_Cellular.png
+
+newmtl 14___Default
+	Ns 10.000
+	Ni 1.500
+	d 1.000
+	Tr 0.000
+	Tf 1.000 1.000 1.000 
+	illum 2
+	Ka 0.588 0.588 0.588
+	Kd 0.588 0.588 0.588
+	Ks 0.000 0.000 0.000
+	Ke 0.000 0.000 0.000
+	map_Ka Map__7_Map Output Selector.png
+	map_Kd Map__7_Map Output Selector.png
+
+newmtl 09___Default
+	Ns 10.000
+	Ni 1.500
+	d 1.000
+	Tr 0.000
+	Tf 1.000 1.000 1.000 
+	illum 2
+	Ka 0.588 0.588 0.588
+	Kd 0.588 0.588 0.588
+	Ks 0.000 0.000 0.000
+	Ke 0.000 0.000 0.000
+	map_Ka Map__4_Cellular.png
+	map_Kd Map__4_Cellular.png
+
+newmtl Wooden_Bench_03___Default
+	Ns 10.000
+	Ni 1.500
+	d 1.000
+	Tr 0.000
+	Tf 1.000 1.000 1.000 
+	illum 2
+	Ka 0.588 0.588 0.588
+	Kd 0.588 0.588 0.588
+	Ks 0.000 0.000 0.000
+	Ke 0.000 0.000 0.000
+	map_Ka Map__5_Map_Output_Selector.png
+	map_Kd Map__5_Map_Output_Selector.png
+
+newmtl Wooden_Bench_02___Default
+	Ns 10.000
+	Ni 1.500
+	d 1.000
+	Tr 0.000
+	Tf 1.000 1.000 1.000 
+	illum 2
+	Ka 0.588 0.588 0.588
+	Kd 0.588 0.588 0.588
+	Ks 0.000 0.000 0.000
+	Ke 0.000 0.000 0.000
+	map_Ka Map__3_Gradient_Ramp.png
+	map_Kd Map__3_Gradient_Ramp.png
+
+newmtl Wooden_Bench_01___Default
+	Ns 10.000
+	Ni 1.500
+	d 1.000
+	Tr 0.000
+	Tf 1.000 1.000 1.000 
+	illum 2
+	Ka 0.588 0.588 0.588
+	Kd 0.588 0.588 0.588
+	Ks 0.000 0.000 0.000
+	Ke 0.000 0.000 0.000
+	map_Ka Map__1_Map_Output_Selector.png
+	map_Kd Map__1_Map_Output_Selector.png
+
+newmtl Street_Lamp_03___Default
+	Ns 10.000
+	Ni 1.500
+	d 1.000
+	Tr 0.000
+	Tf 1.000 1.000 1.000 
+	illum 2
+	Ka 0.588 0.588 0.588
+	Kd 0.588 0.588 0.588
+	Ks 0.000 0.000 0.000
+	Ke 0.000 0.000 0.000
+	map_Ka Map__7_Falloff.png
+	map_Kd Map__7_Falloff.png
+
+newmtl Street_Lamp_01___Default
+	Ns 10.000
+	Ni 1.500
+	d 1.000
+	Tr 0.000
+	Tf 1.000 1.000 1.000 
+	illum 2
+	Ka 0.588 0.588 0.588
+	Kd 0.588 0.588 0.588
+	Ks 0.000 0.000 0.000
+	Ke 0.000 0.000 0.000
+	map_Ka Map__2_Color_Map.png
+	map_Kd Map__2_Color_Map.png
+
+newmtl Street_Lamp_02___Default
+	Ns 10.000
+	Ni 1.500
+	d 1.000
+	Tr 0.000
+	Tf 1.000 1.000 1.000 
+	illum 2
+	Ka 0.588 0.588 0.588
+	Kd 0.588 0.588 0.588
+	Ks 0.000 0.000 0.000
+	Ke 0.000 0.000 0.000
+	map_Ka Map__3_Color_Map.png
+	map_Kd Map__3_Color_Map.png
+
+newmtl Water_Source_03___Default
+	Ns 10.000
+	Ni 1.500
+	d 1.000
+	Tr 0.000
+	Tf 1.000 1.000 1.000 
+	illum 2
+	Ka 0.588 0.588 0.588
+	Kd 0.588 0.588 0.588
+	Ks 0.000 0.000 0.000
+	Ke 0.000 0.000 0.000
+	map_Ka Map__2_Dent.png
+	map_Kd Map__2_Dent.png
+
+newmtl Water_Source_01___Default
+	Ns 10.000
+	Ni 1.500
+	d 1.000
+	Tr 0.000
+	Tf 1.000 1.000 1.000 
+	illum 2
+	Ka 0.588 0.588 0.588
+	Kd 0.588 0.588 0.588
+	Ks 0.000 0.000 0.000
+	Ke 0.000 0.000 0.000
+	map_Ka Map__0_Noise.png
+	map_Kd Map__0_Noise.png
+
+newmtl Water_Source_02___Default
+	Ns 10.000
+	Ni 1.500
+	d 1.000
+	Tr 0.000
+	Tf 1.000 1.000 1.000 
+	illum 2
+	Ka 0.588 0.588 0.588
+	Kd 0.588 0.588 0.588
+	Ks 0.000 0.000 0.000
+	Ke 0.000 0.000 0.000
+	map_Ka Map__1_Color_Map.png
+	map_Kd Map__1_Color_Map.png
+
+newmtl Tree_01___Default
+	Ns 10.000
+	Ni 1.500
+	d 1.000
+	Tr 0.000
+	Tf 1.000 1.000 1.000 
+	illum 2
+	Ka 0.588 0.588 0.588
+	Kd 0.588 0.588 0.588
+	Ks 0.000 0.000 0.000
+	Ke 0.000 0.000 0.000
+	map_Ka Map__1_Map_Output_Selector.png
+	map_Kd Map__1_Map_Output_Selector.png

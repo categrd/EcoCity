@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class InputManager : MonoBehaviour
 {
     public Action<Vector3Int> OnMouseClick, OnMouseHold, OnMouseHover;
-    public Action OnMouseUp, OnPressingEsc, OnMouseClickUI;
+    public Action OnMouseUp, OnPressingEsc, OnMouseClickUI, OnPressingE, OnPressingQ;
 	private Vector2 cameraMovementVector;
 	private float zoom;
 
@@ -123,19 +123,23 @@ public class InputManager : MonoBehaviour
 			OnPressingEsc?.Invoke();
 		}
 	}
-	private void CheckPressingQ()
+	public bool CheckPressingQ()
 	{
 		if (Input.GetKeyDown(KeyCode.Q))
 		{
-			OnPressingEsc?.Invoke();
+			return true;
 		}
+
+		return false;
 	}
-	private void CheckPressingE()
+	public bool CheckPressingE()
 	{
 		if (Input.GetKeyDown(KeyCode.E))
 		{
-			OnPressingEsc?.Invoke();
+			return true;
 		}
+
+		return false;
 	}
 	
 	
