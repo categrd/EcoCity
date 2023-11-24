@@ -216,7 +216,8 @@ public class UIController : MonoBehaviour
     {
         foreach (Button button in buttonList)
         {
-            button.GetComponent<Outline>().enabled = false;
+            if (button!= null)
+                button.GetComponent<Outline>().enabled = false;
         }
     }
     private void Update()
