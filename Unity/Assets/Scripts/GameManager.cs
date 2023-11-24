@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 {
     public GameObject menuPanel;
     public GameObject statsPanel;
+    public GameObject environmentStatsPanel;
     
     public CameraMovement cameraMovement;
     public RoadManager roadManager;
@@ -30,6 +31,7 @@ public class GameManager : MonoBehaviour
         uiController.OnShowMenu += ShowMenuHandler;
         uiController.OnShowStats += ShowStatsHandler;
         uiController.OnCinemaPlacement += CinemaPlacementHandler;
+        uiController.OnShowEnvironmentStats += ShowEnvironmentStatsHandler;
         /*
         uiController.OnHospitalPlacement += HospitalPlacementHandler;
         uiController.OnSolarPanelPlacement += SolarPanelPlacementHandler;
@@ -92,6 +94,21 @@ public class GameManager : MonoBehaviour
         inputManager.OnPressingEsc += () => ToggleMenu(statsPanel);
 
     }
+
+    private void ShowEnvironmentStatsHandler()
+    {
+        ClearInputActions();
+        if (environmentStatsPanel.activeSelf)
+        {
+            ClearInputActionsAndButtonColor();    
+        }
+
+        ToggleMenu(environmentStatsPanel);
+        inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
+        inputManager.OnPressingEsc += () => ToggleMenu(environmentStatsPanel);
+
+    }
+
     private void ToggleMenu(GameObject panel)
     {
         panel.SetActive(!panel.activeSelf);
