@@ -49,44 +49,10 @@ public class GameManager : MonoBehaviour
         uiController.OnShowMenu += ShowMenuHandler;
         uiController.OnShowStats += ShowStatsHandler;
         
-        
         uiController.OnShowEnvironmentStats += ShowEnvironmentStatsHandler;
-        /*
-        uiController.OnHospitalPlacement += HospitalPlacementHandler;
-        uiController.OnSolarPanelPlacement += SolarPanelPlacementHandler;
-        uiController.OnWindTurbinePlacement += WindTurbinePlacementHandler;
-        uiController.OnCarbonPowerPlantPlacement += CarbonPowerPlantPlacementHandler;
-        uiController.OnNuclearPlantPlacement += NuclearPlantPlacementHandler;
-        uiController.OnHighDensityHousePlacement += HighDensityHousePlacementHandler;
-        uiController.OnShopPlacement += ShopPlacementHandler;
-        uiController.OnRestaurantPlacement += RestaurantPlacementHandler;
-        uiController.OnBarPlacement += BarPlacementHandler;
         
-        uiController.OnUniversityPlacement += UniversityPlacementHandler;
-        uiController.OnFireStationPlacement += FireStationPlacementHandler;
-        uiController.OnFactoryPlacement += FactoryPlacementHandler;
-        uiController.OnLivestockPlacement += LivestockPlacementHandler;
-        uiController.OnLandfillPlacement += LandfillPlacementHandler;
-        uiController.OnIncinerationPlantPlacement += IncinerationPlantPlacementHandler;
-        uiController.OnWasteToEnergyPlantPlacement += WasteToEnergyPlantPlacementHandler;
-        */
-
-
-
-    }
-/*
-    private void BigStructurePlacementHandler()
-    {
-        ClearInputActions();
-        inputManager.OnMouseClick += structureManager.PlaceBigStructure;
     }
 
-    private void SpecialPlacementHandler()
-    {
-        ClearInputActions();
-        inputManager.OnMouseClick += structureManager.PlaceSpecial;
-    }
-*/
     private void ShowMenuHandler()
     {
         ClearInputActions();
