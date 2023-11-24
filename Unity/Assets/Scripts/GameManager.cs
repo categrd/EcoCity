@@ -304,14 +304,7 @@ private void FactoryPlacementHandler()
     inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
 }
 
-private void CropPlacementHandler()
-{
-    ClearInputActions();
-    inputManager.OnMouseHover += structureManager.PlaceTemporaryCrop;
-    inputManager.OnMouseClick -= structureManager.PlaceTemporaryCrop;
-    inputManager.OnMouseClick += structureManager.PlaceCrop;
-    inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
-}
+
 
 private void LivestockPlacementHandler()
 {
@@ -322,6 +315,15 @@ private void LivestockPlacementHandler()
     inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
 }
 
+    private void CropPlacementHandler()
+    {
+        ClearInputActions();
+        inputManager.OnMouseHover += structureManager.PlaceTemporaryCrop;
+        inputManager.OnMouseClick -= structureManager.PlaceTemporaryCrop;
+        inputManager.OnMouseClick += structureManager.PlaceCrop;
+        inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
+    }
+    
     private void ClearInputActions()
     {
         placementManager.DestroyTemporaryStructure();
@@ -348,7 +350,4 @@ private void LivestockPlacementHandler()
         cameraMovement.ZoomCamera(inputManager.Zoom);
 
     }
-    
-
-
 }

@@ -28,7 +28,6 @@ public static class SaveDataManager
             {
                 saveable.LoadFromSaveData(sd);
             }
-            
             Debug.Log("Load complete");
         }
     }
