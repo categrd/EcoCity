@@ -5,14 +5,14 @@ using UnityEngine;
 public class SaveData
 {
     [System.Serializable]
-    public struct EnemyData
+    public struct CityData
     {
-        public string m_Uuid;
-        public int m_Health;
+        /*public string m_Uuid;
+        public int m_Health;*/
     }
     
     public int m_Score;
-    public List<EnemyData> m_EnemyData = new List<EnemyData>();
+    /*public List<EnemyData> m_EnemyData = new List<EnemyData>();*/
     
     public string ToJson()
     {
