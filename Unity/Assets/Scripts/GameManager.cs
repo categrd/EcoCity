@@ -55,14 +55,14 @@ public class GameManager : MonoBehaviour
         uiController.OnShowStats += () => PanelHandler(statsPanel);
         uiController.OnShowEnvironmentStats += () => PanelHandler(environmentStatsPanel);
 
-        uiController.OnHouseMenu += () => PanelHandler(housePanel);
-        uiController.OnIndustryMenu += () => PanelHandler(industryPanel);
-        uiController.OnWaterSourceMenu += () => PanelHandler(watersourcePanel);
-        uiController.OnEnergySourceMenu += () => PanelHandler(energysourcePanel);
-        uiController.OnWasteDisposalMenu += () => PanelHandler(wastedisposalPanel);
-        uiController.OnShopMenu += () => PanelHandler(shopPanel);
-        uiController.OnDecorationMenu += () => PanelHandler(decorationPanel);
-        uiController.OnPublicServiceMenu += () => PanelHandler(publicservicesPanel);
+        uiController.OnHouseMenu += () => BuildingPanelHandler(housePanel);
+        uiController.OnIndustryMenu += () => BuildingPanelHandler(industryPanel);
+        uiController.OnWaterSourceMenu += () => BuildingPanelHandler(watersourcePanel);
+        uiController.OnEnergySourceMenu += () => BuildingPanelHandler(energysourcePanel);
+        uiController.OnWasteDisposalMenu += () => BuildingPanelHandler(wastedisposalPanel);
+        uiController.OnShopMenu += () => BuildingPanelHandler(shopPanel);
+        uiController.OnDecorationMenu += () => BuildingPanelHandler(decorationPanel);
+        uiController.OnPublicServiceMenu += () => BuildingPanelHandler(publicservicesPanel);
         
     }
     
@@ -114,6 +114,20 @@ public class GameManager : MonoBehaviour
         ClearInputActions();
         if (panel.activeSelf)
         {
+            ClearInputActionsAndButtonColor();    
+        }
+
+        ToggleMenu(panel);
+        inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
+        inputManager.OnPressingEsc += () => ToggleMenu(panel);
+
+    }
+
+    private void BuildingPanelHandler(GameObject panel)
+    {
+        ClearInputActions();
+        if (panel.activeSelf)
+        {
             uiController.ResetBuildingPanels();
             ClearInputActionsAndButtonColor();    
         }
@@ -129,7 +143,6 @@ public class GameManager : MonoBehaviour
     }
 
     
-
     private void ToggleMenu(GameObject panel)
     {
         panel.SetActive(!(panel.activeSelf));
