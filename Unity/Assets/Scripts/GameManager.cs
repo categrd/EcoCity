@@ -65,7 +65,8 @@ public class GameManager : MonoBehaviour
         uiController.OnPublicServiceMenu += () => PanelHandler(publicservicesPanel);
         
     }
-  
+    
+    /*
     private void ShowMenuHandler()
     {
         ClearInputActions();
@@ -106,16 +107,23 @@ public class GameManager : MonoBehaviour
         inputManager.OnPressingEsc += () => ToggleMenu(environmentStatsPanel);
 
     }
+    */ 
 
     private void PanelHandler(GameObject panel)
     {
         ClearInputActions();
         if (panel.activeSelf)
         {
+            uiController.ResetBuildingPanels();
             ClearInputActionsAndButtonColor();    
         }
-
-        ToggleMenu(panel);
+        else
+        {
+            uiController.ResetBuildingPanels();
+            ToggleMenu(panel);
+        }
+        
+        
         inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
         inputManager.OnPressingEsc += () => ToggleMenu(panel);
     }
@@ -124,7 +132,7 @@ public class GameManager : MonoBehaviour
 
     private void ToggleMenu(GameObject panel)
     {
-        panel.SetActive(!panel.activeSelf);
+        panel.SetActive(!(panel.activeSelf));
     }
     
     private void DestroyStructureHandler()
@@ -158,6 +166,7 @@ public class GameManager : MonoBehaviour
     }
     private void RoadPlacementHandler()
     {
+        uiController.ResetBuildingPanels();
         ClearInputActions();
         inputManager.OnMouseClick += roadManager.PlaceRoad;
         inputManager.OnMouseHold += roadManager.PlaceRoad;
