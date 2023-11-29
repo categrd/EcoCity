@@ -104,6 +104,7 @@ public class UIController : MonoBehaviour
 
     public Color outlineColor;
     List<Button> buttonList;
+    List<GameObject> buildingPanelList;
     private double _currentMoney;
     void AddButtonClickListener(Button button, UnityAction action)
     {   
@@ -117,6 +118,18 @@ public class UIController : MonoBehaviour
 
     private void Start()
     {
+        buildingPanelList = new List<GameObject>
+        {
+            HousePanel,
+            PublicServicePanel,
+            EnergySourcePanel,
+            WaterSourcePanel,
+            WasteDisposalPanel,
+            IndustryPanel,
+            DecorationPanel,
+            ShopPanel
+        };
+
         buttonList = new List<Button> {
             destroyStructureButton,
             placeRoadButton,
@@ -222,6 +235,16 @@ public class UIController : MonoBehaviour
                 button.GetComponent<Outline>().enabled = false;
         }
     }
+
+    public void ResetBuildingPanels()
+    {
+        foreach (GameObject panel in buildingPanelList)
+        {
+            if (panel != null)
+                panel.SetActive(false);
+        }
+    }
+
     private void Update()
     {
         _currentMoney = gameState.currentMoney;
