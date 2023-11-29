@@ -129,6 +129,7 @@ public class UIController : MonoBehaviour
             showEnvironmentStats,
             placeCinemaButton,
             placeSolarPanelButton,
+            placeFactoryButton,
             placeRoadButton,
             placeWindTurbineButton,
             openHouseMenuButton,
@@ -152,7 +153,7 @@ public class UIController : MonoBehaviour
             placeShopButton,
             placeBarButton,
             
-            placeFactoryButton,
+            
             placeLivestockButton,
             placeLandfillButton,
             placeIncinerationPlantButton,
@@ -171,8 +172,9 @@ public class UIController : MonoBehaviour
         AddButtonClickListener(showStats, () => { OnShowStats?.Invoke(); });
         AddButtonClickListener(showEnvironmentStats, () => { OnShowEnvironmentStats?.Invoke(); });
         AddButtonClickListener(placeCinemaButton, () => { OnCinemaPlacement?.Invoke(); });
-
-
+        AddButtonClickListener(placeWindTurbineButton, () => { OnWindTurbinePlacement?.Invoke(); });
+        AddButtonClickListener(placeFactoryButton, () => { OnFactoryPlacement?.Invoke(); });
+        
         AddButtonClickListener(openHouseMenuButton, () => { OnHouseMenu?.Invoke(); });
         AddButtonClickListener(openPublicServiceMenuButton, () => { OnPublicServiceMenu?.Invoke(); });
         AddButtonClickListener(openEnergySourceMenuButton, () => { OnEnergySourceMenu?.Invoke(); });
@@ -189,14 +191,14 @@ public class UIController : MonoBehaviour
         AddButtonClickListener(placeFireStationButton, () => { OnFireStationPlacement?.Invoke(); });
         
         
-        AddButtonClickListener(placeWindTurbineButton, () => { OnWindTurbinePlacement?.Invoke(); });
+        
         AddButtonClickListener(placeCarbonPowerPlantButton, () => { OnCarbonPowerPlantPlacement?.Invoke(); });
         AddButtonClickListener(placeNuclearPlantButton, () => { OnNuclearPlantPlacement?.Invoke(); });
         AddButtonClickListener(placeHighDensityHouseButton, () => { OnHighDensityHousePlacement?.Invoke(); });
         AddButtonClickListener(placeShopButton, () => { OnShopPlacement?.Invoke(); });
         
         AddButtonClickListener(placeBarButton, () => { OnBarPlacement?.Invoke(); });
-        AddButtonClickListener(placeFactoryButton, () => { OnFactoryPlacement?.Invoke(); });
+        
         AddButtonClickListener(placeCropButton, () => { OnCropPlacement?.Invoke(); });
         AddButtonClickListener(placeLivestockButton, () => { OnLivestockPlacement?.Invoke(); });
         AddButtonClickListener(placeLandfillButton, () => { OnLandfillPlacement?.Invoke(); });
