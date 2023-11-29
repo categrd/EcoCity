@@ -308,7 +308,7 @@ public class PlacementManager : MonoBehaviour
         _temporaryRoadObjects.Add(position, structure);
     }
 
-    internal List<Vector3Int> GetNeighboursOfTypeFor<T>(Vector3Int position) where T : Cell, new()
+    public List<Vector3Int> GetNeighboursOfTypeFor<T>(Vector3Int position) where T : Cell, new()
     {
         Type cellType = typeof(T);
         var neighbourVertices = placementGrid.GetAdjacentCellsOfType(position.x, position.z, cellType);

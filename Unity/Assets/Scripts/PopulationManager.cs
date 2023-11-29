@@ -21,7 +21,7 @@ public class PopulationManager : MonoBehaviour
         peopleList.Add(newPerson);
         
         newPerson.housePosition = residencePosition;
-        
+        newPerson.currentPosition = residencePosition;
         placementManager.AddNewPersonInResidence((Vector3Int)residencePosition, newPerson);
         
         Debug.Log("new residence position " + residencePosition);

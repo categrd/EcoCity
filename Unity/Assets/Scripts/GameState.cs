@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
@@ -77,7 +78,7 @@ public class GameState : MonoBehaviour
         UpdateEmployment();
         populationManager.FindJob();
         currentMoney += GetEarnings();
-        //HandlePeopleMovement();
+        HandlePeopleMovement();
         Debug.Log("jobless people:" + populationManager.joblessPeople.Count);
     }
 
@@ -89,6 +90,12 @@ public class GameState : MonoBehaviour
             {
                 Vector3Int personCurrentPosition = (Vector3Int) person.currentPosition;
                 Vector3Int? targetPosition = null;
+                List<Vector3Int> neighboursRoads = placementManager.GetNeighboursOfTypeFor<RoadCell>(personCurrentPosition);
+                if (neighboursRoads.Count <= 0)
+                {
+                    return;
+                }
+                Vector3Int startingPosition = neighboursRoads[0];
                 if (placementManager.GetCellAtPosition(personCurrentPosition) is ResidenceCell)
                 {
                     Random random = new Random();
@@ -96,21 +103,30 @@ public class GameState : MonoBehaviour
                     if (randomValue == 0)
                     {
                         targetPosition = placementManager.placementGrid.GetRandomPositionOfTypeCell(typeof(EntertainmentCell));
-                        
+
                     }
                     else
                     {
                         targetPosition = person.jobPosition;
                     }
                 }
-                if(placementManager.GetCellAtPosition(personCurrentPosition) is JobCell)
+
+                if (placementManager.GetCellAtPosition(personCurrentPosition) is JobCell)
                 {
                     targetPosition = person.housePosition;
-                    
+
                 }
+
                 if (targetPosition != null)
                 {
-                    transportManager.MovePersonToPosition(person, (Vector3Int) targetPosition);
+                    List<Vector3Int>  neighboursTargetRoads = placementManager.GetNeighboursOfTypeFor<RoadCell>((Vector3Int)targetPosition);
+                    if (neighboursTargetRoads.Count <= 0)
+                    {
+                        return;
+                    }
+                    Vector3Int targetRoad = neighboursTargetRoads[0];
+                    transportManager.MovePersonToPosition(person, startingPosition, (Vector3Int)targetRoad);
+                    person.isPersonFree = false;
                 }
             }
         }

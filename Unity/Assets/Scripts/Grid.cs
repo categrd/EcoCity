@@ -87,6 +87,7 @@ public enum BuildingType
 
 public class Person
 {
+    public GameObject personPrefab = null;
     public int health;
     public int education;
     public int happiness;
