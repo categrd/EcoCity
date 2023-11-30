@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
         uiController.OnRoadPlacement += RoadPlacementHandler;
         uiController.OnCinemaPlacement += () => StructurePlacementHandler(BuildingType.Cinema);
         uiController.OnHousePlacement += () => StructurePlacementHandler(BuildingType.House);
+        //uiController.OnHousePlacement += () => StructurePlacementHandler(BuildingType.HighDensityHouse);
         uiController.OnClinicPlacement += () => StructurePlacementHandler(BuildingType.Clinic);
         uiController.OnHospitalPlacement += () => StructurePlacementHandler(BuildingType.Hospital);
         uiController.OnSolarPanelPlacement += () => StructurePlacementHandler(BuildingType.SolarPanel);
