@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
         uiController.OnLandfillPlacement += () => StructurePlacementHandler(BuildingType.Landfill);
         uiController.OnIncinerationPlantPlacement += () => StructurePlacementHandler(BuildingType.IncinerationPlant);
         uiController.OnWasteToEnergyPlantPlacement += () => StructurePlacementHandler(BuildingType.WasteToEnergyPlant);
+        uiController.OnBigParkPlacement += () => StructurePlacementHandler(BuildingType.BigPark);
         
         uiController.OnShowMenu += () => PanelHandler(menuPanel);
         uiController.OnShowStats += () => PanelHandler(statsPanel);

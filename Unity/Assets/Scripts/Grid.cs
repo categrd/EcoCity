@@ -80,8 +80,8 @@ public enum BuildingType
     IncinerationPlant,
     WasteToEnergyPlant,
     
-    Park
-
+    Park,
+    BigPark
     
 }
 
@@ -138,8 +138,8 @@ public class Cell
                 return (1, 1, 50000);
             case BuildingType.Shop:
                 return (1, 1, 100000);
-            case BuildingType.Park:
-                return (1, 1, 10000);
+            case BuildingType.BigPark:
+                return (2, 2, 10000);
             
             // Add more cases for other building types
             default:
@@ -397,6 +397,11 @@ public class EntertainmentCell : JobCell
             NumberOfEmployeesCapacity = 6;
             CostumersCapacity = 40;
 
+        }
+
+        if (buildingType == BuildingType.BigPark)
+        {
+            Cost = 10000;
         }
         
     }

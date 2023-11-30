@@ -30,7 +30,8 @@ public class StructureManager : MonoBehaviour
         livestockPrefab,
         landfillPrefab,
         incinerationPlantPrefab,
-        wasteToEnergyPlantPrefab;
+        wasteToEnergyPlantPrefab,
+        bigParkPrefab;
     
     private GameObject _prefab;
     private Cell _structure;
@@ -177,6 +178,11 @@ public class StructureManager : MonoBehaviour
                     var nuclearPlant = new EnergyProductionCell(BuildingType.NuclearPlant);
                     _structure = nuclearPlant;
                     _prefab = nuclearPlantPrefab;
+                    break;
+                case BuildingType.BigPark:
+                    var bigPark = new EntertainmentCell(BuildingType.BigPark);
+                    _structure = bigPark;
+                    _prefab = bigParkPrefab;
                     break;
             }
             if(temporaryPlacementMode)

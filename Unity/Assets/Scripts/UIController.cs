@@ -19,7 +19,7 @@ public class UIController : MonoBehaviour
     public Action OnRoadPlacement, OnHousePlacement, OnClinicPlacement, OnHospitalPlacement, OnSolarPanelPlacement, OnWindTurbinePlacement, OnCarbonPowerPlantPlacement,
         OnNuclearPlantPlacement, OnHighDensityHousePlacement, OnShopPlacement, OnRestaurantPlacement, OnBarPlacement, OnCinemaPlacement, OnUniversityPlacement,
         OnFireStationPlacement, OnPoliceStationPlacement, OnFactoryPlacement, OnCropPlacement, OnLivestockPlacement, OnLandfillPlacement, OnIncinerationPlantPlacement,
-        OnWasteToEnergyPlantPlacement, OnShowMenu, OnShowStats, OnShowEnvironmentStats, OnDestroyStructure, OnPublicServiceMenu, OnEnergySourceMenu, OnWaterSourceMenu,
+        OnWasteToEnergyPlantPlacement, OnBigParkPlacement, OnShowMenu, OnShowStats, OnShowEnvironmentStats, OnDestroyStructure, OnPublicServiceMenu, OnEnergySourceMenu, OnWaterSourceMenu,
         OnWasteDisposalMenu, OnIndustryMenu, OnDecorationMenu, OnShopMenu, OnHouseMenu;
 
 
@@ -85,6 +85,8 @@ public class UIController : MonoBehaviour
     public Button placeFactoryButton;
     public Button placeCropButton;
     public Button placeLivestockButton;
+    // Decorations
+    public Button placeBigParkButton;
 
     // Waste Management
     public Button placeLandfillButton;
@@ -148,6 +150,7 @@ public class UIController : MonoBehaviour
             placeWindTurbineButton,
             placeShopButton,
             placeHospitalButton,
+            placeBigParkButton,
             openHouseMenuButton,
             openPublicServiceMenuButton,
             openEnergySourceMenuButton,
@@ -192,6 +195,7 @@ public class UIController : MonoBehaviour
         AddButtonClickListener(placeFactoryButton, () => { OnFactoryPlacement?.Invoke(); });
         AddButtonClickListener(placeHospitalButton, () => { OnHospitalPlacement?.Invoke(); });
         AddButtonClickListener(placeShopButton, () => { OnShopPlacement?.Invoke(); });
+        AddButtonClickListener(placeBigParkButton, () => { OnBigParkPlacement?.Invoke(); });
         
         AddButtonClickListener(openHouseMenuButton, () => { OnHouseMenu?.Invoke(); });
         AddButtonClickListener(openPublicServiceMenuButton, () => { OnPublicServiceMenu?.Invoke(); });
