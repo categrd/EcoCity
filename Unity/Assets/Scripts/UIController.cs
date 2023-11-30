@@ -134,6 +134,7 @@ public class UIController : MonoBehaviour
             destroyStructureButton,
             placeRoadButton,
             placeHouseButton,
+            placeHighDensityHouseButton,
             placeClinicButton,
             placePoliceStationButton,
             placeCropButton,
@@ -162,7 +163,6 @@ public class UIController : MonoBehaviour
             placeRestaurantButton,
             placeCarbonPowerPlantButton,
             placeNuclearPlantButton,
-            placeHighDensityHouseButton,
             placeShopButton,
             placeBarButton,
             
@@ -178,6 +178,7 @@ public class UIController : MonoBehaviour
         AddButtonClickListener(destroyStructureButton, () => { OnDestroyStructure?.Invoke(); });
         AddButtonClickListener(placeRoadButton, () => { OnRoadPlacement?.Invoke(); });
         AddButtonClickListener(placeHouseButton, () => { OnHousePlacement?.Invoke(); });
+        AddButtonClickListener(placeHighDensityHouseButton, () => { OnHighDensityHousePlacement?.Invoke(); });
         AddButtonClickListener(placeClinicButton, () => { OnClinicPlacement?.Invoke(); });
         AddButtonClickListener(placePoliceStationButton, () => { OnPoliceStationPlacement?.Invoke(); });
         AddButtonClickListener(placeCropButton, () => { OnCropPlacement?.Invoke(); });
@@ -207,7 +208,6 @@ public class UIController : MonoBehaviour
         
         AddButtonClickListener(placeCarbonPowerPlantButton, () => { OnCarbonPowerPlantPlacement?.Invoke(); });
         AddButtonClickListener(placeNuclearPlantButton, () => { OnNuclearPlantPlacement?.Invoke(); });
-        AddButtonClickListener(placeHighDensityHouseButton, () => { OnHighDensityHousePlacement?.Invoke(); });
         AddButtonClickListener(placeShopButton, () => { OnShopPlacement?.Invoke(); });
         
         AddButtonClickListener(placeBarButton, () => { OnBarPlacement?.Invoke(); });
