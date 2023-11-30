@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2531032934432362257}
-  - component: {fileID: 1998100164084948940}
   m_Layer: 0
   m_Name: Park
   m_TagString: Untagged
@@ -33,27 +32,6 @@ Transform:
   - {fileID: 6101693118582405964}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1998100164084948940
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1477830496281092821}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 119.78781, z: 13.5516205}
-  m_Center: {x: 0, y: -59.3939, z: 6.275809}
 --- !u!1001 &5991802829007871143
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -159,5 +137,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: -10.93, y: 1.52, z: 10.8}
-  m_Center: {x: -0.41, y: 0, z: 2.3}
+  m_Size: {x: 11.18, y: 1.52, z: 11.1}
+  m_Center: {x: -0.05, y: -0.41, z: 0.08}

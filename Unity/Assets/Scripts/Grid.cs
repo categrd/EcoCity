@@ -123,7 +123,7 @@ public class Cell
             case BuildingType.Clinic:
                 return (1, 1, 200000);
             case BuildingType.Hospital:
-                return (1, 1, 1000000);
+                return (2, 2, 1000000);
             case BuildingType.Cinema:
                 return (1, 2, 400000);
             case BuildingType.Crop:
@@ -181,6 +181,7 @@ public class StructureCell : Cell
     private float _wasteProduction;
     private int _numberOfEmployeesCapacity;
     private List<Person> _employeeList;
+    
 
     public BuildingType BuildingType { get; set; }
     public int MaintenanceCost { get; set; }
@@ -216,6 +217,7 @@ public class SanityCell : JobCell
             WasteProduction = 20;
             NumberOfEmployeesCapacity = 20;
             PatientCapacity = 50;
+            
         }
 
         if (buildingType == BuildingType.Hospital)

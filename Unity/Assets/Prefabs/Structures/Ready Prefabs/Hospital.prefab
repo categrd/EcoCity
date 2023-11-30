@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6766321631820102187}
   - component: {fileID: 7697456725739417895}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Hospital
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 948695418406959342}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.75, y: 0, z: -1.75}
+  m_LocalPosition: {x: 0.26, y: 0, z: -0.74}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -67,7 +67,7 @@ GameObject:
   - component: {fileID: 6296477090150797422}
   - component: {fileID: 6544719537403414281}
   - component: {fileID: 3919103470245942485}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -227,6 +227,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 1e0b6b7857ee3a542891505a3d1d1af5, type: 3}
       propertyPath: m_Name
       value: Hospital
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 1e0b6b7857ee3a542891505a3d1d1af5, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

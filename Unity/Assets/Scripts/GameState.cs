@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using TMPro;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = System.Random;
@@ -119,19 +120,39 @@ public class GameState : MonoBehaviour
 
                 if (targetPosition != null)
                 {
-                    List<Vector3Int>  neighboursTargetRoads = placementManager.GetNeighboursOfTypeFor<RoadCell>((Vector3Int)targetPosition);
-                    if (neighboursTargetRoads.Count <= 0)
+                    Vector3Int? targetRoad = GetTargetRoadPosition((Vector3Int)targetPosition);
+                    if(targetRoad != null)
                     {
-                        return;
+                        transportManager.MovePersonToPosition(person, startingPosition, (Vector3Int)targetPosition);
                     }
-                    Vector3Int targetRoad = neighboursTargetRoads[0];
-                    transportManager.MovePersonToPosition(person, startingPosition, (Vector3Int)targetRoad);
                     person.isPersonFree = false;
                 }
             }
         }
     }
 
+    private Vector3Int? GetTargetRoadPosition(Vector3Int targetPosition)
+    {
+        Cell targetCell = placementManager.GetCellAtPosition((Vector3Int)targetPosition);
+        for (var x = 0; x < targetCell.StructureWidth; x++)
+        {
+            for (var z = 0; z < targetCell.StructureHeight; z++)
+            {
+                var newPosition = targetPosition + new Vector3Int(x, 0, z);
+                
+                if(placementManager.GetCellAtPosition((Vector3Int)newPosition) ==  targetCell)
+                {
+                    List<Vector3Int>  neighboursTargetRoads = placementManager.GetNeighboursOfTypeFor<RoadCell>((Vector3Int)targetPosition);
+                    if (neighboursTargetRoads.Count > 0)
+                    {
+                        return neighboursTargetRoads[0];
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
     private void UpdateTotalPopulation()
     {
         if(totalPopulation < populationCapacity)
@@ -254,6 +275,7 @@ public class GameState : MonoBehaviour
     public void UpdateGameVariablesWhenDestroying(Vector3Int position)
     {
         Cell cell = placementManager.GetCellAtPosition(position);
+        
         if (cell is StructureCell)
         {
             if(cell.GetType() != typeof(ResidenceCell))

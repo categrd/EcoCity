@@ -146,6 +146,8 @@ public class UIController : MonoBehaviour
             placeFactoryButton,
             placeRoadButton,
             placeWindTurbineButton,
+            placeShopButton,
+            placeHospitalButton,
             openHouseMenuButton,
             openPublicServiceMenuButton,
             openEnergySourceMenuButton,
@@ -157,13 +159,13 @@ public class UIController : MonoBehaviour
 
 
             /*
-            placeHospitalButton,
+            
             placeUniversityButton,
             placeFireStationButton,
             placeRestaurantButton,
             placeCarbonPowerPlantButton,
             placeNuclearPlantButton,
-            placeShopButton,
+            
             placeBarButton,
             
             
@@ -188,6 +190,8 @@ public class UIController : MonoBehaviour
         AddButtonClickListener(placeCinemaButton, () => { OnCinemaPlacement?.Invoke(); });
         AddButtonClickListener(placeWindTurbineButton, () => { OnWindTurbinePlacement?.Invoke(); });
         AddButtonClickListener(placeFactoryButton, () => { OnFactoryPlacement?.Invoke(); });
+        AddButtonClickListener(placeHospitalButton, () => { OnHospitalPlacement?.Invoke(); });
+        AddButtonClickListener(placeShopButton, () => { OnShopPlacement?.Invoke(); });
         
         AddButtonClickListener(openHouseMenuButton, () => { OnHouseMenu?.Invoke(); });
         AddButtonClickListener(openPublicServiceMenuButton, () => { OnPublicServiceMenu?.Invoke(); });
@@ -199,7 +203,7 @@ public class UIController : MonoBehaviour
         AddButtonClickListener(openShopMenuButton, () => { OnShopMenu?.Invoke(); });
 
         /*
-        AddButtonClickListener(placeHospitalButton, () => { OnHospitalPlacement?.Invoke(); });
+        
         AddButtonClickListener(placeRestaurantButton, () => { OnRestaurantPlacement?.Invoke(); });
         AddButtonClickListener(placeUniversityButton, () => { OnUniversityPlacement?.Invoke(); });
         AddButtonClickListener(placeFireStationButton, () => { OnFireStationPlacement?.Invoke(); });
@@ -208,7 +212,7 @@ public class UIController : MonoBehaviour
         
         AddButtonClickListener(placeCarbonPowerPlantButton, () => { OnCarbonPowerPlantPlacement?.Invoke(); });
         AddButtonClickListener(placeNuclearPlantButton, () => { OnNuclearPlantPlacement?.Invoke(); });
-        AddButtonClickListener(placeShopButton, () => { OnShopPlacement?.Invoke(); });
+        
         
         AddButtonClickListener(placeBarButton, () => { OnBarPlacement?.Invoke(); });
         

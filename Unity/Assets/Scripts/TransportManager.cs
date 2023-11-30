@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class TransportManager : MonoBehaviour
 {
     public GameObject personPrefab;
+    private List<Person> pedestrianMovingList;
     
     public void MovePersonToPosition(Person person, Vector3Int startingPosition, Vector3Int targetPosition)
     {

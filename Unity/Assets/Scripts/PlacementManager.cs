@@ -213,8 +213,10 @@ public class PlacementManager : MonoBehaviour
         // RaycastHit variable to store information about the hit
         RaycastHit hit;
 
-        // Check if the ray hits any collider
-        if (Physics.Raycast(ray, out hit, maxDistance, 1 << LayerMask.NameToLayer("Structure")))
+        int structureLayer = LayerMask.NameToLayer("Structure");
+        int walkableStreetLayer = LayerMask.NameToLayer("WalkableStreet");
+
+        if (Physics.Raycast(ray, out hit, maxDistance, 1 << structureLayer) || Physics.Raycast(ray, out hit, maxDistance, 1 << walkableStreetLayer))
         {
             // Destroy the game object if a collider is hit
             Destroy(hit.collider.gameObject);
