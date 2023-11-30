@@ -119,7 +119,7 @@ public class Cell
             case BuildingType.House:
                 return (1, 1, 100000);
             case BuildingType.HighDensityHouse:
-                return (1, 1, 300000);
+                return (2, 2, 300000);
             case BuildingType.Clinic:
                 return (1, 1, 200000);
             case BuildingType.Hospital:
