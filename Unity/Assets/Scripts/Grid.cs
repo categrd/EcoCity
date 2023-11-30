@@ -96,7 +96,10 @@ public class Person
     public Vector3Int? housePosition = null;
     public float busyTime = 0;
     public bool isPersonFree = true;
+    public float idleTime = 0;
+    public Vector3? startingPosition = null;
     public Vector3Int? currentPosition = null;
+    public Vector3Int? targetPosition = null;
     public int crime;
     public int fire;
     public int entertainment;

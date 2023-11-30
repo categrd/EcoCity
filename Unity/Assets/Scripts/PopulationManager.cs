@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections.LowLevel.Unsafe;
@@ -8,6 +9,24 @@ public class PopulationManager : MonoBehaviour
     public PlacementManager placementManager;
     public List<Person> joblessPeople = new List<Person>();
     public List<Person> peopleList = new List<Person>();
+
+    private void Update()
+    {
+        foreach (var person in peopleList)
+        {
+            if(person.busyTime > 0)
+            {
+                person.busyTime -= Time.deltaTime;
+            }
+
+            if (person.busyTime <= 0)
+            {
+                person.busyTime = 0;
+                person.isPersonFree = true;
+            }
+        }
+    }
+
     public void CreateNewPerson()
     {
         Vector3Int? residencePosition = placementManager.CheckFreeResidence();
