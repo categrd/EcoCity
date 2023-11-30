@@ -3652,7 +3652,7 @@ MonoBehaviour:
   clinicPrefab: {fileID: 5786580668828074617, guid: 6d29b34b51a7940469e94ea08636da03, type: 3}
   hospitalPrefab: {fileID: 948695418406959342, guid: b23d8607810fd19468a49ab4b829a8ce, type: 3}
   highDensityHousePrefab: {fileID: 4306553835082693479, guid: a2e4f3f342777f34494c57713726501a, type: 3}
-  solarPanelPrefab: {fileID: 0}
+  solarPanelPrefab: {fileID: 9132174939791406830, guid: 2d2fa3535c866f641a4d67e748df7fa3, type: 3}
   windTurbinePrefab: {fileID: 1758529554004106585, guid: 99f276c33a60fb64f953c46128241ea4, type: 3}
   carbonPowerPlantPrefab: {fileID: 0}
   nuclearPlantPrefab: {fileID: 0}

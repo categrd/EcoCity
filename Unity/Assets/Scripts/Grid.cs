@@ -140,7 +140,8 @@ public class Cell
                 return (1, 1, 100000);
             case BuildingType.BigPark:
                 return (2, 2, 10000);
-            
+            case BuildingType.SolarPanel:
+                return (2, 2, 10000);
             // Add more cases for other building types
             default:
                 return (0, 0, 0); // Default values if the building type is not recognized

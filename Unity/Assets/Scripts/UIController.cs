@@ -196,7 +196,8 @@ public class UIController : MonoBehaviour
         AddButtonClickListener(placeHospitalButton, () => { OnHospitalPlacement?.Invoke(); });
         AddButtonClickListener(placeShopButton, () => { OnShopPlacement?.Invoke(); });
         AddButtonClickListener(placeBigParkButton, () => { OnBigParkPlacement?.Invoke(); });
-        
+        AddButtonClickListener(placeSolarPanelButton, () => { OnSolarPanelPlacement?.Invoke(); });
+
         AddButtonClickListener(openHouseMenuButton, () => { OnHouseMenu?.Invoke(); });
         AddButtonClickListener(openPublicServiceMenuButton, () => { OnPublicServiceMenu?.Invoke(); });
         AddButtonClickListener(openEnergySourceMenuButton, () => { OnEnergySourceMenu?.Invoke(); });
