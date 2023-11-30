@@ -80,7 +80,7 @@ public class StructureManager : MonoBehaviour
                     _prefab = housesPrefabs[randomIndex].prefab;
                     break;
                 case BuildingType.HighDensityHouse:
-                    var highDensityHouse = new ResidenceCell(BuildingType.House);
+                    var highDensityHouse = new ResidenceCell(BuildingType.HighDensityHouse);
                     _structure =  highDensityHouse;
                     _prefab = highDensityHousePrefab;
                     break;

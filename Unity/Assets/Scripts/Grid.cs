@@ -142,6 +142,7 @@ public class Cell
                 return (2, 2, 10000);
             case BuildingType.SolarPanel:
                 return (2, 2, 10000);
+            
             // Add more cases for other building types
             default:
                 return (0, 0, 0); // Default values if the building type is not recognized
@@ -210,6 +211,7 @@ public class SanityCell : JobCell
         EmployeeList = new List<Person>();
         if(buildingType == BuildingType.Clinic)
         {
+            BuildingType = BuildingType.Clinic;
             Cost = 200000;
             MaintenanceCost = 200;
             IncomeGenerated = 0;
@@ -223,6 +225,7 @@ public class SanityCell : JobCell
 
         if (buildingType == BuildingType.Hospital)
         {
+            BuildingType = BuildingType.Hospital;
             Cost = 1000000;
             MaintenanceCost = 2000;
             IncomeGenerated = 0;
@@ -252,6 +255,7 @@ public class ResidenceCell : StructureCell
         PersonList = new List<Person>();
         if(buildingType == BuildingType.House)
         {
+            BuildingType = BuildingType.House;
             Cost = 100000;
             MaintenanceCost = 0;
             Beauty = 0.1f;
@@ -265,6 +269,7 @@ public class ResidenceCell : StructureCell
 
         if (buildingType == BuildingType.HighDensityHouse)
         {
+            BuildingType = BuildingType.HighDensityHouse;
             Cost = 300000;
             MaintenanceCost = 0;
             Beauty = -0.01f;
@@ -289,6 +294,7 @@ public class EnergyProductionCell : JobCell
         EmployeeList = new List<Person>();
         if (buildingType == BuildingType.SolarPanel)
         {
+            BuildingType = BuildingType.SolarPanel;
             Cost = 500000;
             MaintenanceCost = 100;
             IncomeGenerated = 0;
@@ -301,6 +307,7 @@ public class EnergyProductionCell : JobCell
 
         if (buildingType == BuildingType.WindTurbine)
         {
+            BuildingType = BuildingType.WindTurbine;
             Cost = 500000;
             MaintenanceCost = 100;
             IncomeGenerated = 0;
@@ -314,6 +321,7 @@ public class EnergyProductionCell : JobCell
 
         if (buildingType == BuildingType.CarbonPowerPlant)
         {
+            BuildingType = BuildingType.CarbonPowerPlant;
             Cost = 1000000;
             MaintenanceCost = 500;
             IncomeGenerated = 0;
@@ -327,6 +335,7 @@ public class EnergyProductionCell : JobCell
 
         if (buildingType == BuildingType.NuclearPlant)
         {
+            BuildingType = BuildingType.NuclearPlant;
             Cost = 10000000;
             MaintenanceCost = 1000;
             IncomeGenerated = 0;
@@ -351,6 +360,7 @@ public class EntertainmentCell : JobCell
         EmployeeList = new List<Person>();
         if (buildingType == BuildingType.Shop)
         {
+            BuildingType = BuildingType.Shop;
             Cost = 100000;
             MaintenanceCost = 0;
             IncomeGenerated = 1000;
@@ -363,6 +373,7 @@ public class EntertainmentCell : JobCell
         }
         if (buildingType == BuildingType.Bar)
         {
+            BuildingType = BuildingType.Bar;
             Cost = 50000;
             MaintenanceCost = 0;
             IncomeGenerated = 1200;
@@ -375,6 +386,7 @@ public class EntertainmentCell : JobCell
         }
         if (buildingType == BuildingType.Restaurant)
         {
+            BuildingType = BuildingType.Restaurant;
             Cost = 200000;
             MaintenanceCost = 0;
             IncomeGenerated = 2500;
@@ -387,6 +399,7 @@ public class EntertainmentCell : JobCell
         }
         if (buildingType == BuildingType.Cinema)
         {
+            BuildingType = BuildingType.Cinema;
             StructureWidth = 1;
             StructureHeight = 2;
             Cost = 400000;
@@ -402,6 +415,9 @@ public class EntertainmentCell : JobCell
 
         if (buildingType == BuildingType.BigPark)
         {
+            BuildingType = BuildingType.BigPark;
+            StructureWidth = 2;
+            StructureHeight = 2;
             Cost = 10000;
         }
         
@@ -421,6 +437,7 @@ public class PublicServiceCell : JobCell
         EmployeeList = new List<Person>();
         if(buildingType == BuildingType.PoliceStation)
         {
+            BuildingType = BuildingType.PoliceStation;
             Cost = 250000;
             MaintenanceCost = 1000;
             IncomeGenerated = 0;
@@ -432,6 +449,7 @@ public class PublicServiceCell : JobCell
         }
         if(buildingType == BuildingType.FireStation)
         {
+            BuildingType = BuildingType.FireStation;
             Cost = 250000;
             MaintenanceCost = 500;
             IncomeGenerated = 0;
@@ -442,6 +460,7 @@ public class PublicServiceCell : JobCell
         }
         if(buildingType == BuildingType.University)
         {
+            BuildingType = BuildingType.University;
             Cost = 1000000;
             MaintenanceCost = 1500;
             IncomeGenerated = 0;
@@ -467,6 +486,7 @@ public class IndustryCell : JobCell
         EmployeeList = new List<Person>();
         if (buildingType == BuildingType.Factory)
         {
+            BuildingType = BuildingType.Factory;
             Cost = 1000000;
             MaintenanceCost = 0;
             IncomeGenerated = 4000;
@@ -482,6 +502,7 @@ public class IndustryCell : JobCell
         }
         if (buildingType == BuildingType.Crop)
         {
+            BuildingType = BuildingType.Crop;
             StructureWidth = 2;
             StructureHeight = 2;
             Cost = 300000;
@@ -498,6 +519,7 @@ public class IndustryCell : JobCell
         }
         if (buildingType == BuildingType.Livestock)
         {
+            BuildingType = BuildingType.Livestock;
             Cost = 350000;
             MaintenanceCost = 0;
             IncomeGenerated = 1500;
@@ -522,6 +544,7 @@ public class GarbageDisposalCell : JobCell
         EmployeeList = new List<Person>();
         if (buildingType == BuildingType.Landfill)
         {
+            BuildingType = BuildingType.Landfill;
             Cost = 50000;
             MaintenanceCost = 50;
             IncomeGenerated = 0;
@@ -533,6 +556,7 @@ public class GarbageDisposalCell : JobCell
         }
         if (buildingType == BuildingType.IncinerationPlant)
         {
+            BuildingType = BuildingType.IncinerationPlant;
             Cost = 400000;
             MaintenanceCost = 500;
             IncomeGenerated = 0;
@@ -544,6 +568,7 @@ public class GarbageDisposalCell : JobCell
         }
         if (buildingType == BuildingType.WasteToEnergyPlant)
         {
+            BuildingType = BuildingType.WasteToEnergyPlant;
             Cost = 1000000;
             MaintenanceCost = 1000;
             IncomeGenerated = 0;
