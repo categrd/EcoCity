@@ -50,6 +50,9 @@ public class GameState : MonoBehaviour
     private int _totalNumberOfJobs;
     private int _totalUnemployed;
     private int _totalEmployed;
+
+    private float _totalCarbonMonoxyde;
+    private int _totalArea;
     
     private float _time;
     
@@ -80,6 +83,11 @@ public class GameState : MonoBehaviour
         currentMoney += GetEarnings();
         HandlePeopleMovement();
         Debug.Log("jobless people:" + populationManager.joblessPeople.Count);
+    }
+
+    private void UpdateCarbonMonoxideProduction()
+    {
+        
     }
 
     private void HandlePeopleMovement()
@@ -256,6 +264,12 @@ public class GameState : MonoBehaviour
         Cell cell = placementManager.GetCellAtPosition(position);
         if (cell is StructureCell)
         {
+            StructureCell structureCell = (StructureCell) cell;
+            var (width, height, cost) = StructureCell.GetAttributesForBuildingType(structureCell.BuildingType);
+            int single_area = width * height;
+            _totalArea -= single_area;
+
+            _totalCarbonMonoxyde -= structureCell.CarbonMonoxideProduction;
             if(cell.GetType() != typeof(ResidenceCell))
             {
                 populationManager.RemovePeopleJob(position);
@@ -346,6 +360,14 @@ public class GameState : MonoBehaviour
     public void UpdateGameVariablesWhenBuilding(Vector3Int position)
     {
         Cell cell = placementManager.GetCellAtPosition(position);
+        if (cell is StructureCell)
+        {
+            StructureCell structureCell = (StructureCell) cell;
+            var (width, height, cost) = StructureCell.GetAttributesForBuildingType(structureCell.BuildingType);
+            int single_area = width * height;
+            _totalArea += single_area;
+            _totalCarbonMonoxyde += structureCell.CarbonMonoxideProduction;
+        }
         if (cell is ResidenceCell residenceCell)
         {
             //Update variables relative to ResidenceCell
@@ -434,3 +456,5 @@ public class GameState : MonoBehaviour
         currentMoney -= cell.Cost;
     }
 }
+
+

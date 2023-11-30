@@ -181,6 +181,10 @@ public class StructureCell : Cell
     private float _wasteProduction;
     private int _numberOfEmployeesCapacity;
     private List<Person> _employeeList;
+    private float _carbonMonoxide;
+    
+
+
 
     public BuildingType BuildingType { get; set; }
     public int MaintenanceCost { get; set; }
@@ -190,6 +194,7 @@ public class StructureCell : Cell
     public float WasteProduction { get; set; }
     public int NumberOfEmployeesCapacity { get; set; }
     public List<Person> EmployeeList { get; set; }
+    public float CarbonMonoxideProduction { get; set; }
 
 }
 
@@ -216,6 +221,7 @@ public class SanityCell : JobCell
             WasteProduction = 20;
             NumberOfEmployeesCapacity = 20;
             PatientCapacity = 50;
+            CarbonMonoxideProduction = 1;
         }
 
         if (buildingType == BuildingType.Hospital)
@@ -228,6 +234,7 @@ public class SanityCell : JobCell
             WasteProduction = 150;
             NumberOfEmployeesCapacity = 150;
             PatientCapacity = 500;
+            CarbonMonoxideProduction = 3;
             
         }
     }
@@ -258,6 +265,7 @@ public class ResidenceCell : StructureCell
             NumberOfResidentsCapacity = 4;
             IncomeGenerated = 100 * NumberOfResidentsCapacity;
             ComfortLevel = 0.1f;
+            CarbonMonoxideProduction = 0.1f;
         }
 
         if (buildingType == BuildingType.HighDensityHouse)
@@ -271,6 +279,7 @@ public class ResidenceCell : StructureCell
             NumberOfResidentsCapacity = 40;
             IncomeGenerated = 100 * NumberOfResidentsCapacity;
             ComfortLevel = -0.5f;
+            CarbonMonoxideProduction = 0.5f;
         }
 
     }
@@ -294,6 +303,7 @@ public class EnergyProductionCell : JobCell
             WasteProduction = 1;
             NumberOfEmployeesCapacity = 2;
             EnergyProduced = 1000;
+            CarbonMonoxideProduction = 0;
         }
 
         if (buildingType == BuildingType.WindTurbine)
@@ -306,6 +316,7 @@ public class EnergyProductionCell : JobCell
             WasteProduction = 1;
             NumberOfEmployeesCapacity = 2;
             EnergyProduced = 1000;
+            CarbonMonoxideProduction = 0;
 
         }
 
@@ -319,6 +330,7 @@ public class EnergyProductionCell : JobCell
             WasteProduction = 20;
             NumberOfEmployeesCapacity = 10;
             EnergyProduced = 10000;
+            CarbonMonoxideProduction = 10;
 
         }
 
@@ -332,6 +344,7 @@ public class EnergyProductionCell : JobCell
             WasteProduction = 1;
             NumberOfEmployeesCapacity = 25;
             EnergyProduced = 50000;
+            CarbonMonoxideProduction = 0;
 
         }
     }
