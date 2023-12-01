@@ -20,12 +20,16 @@ public class UIController : MonoBehaviour
         OnNuclearPlantPlacement, OnHighDensityHousePlacement, OnShopPlacement, OnRestaurantPlacement, OnBarPlacement, OnCinemaPlacement, OnUniversityPlacement,
         OnFireStationPlacement, OnPoliceStationPlacement, OnFactoryPlacement, OnCropPlacement, OnLivestockPlacement, OnLandfillPlacement, OnIncinerationPlantPlacement,
         OnWasteToEnergyPlantPlacement, OnBigParkPlacement, OnShowMenu, OnShowStats, OnShowEnvironmentStats, OnDestroyStructure, OnPublicServiceMenu, OnEnergySourceMenu, OnWaterSourceMenu,
-        OnWasteDisposalMenu, OnIndustryMenu, OnDecorationMenu, OnShopMenu, OnHouseMenu;
+        OnWasteDisposalMenu, OnIndustryMenu, OnDecorationMenu, OnShopMenu, OnHouseMenu, OnShowScientificProgress, OnCloseScientificProgress, OnUpgradeScientificProgress;
 
 
     public Button showMenu;
     public Button showStats;
     public Button showEnvironmentStats;
+
+    public Button showScientificProgress;
+    public Button upgradeScientificProgress;
+    public Button closeScientificProgress;
 
 
 
@@ -158,7 +162,10 @@ public class UIController : MonoBehaviour
             openWasteDisposalMenuButton,
             openIndustryMenuButton,
             openDecorationMenuButton,
-            openShopMenuButton
+            openShopMenuButton,
+            showScientificProgress,
+            upgradeScientificProgress,
+            closeScientificProgress
 
 
             /*
@@ -190,6 +197,9 @@ public class UIController : MonoBehaviour
         AddButtonClickListener(showMenu, () => { OnShowMenu?.Invoke(); });
         AddButtonClickListener(showStats, () => { OnShowStats?.Invoke(); });
         AddButtonClickListener(showEnvironmentStats, () => { OnShowEnvironmentStats?.Invoke(); });
+        AddButtonClickListener(showScientificProgress, () => { OnShowScientificProgress?.Invoke(); });
+        AddButtonClickListener(upgradeScientificProgress, () => { OnUpgradeScientificProgress?.Invoke(); });
+        AddButtonClickListener(closeScientificProgress, () => { OnCloseScientificProgress?.Invoke(); });
         AddButtonClickListener(placeCinemaButton, () => { OnCinemaPlacement?.Invoke(); });
         AddButtonClickListener(placeWindTurbineButton, () => { OnWindTurbinePlacement?.Invoke(); });
         AddButtonClickListener(placeFactoryButton, () => { OnFactoryPlacement?.Invoke(); });

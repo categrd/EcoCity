@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public GameObject menuPanel;
     public GameObject statsPanel;
     public GameObject environmentStatsPanel;
+    public GameObject scientificProgressPanel;
 
 
     public GameObject housePanel, decorationPanel, publicservicesPanel, industryPanel, shopPanel, wastedisposalPanel,
@@ -55,6 +56,9 @@ public class GameManager : MonoBehaviour
         uiController.OnShowMenu += () => PanelHandler(menuPanel);
         uiController.OnShowStats += () => PanelHandler(statsPanel);
         uiController.OnShowEnvironmentStats += () => PanelHandler(environmentStatsPanel);
+        uiController.OnShowScientificProgress += () => PanelHandler(scientificProgressPanel);
+        uiController.OnCloseScientificProgress += () => PanelHandler(scientificProgressPanel); 
+        uiController.OnUpgradeScientificProgress += UpgradeScientificProgressHandler;
 
         uiController.OnHouseMenu += () => BuildingPanelHandler(housePanel);
         uiController.OnIndustryMenu += () => BuildingPanelHandler(industryPanel);
@@ -109,6 +113,11 @@ public class GameManager : MonoBehaviour
 
     }
     */ 
+
+    private void UpgradeScientificProgressHandler()
+    {
+
+    }
 
     private void PanelHandler(GameObject panel)
     {
