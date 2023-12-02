@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using TMPro;
 using Unity.Mathematics;
@@ -16,8 +17,7 @@ public class GameState : MonoBehaviour
     public TransportManager transportManager;
     public float currentMoney;
     private int _totalIncome;
-    private int _totalCosts;
-    
+    private int _totalCosts;    
     public int populationCapacity;
     public int PopulationCapacity => populationCapacity;    
     
@@ -51,6 +51,9 @@ public class GameState : MonoBehaviour
     private int _totalNumberOfJobs;
     private int _totalUnemployed;
     private int _totalEmployed;
+
+    private bool[] scientificProgress;
+
     
     private float _time;
     
@@ -61,6 +64,7 @@ public class GameState : MonoBehaviour
         populationCapacity = 0;
         _time = 0f;
         _totalNumberOfJobs= 0;
+        scientificProgress = new bool[20];
     }
 
     private void Update()
@@ -455,4 +459,45 @@ public class GameState : MonoBehaviour
         }
         currentMoney -= cell.Cost;
     }
+
+    public int GetScientificProgressLevel()
+    {
+        int numberOfScientificProgress = 0;
+        foreach (bool progress in scientificProgress)
+        {
+            if (progress)
+            {
+                numberOfScientificProgress++;
+            }
+        }
+        return numberOfScientificProgress;
+    }
+    
+    public float GetScientificProgressRatio()
+    {
+        int numberOfScientificProgress = 0;
+        foreach (bool progress in scientificProgress)
+        {
+            if (progress)
+            {
+                numberOfScientificProgress++;
+            }
+        }
+        return (float) numberOfScientificProgress / scientificProgress.Length;
+    }
+    
+    public bool upgradeScientificProgress()
+    {
+        try
+        {
+            scientificProgress[Array.IndexOf(scientificProgress, false)] = true;
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+       
+    }
+
 }

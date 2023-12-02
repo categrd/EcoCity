@@ -28,8 +28,11 @@ public class UIController : MonoBehaviour
     public Button showEnvironmentStats;
 
     public Button showScientificProgress;
-    public Button upgradeScientificProgress;
+    public Button upgradeScientificProgressButton;
     public Button closeScientificProgress;
+
+    public GameObject[] ScientificProgressTexts = new GameObject[21] ;
+
 
 
 
@@ -107,6 +110,7 @@ public class UIController : MonoBehaviour
     public Slider jobsOccupiedSlider;
     public Slider criminalsCoveredSlider;
     public Slider patientsCoveredSlider;
+    public Slider scientificProgressSlider;
 
     public Color outlineColor;
     List<Button> buttonList;
@@ -164,7 +168,7 @@ public class UIController : MonoBehaviour
             openDecorationMenuButton,
             openShopMenuButton,
             showScientificProgress,
-            upgradeScientificProgress,
+            upgradeScientificProgressButton,
             closeScientificProgress
 
 
@@ -198,7 +202,7 @@ public class UIController : MonoBehaviour
         AddButtonClickListener(showStats, () => { OnShowStats?.Invoke(); });
         AddButtonClickListener(showEnvironmentStats, () => { OnShowEnvironmentStats?.Invoke(); });
         AddButtonClickListener(showScientificProgress, () => { OnShowScientificProgress?.Invoke(); });
-        AddButtonClickListener(upgradeScientificProgress, () => { OnUpgradeScientificProgress?.Invoke(); });
+        AddButtonClickListener(upgradeScientificProgressButton, () => { OnUpgradeScientificProgress?.Invoke(); });
         AddButtonClickListener(closeScientificProgress, () => { OnCloseScientificProgress?.Invoke(); });
         AddButtonClickListener(placeCinemaButton, () => { OnCinemaPlacement?.Invoke(); });
         AddButtonClickListener(placeWindTurbineButton, () => { OnWindTurbinePlacement?.Invoke(); });
@@ -290,5 +294,8 @@ public class UIController : MonoBehaviour
         patientsCoveredText.text = "Patients Covered: " + Math.Round(gameState.GetPatientsCoveredRatio() * 100, 2) + "%";
         patientsCoveredSlider.value = (float)gameState.GetPatientsCoveredRatio();
         populationCapacityText.text = "Population Capacity: " + gameState.PopulationCapacity;
+        scientificProgressSlider.value = (float)gameState.GetScientificProgressRatio();
+
     }
+
 }

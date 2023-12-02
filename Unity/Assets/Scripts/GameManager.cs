@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -116,7 +117,9 @@ public class GameManager : MonoBehaviour
 
     private void UpgradeScientificProgressHandler()
     {
-
+        uiController.gameState.upgradeScientificProgress();
+        ToggleMenu(uiController.ScientificProgressTexts[uiController.gameState.GetScientificProgressLevel()-1]);
+        ToggleMenu(uiController.ScientificProgressTexts[uiController.gameState.GetScientificProgressLevel()]);
     }
 
     private void PanelHandler(GameObject panel)
@@ -152,7 +155,9 @@ public class GameManager : MonoBehaviour
         inputManager.OnPressingEsc += () => ToggleMenu(panel);
     }
 
-    
+    private void ToggleText(Text text){
+
+    }
     private void ToggleMenu(GameObject panel)
     {
         panel.SetActive(!(panel.activeSelf));
