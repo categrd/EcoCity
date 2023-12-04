@@ -157,6 +157,7 @@ public class UIController : MonoBehaviour
             placeRoadButton,
             placeWindTurbineButton,
             placeShopButton,
+            placeBarButton,
             placeHospitalButton,
             placeBigParkButton,
             openHouseMenuButton,
@@ -179,9 +180,7 @@ public class UIController : MonoBehaviour
             placeRestaurantButton,
             placeCarbonPowerPlantButton,
             placeNuclearPlantButton,
-            
-            placeBarButton,
-            
+                        
             
             placeLivestockButton,
             placeLandfillButton,
@@ -220,6 +219,7 @@ public class UIController : MonoBehaviour
         AddButtonClickListener(openIndustryMenuButton, () => { OnIndustryMenu?.Invoke(); });
         AddButtonClickListener(openDecorationMenuButton, () => { OnDecorationMenu?.Invoke(); });
         AddButtonClickListener(openShopMenuButton, () => { OnShopMenu?.Invoke(); });
+        AddButtonClickListener(placeBarButton, () => { OnBarPlacement?.Invoke(); });
 
         /*
         
@@ -233,7 +233,6 @@ public class UIController : MonoBehaviour
         AddButtonClickListener(placeNuclearPlantButton, () => { OnNuclearPlantPlacement?.Invoke(); });
         
         
-        AddButtonClickListener(placeBarButton, () => { OnBarPlacement?.Invoke(); });
         
         AddButtonClickListener(placeCropButton, () => { OnCropPlacement?.Invoke(); });
         AddButtonClickListener(placeLivestockButton, () => { OnLivestockPlacement?.Invoke(); });
