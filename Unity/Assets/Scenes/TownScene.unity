@@ -4313,7 +4313,7 @@ MonoBehaviour:
   restaurantPrefab: {fileID: 0}
   barPrefab: {fileID: 2472801422318060606, guid: cb5bea2bd2ff0ae46adb4bf69e33d857, type: 3}
   cinemaPrefab: {fileID: 5593942330112658564, guid: fff0c713b06abcd4496f425e8f2274f7, type: 3}
-  universityPrefab: {fileID: 0}
+  universityPrefab: {fileID: 7069108803363649792, guid: a2b0cac7d9a9446adad37adb6f464f26, type: 3}
   fireStationPrefab: {fileID: 0}
   policeStationPrefab: {fileID: 3620428020477803884, guid: db1c43ec72b2e90448eee0a65b1c7ca1, type: 3}
   factoryPrefab: {fileID: 2475843131891735655, guid: 51c8fd0541bdc514b98a5b037d4645fa, type: 3}

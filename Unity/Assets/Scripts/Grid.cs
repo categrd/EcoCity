@@ -133,6 +133,8 @@ public class Cell
                 return (2, 2, 300000);
             case BuildingType.PoliceStation:
                 return (1, 1, 250000);
+            case BuildingType.University:
+                return (2, 1, 300000);
             case BuildingType.Factory:
                 return (3, 3, 500000);
             case BuildingType.Bar:
