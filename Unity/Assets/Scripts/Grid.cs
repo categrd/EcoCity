@@ -144,6 +144,8 @@ public class Cell
                 return (3, 3, 500000);
             case BuildingType.Bar:
                 return (1, 1, 50000);
+            case BuildingType.Restaurant:
+                return (1, 1, 50000);
             case BuildingType.WindTurbine:
                 return (1, 1, 50000);
             case BuildingType.Shop:
