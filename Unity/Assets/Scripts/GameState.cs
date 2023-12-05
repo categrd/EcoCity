@@ -91,45 +91,46 @@ public class GameState : MonoBehaviour
     {
         foreach (Person person in populationManager.peopleList)
         {
-            if (person.isPersonFree && person.currentPosition != null)
+            if (person.isPersonFree && person.personPrefab == null && person.currentPosition != null)
             {
                 Vector3Int personCurrentPosition = (Vector3Int) person.currentPosition;
                 Vector3Int? targetPosition = null;
                 List<Vector3Int> neighboursRoads = placementManager.GetNeighboursOfTypeFor<RoadCell>(personCurrentPosition);
-                if (neighboursRoads.Count <= 0)
+                // if there's at least a road next to the person, we continue with the code
+                if (neighboursRoads.Count >= 0)
                 {
-                    return;
-                }
-                Vector3Int startingPosition = neighboursRoads[0];
-                if (placementManager.GetCellAtPosition(personCurrentPosition) is ResidenceCell)
-                {
-                    Random random = new Random();
-                    int randomValue = random.Next(2);
-                    if (randomValue == 0)
+                    Vector3Int startingPosition = neighboursRoads[0];
+                    if (placementManager.GetCellAtPosition(personCurrentPosition) is ResidenceCell)
                     {
-                        targetPosition = placementManager.placementGrid.GetRandomPositionOfTypeCell(typeof(EntertainmentCell));
+                        Random random = new Random();
+                        int randomValue = random.Next(2);
+                        if (randomValue == 0)
+                        {
+                            targetPosition =
+                                placementManager.placementGrid.GetRandomPositionOfTypeCell(typeof(EntertainmentCell));
+
+                        }
+                        else
+                        {
+                            targetPosition = person.jobPosition;
+                        }
+                    }
+
+                    if (placementManager.GetCellAtPosition(personCurrentPosition) is JobCell)
+                    {
+                        targetPosition = person.housePosition;
 
                     }
-                    else
+
+                    if (targetPosition != null)
                     {
-                        targetPosition = person.jobPosition;
+                        Vector3Int? targetRoad = GetTargetRoadPosition((Vector3Int)targetPosition);
+                        if (targetRoad != null)
+                        {
+                            transportManager.MovePersonToPosition(person, startingPosition, (Vector3Int)targetPosition);
+                        }
+
                     }
-                }
-
-                if (placementManager.GetCellAtPosition(personCurrentPosition) is JobCell)
-                {
-                    targetPosition = person.housePosition;
-
-                }
-
-                if (targetPosition != null)
-                {
-                    Vector3Int? targetRoad = GetTargetRoadPosition((Vector3Int)targetPosition);
-                    if(targetRoad != null)
-                    {
-                        transportManager.MovePersonToPosition(person, startingPosition, (Vector3Int)targetPosition);
-                    }
-                    person.isPersonFree = false;
                 }
             }
         }

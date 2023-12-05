@@ -7,7 +7,8 @@ using UnityEngine.AI;
 public class TransportManager : MonoBehaviour
 {
     public GameObject personPrefab;
-    private List<Person> pedestrianMovingList = new List<Person>();
+    private List<Person> _pedestrianMovingList = new List<Person>();
+    private List<Person> _peopleArrivedAtDestination = new List<Person>();
     
     public void MovePersonToPosition(Person person, Vector3Int startingPosition, Vector3Int targetPosition)
     {
@@ -19,9 +20,8 @@ public class TransportManager : MonoBehaviour
             person.startingPosition = startingPositionOnStreet;
             person.targetPosition = targetPosition;
             person.isPersonFree = false;
-            person.busyTime = 100;
             agent.SetDestination(targetPosition);
-            pedestrianMovingList.Add(person);
+            _pedestrianMovingList.Add(person);
         }
         else
         {
@@ -31,16 +31,19 @@ public class TransportManager : MonoBehaviour
 
     private void Update()
     {
-        foreach (var person in pedestrianMovingList)
+        foreach (var person in _pedestrianMovingList)
         { 
             if(person.personPrefab != null)
             {
-                if (person.personPrefab.transform.position == person.startingPosition)
+                //let's check if person is idle by checking  if he's in a small radius from his starting position
+                
+                if (person.startingPosition.HasValue && Vector3.Distance(person.personPrefab.transform.position, person.startingPosition.Value) < 0.1f)
                 {
                     person.idleTime += Time.deltaTime;
                     if (person.idleTime >= 10)
                     {
                         Destroy(person.personPrefab);
+                        personPrefab = null;
                         person.busyTime = 10;
                         person.startingPosition = null;
                         person.targetPosition = null;
@@ -49,13 +52,23 @@ public class TransportManager : MonoBehaviour
                     }
                 }
                 else person.idleTime = 0;
+                //let's check if person has reached his destination in a small radius
+                if (person.targetPosition.HasValue && Vector3.Distance(person.personPrefab.transform.position, person.targetPosition.Value) < 0.5f)
+                {
+                    _peopleArrivedAtDestination.Add(person);
+                
+                }
             }
-
-            if (person.personPrefab.transform.position == person.targetPosition)
-            {
-                Destroy(person.personPrefab);
-            }
+            
         }
+        foreach (var person in _peopleArrivedAtDestination)
+        {
+            person.busyTime = 100;
+            person.currentPosition = person.targetPosition;
+            Destroy(person.personPrefab);
+            person.personPrefab = null;
+            _pedestrianMovingList.Remove(person);  
+        }
+        _peopleArrivedAtDestination.Clear();
     }
-    
 }
