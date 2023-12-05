@@ -171,16 +171,15 @@ public class UIController : MonoBehaviour
             openShopMenuButton,
             showScientificProgress,
             upgradeScientificProgressButton,
-            closeScientificProgress
+            closeScientificProgress,
+            placeFireStationButton,
 
 
             /*
             
-            placeFireStationButton,
             placeRestaurantButton,
             placeCarbonPowerPlantButton,
             placeNuclearPlantButton,
-                        
             
             placeLivestockButton,
             placeLandfillButton,
@@ -221,18 +220,14 @@ public class UIController : MonoBehaviour
         AddButtonClickListener(openDecorationMenuButton, () => { OnDecorationMenu?.Invoke(); });
         AddButtonClickListener(openShopMenuButton, () => { OnShopMenu?.Invoke(); });
         AddButtonClickListener(placeBarButton, () => { OnBarPlacement?.Invoke(); });
+        AddButtonClickListener(placeFireStationButton, () => { OnFireStationPlacement?.Invoke(); });
 
         /*
         
-        AddButtonClickListener(placeRestaurantButton, () => { OnRestaurantPlacement?.Invoke(); });
-        AddButtonClickListener(placeFireStationButton, () => { OnFireStationPlacement?.Invoke(); });
-        
-        
+        AddButtonClickListener(placeRestaurantButton, () => { OnRestaurantPlacement?.Invoke(); });        
         
         AddButtonClickListener(placeCarbonPowerPlantButton, () => { OnCarbonPowerPlantPlacement?.Invoke(); });
         AddButtonClickListener(placeNuclearPlantButton, () => { OnNuclearPlantPlacement?.Invoke(); });
-        
-        
         
         AddButtonClickListener(placeCropButton, () => { OnCropPlacement?.Invoke(); });
         AddButtonClickListener(placeLivestockButton, () => { OnLivestockPlacement?.Invoke(); });

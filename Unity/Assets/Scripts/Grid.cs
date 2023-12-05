@@ -136,12 +136,14 @@ public class Cell
                 return (2, 2, 300000);
             case BuildingType.PoliceStation:
                 return (1, 1, 250000);
+            case BuildingType.FireStation:
+                return (1, 1, 250000);
             case BuildingType.University:
                 return (2, 1, 300000);
             case BuildingType.Factory:
                 return (3, 3, 500000);
             case BuildingType.Bar:
-                return (2, 1, 50000);
+                return (1, 1, 50000);
             case BuildingType.WindTurbine:
                 return (1, 1, 50000);
             case BuildingType.Shop:
