@@ -8554,7 +8554,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc36edd6286657c45b36cad4fda0f814, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  personPrefab: {fileID: 8964402343246118786, guid: 6415100e42056474fb95481c5c3046f3, type: 3}
 --- !u!4 &676388511
 Transform:
   m_ObjectHideFlags: 0
@@ -29588,6 +29587,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f6745bf1771d2e42b865ddaff6f4d96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  femaleCasual: {fileID: 918228557285261549, guid: c0433b3a51a88af47ac66d23eab55138, type: 3}
+  femaleDress: {fileID: 5928032463670676373, guid: 646488162f240a949a4e48ed1686ccda, type: 3}
+  maleCasual: {fileID: 2278821950334863235, guid: 0811cac021ab5f645ae41584a145f4a1, type: 3}
+  maleSuit: {fileID: 8964402343246118786, guid: 6415100e42056474fb95481c5c3046f3, type: 3}
   placementManager: {fileID: 540532163}
   populationManager: {fileID: 1385923162}
   transportManager: {fileID: 676388510}

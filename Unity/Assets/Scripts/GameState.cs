@@ -12,6 +12,11 @@ using Random = System.Random;
 
 public class GameState : MonoBehaviour
 {
+    public GameObject femaleCasual;
+    public GameObject femaleDress;
+    public GameObject maleCasual;
+    public GameObject maleSuit;
+    
     public PlacementManager placementManager;
     public PopulationManager populationManager;
     public TransportManager transportManager;
@@ -86,13 +91,14 @@ public class GameState : MonoBehaviour
         HandlePeopleMovement();
         Debug.Log("jobless people:" + populationManager.joblessPeople.Count);
     }
-
+    GameObject prefab;
     private void HandlePeopleMovement()
     {
         foreach (Person person in populationManager.peopleList)
         {
             if (person.isPersonFree && person.personPrefab == null && person.currentPosition != null)
             {
+                
                 Vector3Int personCurrentPosition = (Vector3Int) person.currentPosition;
                 Vector3Int? targetPosition = null;
                 List<Vector3Int> neighboursRoads = placementManager.GetNeighboursOfTypeFor<RoadCell>(personCurrentPosition);
@@ -106,13 +112,19 @@ public class GameState : MonoBehaviour
                         int randomValue = random.Next(2);
                         if (randomValue == 0)
                         {
-                            targetPosition =
-                                placementManager.placementGrid.GetRandomPositionOfTypeCell(typeof(EntertainmentCell));
-
+                            targetPosition = placementManager.placementGrid.GetRandomPositionOfTypeCell(typeof(EntertainmentCell));
+                            if(person.sex == 0)
+                                prefab = maleCasual;
+                            else
+                                prefab = femaleCasual;
                         }
                         else
                         {
                             targetPosition = person.jobPosition;
+                            if(person.sex == 0)
+                                prefab = maleSuit;
+                            else
+                                prefab = femaleDress;
                         }
                     }
 
@@ -127,7 +139,7 @@ public class GameState : MonoBehaviour
                         Vector3Int? targetRoad = GetTargetRoadPosition((Vector3Int)targetPosition);
                         if (targetRoad != null)
                         {
-                            transportManager.MovePersonToPosition(person, startingPosition, (Vector3Int)targetPosition);
+                            transportManager.MovePersonToPosition(person, startingPosition, (Vector3Int)targetPosition, prefab);
                         }
 
                     }

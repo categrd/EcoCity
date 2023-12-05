@@ -87,6 +87,7 @@ public enum BuildingType
 
 public class Person
 {
+    public int sex;
     public GameObject personPrefab = null;
     public int health;
     public int education;
@@ -97,6 +98,8 @@ public class Person
     public float busyTime = 0;
     public bool isPersonFree = true;
     public float idleTime = 0;
+    public float idleTimeAtStartingPosition = 0;
+    public Vector3? lastPosition = null;
     public Vector3? startingPosition = null;
     public Vector3Int? currentPosition = null;
     public Vector3Int? targetPosition = null;

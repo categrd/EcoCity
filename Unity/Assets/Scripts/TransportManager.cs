@@ -6,14 +6,17 @@ using UnityEngine.AI;
 
 public class TransportManager : MonoBehaviour
 {
-    public GameObject personPrefab;
+    
+    //make a list of different prefabs for different types of people
+    
+    
     private List<Person> _pedestrianMovingList = new List<Person>();
     private List<Person> _peopleArrivedAtDestination = new List<Person>();
     
-    public void MovePersonToPosition(Person person, Vector3Int startingPosition, Vector3Int targetPosition)
+    public void MovePersonToPosition(Person person, Vector3Int startingPosition, Vector3Int targetPosition, GameObject prefab)
     {
         Vector3 startingPositionOnStreet = startingPosition + new Vector3(0, 0.041f, -0.3f);
-        person.personPrefab = Instantiate(personPrefab, startingPositionOnStreet , Quaternion.identity);
+        person.personPrefab = Instantiate(prefab, startingPositionOnStreet , Quaternion.identity);
         NavMeshAgent agent = person.personPrefab.GetComponent<NavMeshAgent>();
         if (agent != null)
         {
@@ -29,34 +32,25 @@ public class TransportManager : MonoBehaviour
         }
     }
 
+    private bool destroyPerson;
     private void Update()
     {
         foreach (var person in _pedestrianMovingList)
         { 
             if(person.personPrefab != null)
             {
-                //let's check if person is idle by checking  if he's in a small radius from his starting position
-                
-                if (person.startingPosition.HasValue && Vector3.Distance(person.personPrefab.transform.position, person.startingPosition.Value) < 0.1f)
-                {
-                    person.idleTime += Time.deltaTime;
-                    if (person.idleTime >= 10)
-                    {
-                        Destroy(person.personPrefab);
-                        personPrefab = null;
-                        person.busyTime = 10;
-                        person.startingPosition = null;
-                        person.targetPosition = null;
-                        person.currentPosition = person.housePosition;
-                        person.idleTime = 0;
-                    }
-                }
-                else person.idleTime = 0;
+                destroyPerson = false;
                 //let's check if person has reached his destination in a small radius
                 if (person.targetPosition.HasValue && Vector3.Distance(person.personPrefab.transform.position, person.targetPosition.Value) < 0.5f)
                 {
                     _peopleArrivedAtDestination.Add(person);
                 
+                }
+                HandlePeopleStayingAtStartingPosition(person);
+                HandlePeopleStayingAtSamePosition(person);
+                if (destroyPerson)
+                {
+                    DestroyPersonPrefab(person);
                 }
             }
             
@@ -70,5 +64,50 @@ public class TransportManager : MonoBehaviour
             _pedestrianMovingList.Remove(person);  
         }
         _peopleArrivedAtDestination.Clear();
+    }
+
+    void HandlePeopleStayingAtStartingPosition(Person person)
+    {
+        //let's check if person is idle by checking  if he's in a small radius from his starting position
+        if (person.startingPosition.HasValue && Vector3.Distance(person.personPrefab.transform.position, person.startingPosition.Value) < 0.1f)
+        {
+            person.idleTimeAtStartingPosition += Time.deltaTime;
+            if (person.idleTimeAtStartingPosition >= 50)
+            {
+                destroyPerson = true;
+                Destroy(person.personPrefab);
+                
+            }
+        }
+        else person.idleTimeAtStartingPosition = 0;  
+    }
+    void HandlePeopleStayingAtSamePosition(Person person)
+    {
+        //let's check if person is idle by checking  if he's in a small radius from the last position
+        if (person.lastPosition.HasValue && Vector3.Distance(person.personPrefab.transform.position, person.lastPosition.Value) < 0.01f)
+        {
+            person.idleTime += Time.deltaTime;
+            if (person.idleTime >= 50)
+            {
+                destroyPerson = true;
+            }
+        }
+        else person.idleTime = 0;
+        if (person.personPrefab != null)
+        {
+            person.lastPosition = person.personPrefab.transform.position;
+        }
+    }
+
+    void DestroyPersonPrefab(Person person)
+    {
+        Destroy(person.personPrefab);
+        person.personPrefab = null;
+        person.busyTime = 20;
+        person.startingPosition = null;
+        person.targetPosition = null;
+        person.currentPosition = person.housePosition;
+        person.idleTime = 0;
+        person.idleTimeAtStartingPosition = 0;
     }
 }

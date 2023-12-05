@@ -42,6 +42,7 @@ public class PopulationManager : MonoBehaviour
         
         newPerson.housePosition = residencePosition;
         newPerson.currentPosition = residencePosition;
+        newPerson.sex = UnityEngine.Random.Range(0, 2);
         placementManager.AddNewPersonInResidence((Vector3Int)residencePosition, newPerson);
         
         Debug.Log("new residence position " + residencePosition);
