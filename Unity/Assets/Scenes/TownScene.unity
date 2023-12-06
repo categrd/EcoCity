@@ -10164,7 +10164,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Bar
+  m_Text: Restaurant
 --- !u!222 &727636067
 CanvasRenderer:
   m_ObjectHideFlags: 0
