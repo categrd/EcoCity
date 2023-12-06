@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.1809051, g: 0.22645304, b: 0.30723083, a: 1}
+  m_IndirectSpecularColor: {r: 0.18090543, g: 0.22645362, b: 0.30723208, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -993,7 +993,7 @@ GameObject:
   - component: {fileID: 71898416}
   - component: {fileID: 71898413}
   m_Layer: 5
-  m_Name: PlaceNuclearPlantBtn (1)
+  m_Name: PlaceNuclearPlantBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4446,6 +4446,7 @@ MonoBehaviour:
   windTurbinePrefab: {fileID: 1758529554004106585, guid: 99f276c33a60fb64f953c46128241ea4, type: 3}
   carbonPowerPlantPrefab: {fileID: 2186009442187111783, guid: b91501d2161d70d4cb7213719b7256e8, type: 3}
   nuclearPlantPrefab: {fileID: 2340807009888565252, guid: 5c96ff3b051b8cd44b3789ea3f958a16, type: 3}
+  waterPlantPrefab: {fileID: 0}
   shopPrefab: {fileID: 3702253504043930072, guid: 838f9b485bb510747a4b89e3cb91e1bd, type: 3}
   restaurantPrefab: {fileID: 136732753170538717, guid: 3cc19b867b28ab6489c7bd62187e1243, type: 3}
   barPrefab: {fileID: 2472801422318060606, guid: cb5bea2bd2ff0ae46adb4bf69e33d857, type: 3}
@@ -9011,6 +9012,7 @@ MonoBehaviour:
   placeWindTurbineButton: {fileID: 624213785}
   placeCarbonPowerPlantButton: {fileID: 1859714551}
   placeNuclearPlantButton: {fileID: 71898416}
+  placeWaterPlantButton: {fileID: 0}
   placeHouseButton: {fileID: 3009497179084945547}
   placeHighDensityHouseButton: {fileID: 678547674}
   placeShopButton: {fileID: 1551151805}
@@ -20091,7 +20093,7 @@ GameObject:
   - component: {fileID: 1380758056}
   - component: {fileID: 1380758053}
   m_Layer: 5
-  m_Name: PlaceRestaurantBtn (1)
+  m_Name: PlaceRestaurantBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

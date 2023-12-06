@@ -103,7 +103,7 @@ public class GameState : MonoBehaviour
                 Vector3Int? targetPosition = null;
                 List<Vector3Int> neighboursRoads = placementManager.GetNeighboursOfTypeFor<RoadCell>(personCurrentPosition);
                 // if there's at least a road next to the person, we continue with the code
-                if (neighboursRoads.Count >= 0)
+                if (neighboursRoads.Count > 0)
                 {
                     Vector3Int startingPosition = neighboursRoads[0];
                     if (placementManager.GetCellAtPosition(personCurrentPosition) is ResidenceCell)
@@ -157,7 +157,7 @@ public class GameState : MonoBehaviour
             {
                 var newPosition = targetPosition + new Vector3Int(x, 0, z);
                 
-                if(placementManager.GetCellAtPosition((Vector3Int)newPosition) ==  targetCell)
+                if(placementManager.CheckIfPositionInBound(newPosition) && placementManager.GetCellAtPosition((Vector3Int)newPosition) ==  targetCell)
                 {
                     List<Vector3Int>  neighboursTargetRoads = placementManager.GetNeighboursOfTypeFor<RoadCell>((Vector3Int)targetPosition);
                     if (neighboursTargetRoads.Count > 0)

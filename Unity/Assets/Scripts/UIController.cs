@@ -179,12 +179,12 @@ public class UIController : MonoBehaviour
             placeRestaurantButton,
             placeCarbonPowerPlantButton,
             placeNuclearPlantButton,
-            placeWaterPlantButton,
+            
 
 
             /*
-            
-            
+            placeWaterPlantButton,
+        
             placeLivestockButton,
             placeLandfillButton,
             placeIncinerationPlantButton,
@@ -228,10 +228,10 @@ public class UIController : MonoBehaviour
         AddButtonClickListener(placeRestaurantButton, () => { OnRestaurantPlacement?.Invoke(); });        
         AddButtonClickListener(placeCarbonPowerPlantButton, () => { OnCarbonPowerPlantPlacement?.Invoke(); });
         AddButtonClickListener(placeNuclearPlantButton, () => { OnNuclearPlantPlacement?.Invoke(); });
-        AddButtonClickListener(placeWaterPlantButton, () => { OnWaterPlantPlacement?.Invoke(); });
+        
 
         /*
-        
+        AddButtonClickListener(placeWaterPlantButton, () => { OnWaterPlantPlacement?.Invoke(); });
         AddButtonClickListener(placeCropButton, () => { OnCropPlacement?.Invoke(); });
         AddButtonClickListener(placeLivestockButton, () => { OnLivestockPlacement?.Invoke(); });
         AddButtonClickListener(placeLandfillButton, () => { OnLandfillPlacement?.Invoke(); });
