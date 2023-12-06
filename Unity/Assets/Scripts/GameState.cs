@@ -12,10 +12,7 @@ using Random = System.Random;
 
 public class GameState : MonoBehaviour
 {
-    public GameObject femaleCasual;
-    public GameObject femaleDress;
-    public GameObject maleCasual;
-    public GameObject maleSuit;
+    
     
     public PlacementManager placementManager;
     public PopulationManager populationManager;
@@ -88,88 +85,13 @@ public class GameState : MonoBehaviour
         UpdateEmployment();
         populationManager.FindJob();
         currentMoney += GetEarnings();
-        HandlePeopleMovement();
+        populationManager.HandlePeopleMovement();
         Debug.Log("jobless people:" + populationManager.joblessPeople.Count);
     }
-    GameObject prefab;
-    private void HandlePeopleMovement()
-    {
-        foreach (Person person in populationManager.peopleList)
-        {
-            if (person.isPersonFree && person.personPrefab == null && person.currentPosition != null)
-            {
-                
-                Vector3Int personCurrentPosition = (Vector3Int) person.currentPosition;
-                Vector3Int? targetPosition = null;
-                List<Vector3Int> neighboursRoads = placementManager.GetNeighboursOfTypeFor<RoadCell>(personCurrentPosition);
-                // if there's at least a road next to the person, we continue with the code
-                if (neighboursRoads.Count > 0)
-                {
-                    Vector3Int startingPosition = neighboursRoads[0];
-                    if (placementManager.GetCellAtPosition(personCurrentPosition) is ResidenceCell)
-                    {
-                        Random random = new Random();
-                        int randomValue = random.Next(2);
-                        if (randomValue == 0)
-                        {
-                            targetPosition = placementManager.placementGrid.GetRandomPositionOfTypeCell(typeof(EntertainmentCell));
-                            if(person.sex == 0)
-                                prefab = maleCasual;
-                            else
-                                prefab = femaleCasual;
-                        }
-                        else
-                        {
-                            targetPosition = person.jobPosition;
-                            if(person.sex == 0)
-                                prefab = maleSuit;
-                            else
-                                prefab = femaleDress;
-                        }
-                    }
+    
+    
 
-                    if (placementManager.GetCellAtPosition(personCurrentPosition) is JobCell)
-                    {
-                        targetPosition = person.housePosition;
-
-                    }
-
-                    if (targetPosition != null)
-                    {
-                        Vector3Int? targetRoad = GetTargetRoadPosition((Vector3Int)targetPosition);
-                        if (targetRoad != null)
-                        {
-                            transportManager.MovePersonToPosition(person, startingPosition, (Vector3Int)targetPosition, prefab);
-                        }
-
-                    }
-                }
-            }
-        }
-    }
-
-    private Vector3Int? GetTargetRoadPosition(Vector3Int targetPosition)
-    {
-        Cell targetCell = placementManager.GetCellAtPosition((Vector3Int)targetPosition);
-        for (var x = 0; x < targetCell.StructureWidth; x++)
-        {
-            for (var z = 0; z < targetCell.StructureHeight; z++)
-            {
-                var newPosition = targetPosition + new Vector3Int(x, 0, z);
-                
-                if(placementManager.CheckIfPositionInBound(newPosition) && placementManager.GetCellAtPosition((Vector3Int)newPosition) ==  targetCell)
-                {
-                    List<Vector3Int>  neighboursTargetRoads = placementManager.GetNeighboursOfTypeFor<RoadCell>((Vector3Int)targetPosition);
-                    if (neighboursTargetRoads.Count > 0)
-                    {
-                        return neighboursTargetRoads[0];
-                    }
-                }
-            }
-        }
-
-        return null;
-    }
+    
     private void UpdateTotalPopulation()
     {
         if(totalPopulation < populationCapacity)
