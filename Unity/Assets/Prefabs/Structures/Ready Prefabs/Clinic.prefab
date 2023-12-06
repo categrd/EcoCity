@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 464714970892649437}
+  - component: {fileID: 1682606222821087881}
   m_Layer: 0
   m_Name: Clinic
   m_TagString: Untagged
@@ -32,6 +33,27 @@ Transform:
   - {fileID: 909926672860383479}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!65 &1682606222821087881
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5786580668828074617}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 23.2, y: 4.52, z: 19.51}
+  m_Center: {x: 0, y: 1.9, z: 5.7}
 --- !u!1 &7616061047747778670
 GameObject:
   m_ObjectHideFlags: 0
@@ -145,6 +167,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 464714970892649437}
     m_Modifications:
+    - target: {fileID: 763435188998896484, guid: b510c14c6b0f55c45b5d26274934de18, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4644155326786961855, guid: b510c14c6b0f55c45b5d26274934de18, type: 3}
       propertyPath: m_Name
       value: Clinic 1

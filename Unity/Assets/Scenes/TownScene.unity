@@ -4444,8 +4444,8 @@ MonoBehaviour:
   highDensityHousePrefab: {fileID: 4306553835082693479, guid: a2e4f3f342777f34494c57713726501a, type: 3}
   solarPanelPrefab: {fileID: 9132174939791406830, guid: 2d2fa3535c866f641a4d67e748df7fa3, type: 3}
   windTurbinePrefab: {fileID: 1758529554004106585, guid: 99f276c33a60fb64f953c46128241ea4, type: 3}
-  carbonPowerPlantPrefab: {fileID: 2186009442187111783, guid: b91501d2161d70d4cb7213719b7256e8, type: 3}
-  nuclearPlantPrefab: {fileID: 2340807009888565252, guid: 5c96ff3b051b8cd44b3789ea3f958a16, type: 3}
+  carbonPowerPlantPrefab: {fileID: 2186009442187111783, guid: f984245fa3fbc6843ae9008fb94b70bb, type: 3}
+  nuclearPlantPrefab: {fileID: 2340807009888565252, guid: 32903d0c2dd0e844a8ca720663698957, type: 3}
   waterPlantPrefab: {fileID: 0}
   shopPrefab: {fileID: 3702253504043930072, guid: 838f9b485bb510747a4b89e3cb91e1bd, type: 3}
   restaurantPrefab: {fileID: 136732753170538717, guid: 3cc19b867b28ab6489c7bd62187e1243, type: 3}
