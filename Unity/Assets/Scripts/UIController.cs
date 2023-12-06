@@ -17,7 +17,7 @@ public class UIController : MonoBehaviour
 
 
     public Action OnRoadPlacement, OnHousePlacement, OnClinicPlacement, OnHospitalPlacement, OnSolarPanelPlacement, OnWindTurbinePlacement, OnCarbonPowerPlantPlacement,
-        OnNuclearPlantPlacement, OnHighDensityHousePlacement, OnShopPlacement, OnRestaurantPlacement, OnBarPlacement, OnCinemaPlacement, OnUniversityPlacement,
+        OnNuclearPlantPlacement, OnWaterPlantPlacement, OnHighDensityHousePlacement, OnShopPlacement, OnRestaurantPlacement, OnBarPlacement, OnCinemaPlacement, OnUniversityPlacement,
         OnFireStationPlacement, OnPoliceStationPlacement, OnFactoryPlacement, OnCropPlacement, OnLivestockPlacement, OnLandfillPlacement, OnIncinerationPlantPlacement,
         OnWasteToEnergyPlantPlacement, OnBigParkPlacement, OnShowMenu, OnShowStats, OnShowEnvironmentStats, OnDestroyStructure, OnPublicServiceMenu, OnEnergySourceMenu, OnWaterSourceMenu,
         OnWasteDisposalMenu, OnIndustryMenu, OnDecorationMenu, OnShopMenu, OnHouseMenu, OnShowScientificProgress, OnCloseScientificProgress, OnUpgradeScientificProgress;
@@ -72,6 +72,9 @@ public class UIController : MonoBehaviour
     public Button placeWindTurbineButton;
     public Button placeCarbonPowerPlantButton;
     public Button placeNuclearPlantButton;
+
+    // Water sources
+    public Button placeWaterPlantButton;
 
     // Residential
     public Button placeHouseButton;
@@ -176,6 +179,7 @@ public class UIController : MonoBehaviour
             placeRestaurantButton,
             placeCarbonPowerPlantButton,
             placeNuclearPlantButton,
+            placeWaterPlantButton,
 
 
             /*
@@ -224,6 +228,7 @@ public class UIController : MonoBehaviour
         AddButtonClickListener(placeRestaurantButton, () => { OnRestaurantPlacement?.Invoke(); });        
         AddButtonClickListener(placeCarbonPowerPlantButton, () => { OnCarbonPowerPlantPlacement?.Invoke(); });
         AddButtonClickListener(placeNuclearPlantButton, () => { OnNuclearPlantPlacement?.Invoke(); });
+        AddButtonClickListener(placeWaterPlantButton, () => { OnWaterPlantPlacement?.Invoke(); });
 
         /*
         

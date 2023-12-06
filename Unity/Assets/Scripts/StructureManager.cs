@@ -18,6 +18,7 @@ public class StructureManager : MonoBehaviour
         windTurbinePrefab,
         carbonPowerPlantPrefab,
         nuclearPlantPrefab,
+        waterPlantPrefab,
         shopPrefab,
         restaurantPrefab,
         barPrefab,
@@ -178,6 +179,11 @@ public class StructureManager : MonoBehaviour
                     var nuclearPlant = new EnergyProductionCell(BuildingType.NuclearPlant);
                     _structure = nuclearPlant;
                     _prefab = nuclearPlantPrefab;
+                    break;
+                case BuildingType.WaterPlant:
+                    var waterPlant = new EnergyProductionCell(BuildingType.WaterPlant);
+                    _structure = waterPlant;
+                    _prefab = waterPlantPrefab;
                     break;
                 case BuildingType.BigPark:
                     var bigPark = new EntertainmentCell(BuildingType.BigPark);

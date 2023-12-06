@@ -60,6 +60,8 @@ public enum BuildingType
     CarbonPowerPlant,
     NuclearPlant,
     
+    WaterPlant,
+    
     House,
     HighDensityHouse,
     
@@ -158,6 +160,8 @@ public class Cell
                 return (3, 2, 10000);
             case BuildingType.NuclearPlant:
                 return (3, 2, 10000);
+            case BuildingType.WaterPlant:
+                return (4, 2, 10000);      
             
             // Add more cases for other building types
             default:
