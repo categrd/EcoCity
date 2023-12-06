@@ -154,6 +154,10 @@ public class Cell
                 return (2, 2, 10000);
             case BuildingType.SolarPanel:
                 return (2, 2, 10000);
+            case BuildingType.CarbonPowerPlant:
+                return (3, 2, 10000);
+            case BuildingType.NuclearPlant:
+                return (3, 2, 10000);
             
             // Add more cases for other building types
             default:

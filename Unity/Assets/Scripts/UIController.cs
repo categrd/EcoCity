@@ -174,12 +174,12 @@ public class UIController : MonoBehaviour
             closeScientificProgress,
             placeFireStationButton,
             placeRestaurantButton,
+            placeCarbonPowerPlantButton,
+            placeNuclearPlantButton,
 
 
             /*
             
-            placeCarbonPowerPlantButton,
-            placeNuclearPlantButton,
             
             placeLivestockButton,
             placeLandfillButton,
@@ -222,12 +222,10 @@ public class UIController : MonoBehaviour
         AddButtonClickListener(placeBarButton, () => { OnBarPlacement?.Invoke(); });
         AddButtonClickListener(placeFireStationButton, () => { OnFireStationPlacement?.Invoke(); });
         AddButtonClickListener(placeRestaurantButton, () => { OnRestaurantPlacement?.Invoke(); });        
-
-        /*
-        
-        
         AddButtonClickListener(placeCarbonPowerPlantButton, () => { OnCarbonPowerPlantPlacement?.Invoke(); });
         AddButtonClickListener(placeNuclearPlantButton, () => { OnNuclearPlantPlacement?.Invoke(); });
+
+        /*
         
         AddButtonClickListener(placeCropButton, () => { OnCropPlacement?.Invoke(); });
         AddButtonClickListener(placeLivestockButton, () => { OnLivestockPlacement?.Invoke(); });
