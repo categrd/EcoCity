@@ -17,6 +17,13 @@ public class TransportManager : MonoBehaviour
     {
         Vector3 startingPositionOnStreet = startingPosition + new Vector3(0, 0.041f, -0.3f);
         person.personPrefab = Instantiate(prefab, startingPositionOnStreet , Quaternion.identity);
+        // Get the Animator component from the instantiated person
+        person.personAnimator = person.personPrefab.GetComponent<Animator>();
+        // Check if the Animator component is present
+        if (person.personAnimator == null)
+        {
+            Debug.LogError("Animator component not found on the instantiated person!");
+        }
         NavMeshAgent agent = person.personPrefab.GetComponent<NavMeshAgent>();
         if (agent != null)
         {
@@ -33,7 +40,17 @@ public class TransportManager : MonoBehaviour
     }
 
     private bool destroyPerson;
+    private float _time;
     private void Update()
+    {
+        _time += Time.deltaTime;
+        if (_time >= 1)
+        {
+            _time = 0;
+            HandlePeopleMovement();
+        }
+    }
+    void HandlePeopleMovement()
     {
         foreach (var person in _pedestrianMovingList)
         { 
@@ -53,7 +70,6 @@ public class TransportManager : MonoBehaviour
                     DestroyPersonPrefab(person);
                 }
             }
-            
         }
         foreach (var person in _peopleArrivedAtDestination)
         {
@@ -63,9 +79,9 @@ public class TransportManager : MonoBehaviour
             person.personPrefab = null;
             _pedestrianMovingList.Remove(person);  
         }
-        _peopleArrivedAtDestination.Clear();
+        _peopleArrivedAtDestination.Clear(); 
     }
-
+    
     void HandlePeopleStayingAtStartingPosition(Person person)
     {
         //let's check if person is idle by checking  if he's in a small radius from his starting position
@@ -87,12 +103,17 @@ public class TransportManager : MonoBehaviour
         if (person.lastPosition.HasValue && Vector3.Distance(person.personPrefab.transform.position, person.lastPosition.Value) < 0.01f)
         {
             person.idleTime += Time.deltaTime;
+            person.personAnimator.SetBool("isWalking", false);
             if (person.idleTime >= 50)
             {
                 destroyPerson = true;
             }
         }
-        else person.idleTime = 0;
+        else
+        {
+            person.idleTime = 0;
+            person.personAnimator.SetBool("isWalking", true);
+        }
         if (person.personPrefab != null)
         {
             person.lastPosition = person.personPrefab.transform.position;
@@ -102,6 +123,7 @@ public class TransportManager : MonoBehaviour
     void DestroyPersonPrefab(Person person)
     {
         Destroy(person.personPrefab);
+        person.personAnimator = null;
         person.personPrefab = null;
         person.busyTime = 20;
         person.startingPosition = null;

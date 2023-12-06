@@ -91,6 +91,7 @@ public class Person
 {
     public int sex;
     public GameObject personPrefab = null;
+    public Animator personAnimator = null;
     public int health;
     public int education;
     public int happiness;
