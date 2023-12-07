@@ -88,10 +88,6 @@ public class GameState : MonoBehaviour
         populationManager.HandlePeopleMovement();
         Debug.Log("jobless people:" + populationManager.joblessPeople.Count);
     }
-    
-    
-
-    
     private void UpdateTotalPopulation()
     {
         if(totalPopulation < populationCapacity)
@@ -111,11 +107,8 @@ public class GameState : MonoBehaviour
                 for (int i = 0; i < -GetPopulationChange(); i++)
                 {
                     populationManager.RemoveRandomPerson();
-                    
                 }
             }
-            
-
         }
         if( totalPopulation > populationCapacity)
         {
@@ -146,7 +139,7 @@ public class GameState : MonoBehaviour
         var employmentWeight = 6f;
         var beautyWeight = 0.5f;
         return (_totalResidenceComfort + (GetCriminalsCoveredRatio() - 0.1f)+ (GetPatientsCoveredRatio() - 0.1f) + GetGoodsDemandSatisfactionRatio() + GetMeatDemandSatisfactionRatio()
-                + GetVegetablesDemandSatisfactionRatio() + (GetEmploymentRatio() * employmentWeight - 0.5f) + _totalBeauty * beautyWeight) / 8;
+                + GetVegetablesDemandSatisfactionRatio() + ((1-GetEmploymentRatio()) * employmentWeight - 0.5f) + _totalBeauty * beautyWeight) / 8;
     }
 
     private int GetPopulationChange()
@@ -183,7 +176,9 @@ public class GameState : MonoBehaviour
     }
     private float GetEarnings()
     {
-        return _totalIncome  * GetJobsOccupiedRatio() - _totalCosts;
+        return _totalIncome  * GetJobsOccupiedRatio() - _totalCosts + (_totalGoodsProduced - _totalGoodsConsumed) * 10 + 
+               (_totalVegetablesProduced - _totalVegetablesConsumed) * 10 + (_totalMeatProduced - _totalMeatConsumed) * 10
+               + _totalEnergyProduced - _totalEnergyConsumed;
     }
     public float GetJobsOccupiedRatio()
     {

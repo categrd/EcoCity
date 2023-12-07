@@ -330,14 +330,13 @@ public class EnergyProductionCell : JobCell
         {
             BuildingType = BuildingType.WindTurbine;
             Cost = 500000;
-            MaintenanceCost = 100;
+            MaintenanceCost = 10;
             IncomeGenerated = 0;
             Beauty = 1f;
             EnergyConsumption = 0;
             WasteProduction = 1;
             NumberOfEmployeesCapacity = 2;
-            EnergyProduced = 1000;
-
+            EnergyProduced = 100;
         }
 
         if (buildingType == BuildingType.CarbonPowerPlant)
@@ -348,7 +347,7 @@ public class EnergyProductionCell : JobCell
             IncomeGenerated = 0;
             Beauty = -5f;
             EnergyConsumption = 0;
-            WasteProduction = 20;
+            WasteProduction = 100;
             NumberOfEmployeesCapacity = 10;
             EnergyProduced = 10000;
 
@@ -362,7 +361,7 @@ public class EnergyProductionCell : JobCell
             IncomeGenerated = 0;
             Beauty = -1f;
             EnergyConsumption = 0;
-            WasteProduction = 1;
+            WasteProduction = 50;
             NumberOfEmployeesCapacity = 25;
             EnergyProduced = 50000;
 
@@ -510,7 +509,7 @@ public class IndustryCell : JobCell
             BuildingType = BuildingType.Factory;
             Cost = 1000000;
             MaintenanceCost = 0;
-            IncomeGenerated = 4000;
+            IncomeGenerated = 0;
             Beauty = -1f;
             EnergyConsumption = 300;
             WasteProduction = 30;
@@ -528,7 +527,7 @@ public class IndustryCell : JobCell
             StructureHeight = 2;
             Cost = 300000;
             MaintenanceCost = 0;
-            IncomeGenerated = 1500;
+            IncomeGenerated = 0;
             Beauty = 0.1f;
             EnergyConsumption = 50;
             WasteProduction = 10;
@@ -543,7 +542,7 @@ public class IndustryCell : JobCell
             BuildingType = BuildingType.Livestock;
             Cost = 350000;
             MaintenanceCost = 0;
-            IncomeGenerated = 1500;
+            IncomeGenerated = 0;
             Beauty = 0.2f;
             EnergyConsumption = 60;
             WasteProduction = 15;
