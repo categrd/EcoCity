@@ -3,12 +3,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public GameObject menuPanel;
     public GameObject statsPanel;
     public GameObject environmentStatsPanel;
+    public GameObject scientificProgressPanel;
 
 
     public GameObject housePanel, decorationPanel, publicservicesPanel, industryPanel, shopPanel, wastedisposalPanel,
@@ -50,10 +52,15 @@ public class GameManager : MonoBehaviour
         uiController.OnLandfillPlacement += () => StructurePlacementHandler(BuildingType.Landfill);
         uiController.OnIncinerationPlantPlacement += () => StructurePlacementHandler(BuildingType.IncinerationPlant);
         uiController.OnWasteToEnergyPlantPlacement += () => StructurePlacementHandler(BuildingType.WasteToEnergyPlant);
-        
+        uiController.OnBigParkPlacement += () => StructurePlacementHandler(BuildingType.BigPark);
+        uiController.OnWaterPlantPlacement += () => StructurePlacementHandler(BuildingType.WaterPlant);
+
         uiController.OnShowMenu += () => PanelHandler(menuPanel);
         uiController.OnShowStats += () => PanelHandler(statsPanel);
         uiController.OnShowEnvironmentStats += () => PanelHandler(environmentStatsPanel);
+        uiController.OnShowScientificProgress += () => PanelHandler(scientificProgressPanel);
+        uiController.OnCloseScientificProgress += () => PanelHandler(scientificProgressPanel); 
+        uiController.OnUpgradeScientificProgress += UpgradeScientificProgressHandler;
 
         uiController.OnHouseMenu += () => BuildingPanelHandler(housePanel);
         uiController.OnIndustryMenu += () => BuildingPanelHandler(industryPanel);
@@ -109,6 +116,13 @@ public class GameManager : MonoBehaviour
     }
     */ 
 
+    private void UpgradeScientificProgressHandler()
+    {
+        uiController.gameState.upgradeScientificProgress();
+        ToggleMenu(uiController.ScientificProgressTexts[uiController.gameState.GetScientificProgressLevel()-1]);
+        ToggleMenu(uiController.ScientificProgressTexts[uiController.gameState.GetScientificProgressLevel()]);
+    }
+
     private void PanelHandler(GameObject panel)
     {
         ClearInputActions();
@@ -142,7 +156,9 @@ public class GameManager : MonoBehaviour
         inputManager.OnPressingEsc += () => ToggleMenu(panel);
     }
 
-    
+    private void ToggleText(Text text){
+
+    }
     private void ToggleMenu(GameObject panel)
     {
         panel.SetActive(!(panel.activeSelf));

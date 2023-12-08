@@ -213,19 +213,57 @@ public class PlacementManager : MonoBehaviour
         // RaycastHit variable to store information about the hit
         RaycastHit hit;
 
-        // Check if the ray hits any collider
-        if (Physics.Raycast(ray, out hit, maxDistance, 1 << LayerMask.NameToLayer("Structure")))
+        int structureLayer = LayerMask.NameToLayer("Structure");
+        
+        if (Physics.Raycast(ray, out hit, maxDistance, 1 << structureLayer) )
         {
             // Destroy the game object if a collider is hit
             Destroy(hit.collider.gameObject);
             Cell cellToDestroy = placementGrid[position.x, position.z];
-            for (var x = 0; x < cellToDestroy.StructureWidth; x++)
+            int widthStructureToDestroy = 1;
+            int heightStructureToDestroy = 1;
+            if(cellToDestroy is StructureCell)
             {
-                for (var z = 0; z < cellToDestroy.StructureHeight; z++)
+                StructureCell structureCellToDestroy = (StructureCell)cellToDestroy;
+                var (structureWidth, structureHeight, cost) = Cell.GetAttributesForBuildingType(structureCellToDestroy.BuildingType);
+                Debug.Log("Structure width  :" + structureWidth );
+                Debug.Log("Structure height  : "+ structureHeight );
+                widthStructureToDestroy = structureWidth;
+                heightStructureToDestroy = structureHeight;
+            }
+            
+            for (var x = 0; x < widthStructureToDestroy; x++)
+            {
+                for (var z = 0; z < heightStructureToDestroy; z++)
                 {
                     var newPosition = position + new Vector3Int(x, 0, z);
                 
-                    if(placementGrid[newPosition.x, newPosition.z] ==  cellToDestroy)
+                    if( CheckIfPositionInBound(newPosition) && placementGrid[newPosition.x, newPosition.z] ==  cellToDestroy)
+                    {
+                        Debug.Log("Destroying structure at " + newPosition);
+                        placementGrid[newPosition.x, newPosition.z] = new EmptyCell();
+                        _structureDictionary.Remove(newPosition);
+                    }
+                    newPosition = position - new Vector3Int(x, 0, z);
+                    
+                    //check if new position is in bounds
+                    if( CheckIfPositionInBound(newPosition) && placementGrid[newPosition.x, newPosition.z] ==  cellToDestroy)
+                    {
+                        Debug.Log("Destroying structure at " + newPosition);
+                        placementGrid[newPosition.x, newPosition.z] = new EmptyCell();
+                        _structureDictionary.Remove(newPosition);
+                    }
+                    newPosition = position + new Vector3Int(-x, 0, z);
+                
+                    if(CheckIfPositionInBound(newPosition) && placementGrid[newPosition.x, newPosition.z] ==  cellToDestroy)
+                    {
+                        Debug.Log("Destroying structure at " + newPosition);
+                        placementGrid[newPosition.x, newPosition.z] = new EmptyCell();
+                        _structureDictionary.Remove(newPosition);
+                    }
+                    newPosition = position + new Vector3Int(x, 0, -z);
+                
+                    if(CheckIfPositionInBound(newPosition) && placementGrid[newPosition.x, newPosition.z] ==  cellToDestroy)
                     {
                         Debug.Log("Destroying structure at " + newPosition);
                         placementGrid[newPosition.x, newPosition.z] = new EmptyCell();

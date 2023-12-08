@@ -17,15 +17,22 @@ public class UIController : MonoBehaviour
 
 
     public Action OnRoadPlacement, OnHousePlacement, OnClinicPlacement, OnHospitalPlacement, OnSolarPanelPlacement, OnWindTurbinePlacement, OnCarbonPowerPlantPlacement,
-        OnNuclearPlantPlacement, OnHighDensityHousePlacement, OnShopPlacement, OnRestaurantPlacement, OnBarPlacement, OnCinemaPlacement, OnUniversityPlacement,
+        OnNuclearPlantPlacement, OnWaterPlantPlacement, OnHighDensityHousePlacement, OnShopPlacement, OnRestaurantPlacement, OnBarPlacement, OnCinemaPlacement, OnUniversityPlacement,
         OnFireStationPlacement, OnPoliceStationPlacement, OnFactoryPlacement, OnCropPlacement, OnLivestockPlacement, OnLandfillPlacement, OnIncinerationPlantPlacement,
-        OnWasteToEnergyPlantPlacement, OnShowMenu, OnShowStats, OnShowEnvironmentStats, OnDestroyStructure, OnPublicServiceMenu, OnEnergySourceMenu, OnWaterSourceMenu,
-        OnWasteDisposalMenu, OnIndustryMenu, OnDecorationMenu, OnShopMenu, OnHouseMenu;
+        OnWasteToEnergyPlantPlacement, OnBigParkPlacement, OnShowMenu, OnShowStats, OnShowEnvironmentStats, OnDestroyStructure, OnPublicServiceMenu, OnEnergySourceMenu, OnWaterSourceMenu,
+        OnWasteDisposalMenu, OnIndustryMenu, OnDecorationMenu, OnShopMenu, OnHouseMenu, OnShowScientificProgress, OnCloseScientificProgress, OnUpgradeScientificProgress;
 
 
     public Button showMenu;
     public Button showStats;
     public Button showEnvironmentStats;
+
+    public Button showScientificProgress;
+    public Button upgradeScientificProgressButton;
+    public Button closeScientificProgress;
+
+    public GameObject[] ScientificProgressTexts = new GameObject[21] ;
+
 
 
 
@@ -66,6 +73,9 @@ public class UIController : MonoBehaviour
     public Button placeCarbonPowerPlantButton;
     public Button placeNuclearPlantButton;
 
+    // Water sources
+    public Button placeWaterPlantButton;
+
     // Residential
     public Button placeHouseButton;
     public Button placeHighDensityHouseButton;
@@ -85,6 +95,8 @@ public class UIController : MonoBehaviour
     public Button placeFactoryButton;
     public Button placeCropButton;
     public Button placeLivestockButton;
+    // Decorations
+    public Button placeBigParkButton;
 
     // Waste Management
     public Button placeLandfillButton;
@@ -101,6 +113,7 @@ public class UIController : MonoBehaviour
     public Slider jobsOccupiedSlider;
     public Slider criminalsCoveredSlider;
     public Slider patientsCoveredSlider;
+    public Slider scientificProgressSlider;
 
     public Color outlineColor;
     List<Button> buttonList;
@@ -134,6 +147,7 @@ public class UIController : MonoBehaviour
             destroyStructureButton,
             placeRoadButton,
             placeHouseButton,
+            placeHighDensityHouseButton,
             placeClinicButton,
             placePoliceStationButton,
             placeCropButton,
@@ -145,6 +159,11 @@ public class UIController : MonoBehaviour
             placeFactoryButton,
             placeRoadButton,
             placeWindTurbineButton,
+            placeShopButton,
+            placeBarButton,
+            placeHospitalButton,
+            placeUniversityButton,
+            placeBigParkButton,
             openHouseMenuButton,
             openPublicServiceMenuButton,
             openEnergySourceMenuButton,
@@ -152,21 +171,20 @@ public class UIController : MonoBehaviour
             openWasteDisposalMenuButton,
             openIndustryMenuButton,
             openDecorationMenuButton,
-            openShopMenuButton
-
-
-            /*
-            placeHospitalButton,
-            placeUniversityButton,
+            openShopMenuButton,
+            showScientificProgress,
+            upgradeScientificProgressButton,
+            closeScientificProgress,
             placeFireStationButton,
             placeRestaurantButton,
             placeCarbonPowerPlantButton,
             placeNuclearPlantButton,
-            placeHighDensityHouseButton,
-            placeShopButton,
-            placeBarButton,
             
-            
+
+
+            /*
+            placeWaterPlantButton,
+        
             placeLivestockButton,
             placeLandfillButton,
             placeIncinerationPlantButton,
@@ -178,16 +196,25 @@ public class UIController : MonoBehaviour
         AddButtonClickListener(destroyStructureButton, () => { OnDestroyStructure?.Invoke(); });
         AddButtonClickListener(placeRoadButton, () => { OnRoadPlacement?.Invoke(); });
         AddButtonClickListener(placeHouseButton, () => { OnHousePlacement?.Invoke(); });
+        AddButtonClickListener(placeHighDensityHouseButton, () => { OnHighDensityHousePlacement?.Invoke(); });
         AddButtonClickListener(placeClinicButton, () => { OnClinicPlacement?.Invoke(); });
         AddButtonClickListener(placePoliceStationButton, () => { OnPoliceStationPlacement?.Invoke(); });
         AddButtonClickListener(placeCropButton, () => { OnCropPlacement?.Invoke(); });
         AddButtonClickListener(showMenu, () => { OnShowMenu?.Invoke(); });
         AddButtonClickListener(showStats, () => { OnShowStats?.Invoke(); });
         AddButtonClickListener(showEnvironmentStats, () => { OnShowEnvironmentStats?.Invoke(); });
+        AddButtonClickListener(showScientificProgress, () => { OnShowScientificProgress?.Invoke(); });
+        AddButtonClickListener(upgradeScientificProgressButton, () => { OnUpgradeScientificProgress?.Invoke(); });
+        AddButtonClickListener(closeScientificProgress, () => { OnCloseScientificProgress?.Invoke(); });
         AddButtonClickListener(placeCinemaButton, () => { OnCinemaPlacement?.Invoke(); });
         AddButtonClickListener(placeWindTurbineButton, () => { OnWindTurbinePlacement?.Invoke(); });
         AddButtonClickListener(placeFactoryButton, () => { OnFactoryPlacement?.Invoke(); });
-        
+        AddButtonClickListener(placeHospitalButton, () => { OnHospitalPlacement?.Invoke(); });
+        AddButtonClickListener(placeShopButton, () => { OnShopPlacement?.Invoke(); });
+        AddButtonClickListener(placeUniversityButton, () => { OnUniversityPlacement?.Invoke(); });
+        AddButtonClickListener(placeBigParkButton, () => { OnBigParkPlacement?.Invoke(); });
+        AddButtonClickListener(placeSolarPanelButton, () => { OnSolarPanelPlacement?.Invoke(); });
+
         AddButtonClickListener(openHouseMenuButton, () => { OnHouseMenu?.Invoke(); });
         AddButtonClickListener(openPublicServiceMenuButton, () => { OnPublicServiceMenu?.Invoke(); });
         AddButtonClickListener(openEnergySourceMenuButton, () => { OnEnergySourceMenu?.Invoke(); });
@@ -196,22 +223,15 @@ public class UIController : MonoBehaviour
         AddButtonClickListener(openIndustryMenuButton, () => { OnIndustryMenu?.Invoke(); });
         AddButtonClickListener(openDecorationMenuButton, () => { OnDecorationMenu?.Invoke(); });
         AddButtonClickListener(openShopMenuButton, () => { OnShopMenu?.Invoke(); });
-
-        /*
-        AddButtonClickListener(placeHospitalButton, () => { OnHospitalPlacement?.Invoke(); });
-        AddButtonClickListener(placeRestaurantButton, () => { OnRestaurantPlacement?.Invoke(); });
-        AddButtonClickListener(placeUniversityButton, () => { OnUniversityPlacement?.Invoke(); });
+        AddButtonClickListener(placeBarButton, () => { OnBarPlacement?.Invoke(); });
         AddButtonClickListener(placeFireStationButton, () => { OnFireStationPlacement?.Invoke(); });
-        
-        
-        
+        AddButtonClickListener(placeRestaurantButton, () => { OnRestaurantPlacement?.Invoke(); });        
         AddButtonClickListener(placeCarbonPowerPlantButton, () => { OnCarbonPowerPlantPlacement?.Invoke(); });
         AddButtonClickListener(placeNuclearPlantButton, () => { OnNuclearPlantPlacement?.Invoke(); });
-        AddButtonClickListener(placeHighDensityHouseButton, () => { OnHighDensityHousePlacement?.Invoke(); });
-        AddButtonClickListener(placeShopButton, () => { OnShopPlacement?.Invoke(); });
         
-        AddButtonClickListener(placeBarButton, () => { OnBarPlacement?.Invoke(); });
-        
+
+        /*
+        AddButtonClickListener(placeWaterPlantButton, () => { OnWaterPlantPlacement?.Invoke(); });
         AddButtonClickListener(placeCropButton, () => { OnCropPlacement?.Invoke(); });
         AddButtonClickListener(placeLivestockButton, () => { OnLivestockPlacement?.Invoke(); });
         AddButtonClickListener(placeLandfillButton, () => { OnLandfillPlacement?.Invoke(); });
@@ -271,5 +291,8 @@ public class UIController : MonoBehaviour
         patientsCoveredText.text = "Patients Covered: " + Math.Round(gameState.GetPatientsCoveredRatio() * 100, 2) + "%";
         patientsCoveredSlider.value = (float)gameState.GetPatientsCoveredRatio();
         populationCapacityText.text = "Population Capacity: " + gameState.PopulationCapacity;
+        scientificProgressSlider.value = (float)gameState.GetScientificProgressRatio();
+
     }
+
 }
