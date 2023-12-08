@@ -20,7 +20,7 @@ public class PopulationManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("number of person in peopleList " + peopleList.Count);
+        //Debug.Log("number of person in peopleList " + peopleList.Count);
         foreach (var person in peopleList)
         {
             if(person.busyTime > 0)

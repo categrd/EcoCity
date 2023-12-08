@@ -58,7 +58,7 @@ public class GameState : MonoBehaviour
 
     
     private float _time;
-    
+    public float co2Emissions;
 
     private void Start()
     {
@@ -67,6 +67,8 @@ public class GameState : MonoBehaviour
         _time = 0f;
         _totalNumberOfJobs= 0;
         scientificProgress = new bool[20];
+        //try high value of co2 emissions for testing
+        co2Emissions = 1000f;
     }
 
     private void Update()
