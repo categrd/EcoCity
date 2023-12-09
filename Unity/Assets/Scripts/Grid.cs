@@ -114,10 +114,12 @@ public class Person
 
 public class Cell
 {
+    private Vector3Int _position;
     private int _cost;
     private int _structureHeight;
     private int _structureWidth;
     public int Cost { get; set; }
+    public Vector3Int Position { get; set; }
     public int StructureHeight { get; set; }
     public int StructureWidth { get; set; }
     public static (int _structureWidth, int _structureHeight, int cost) GetAttributesForBuildingType(BuildingType buildingType)
@@ -197,6 +199,9 @@ public class RoadCell : Cell
 public class StructureCell : Cell
 {
     private BuildingType _buildingType;
+    private GameObject _firePrefab;
+    private bool _isOnFire;
+    private float _timeOnFire;
     private int _maintenanceCost;
     private int _incomeGenerated;
     private float _beauty;
@@ -207,6 +212,11 @@ public class StructureCell : Cell
     
 
     public BuildingType BuildingType { get; set; }
+    
+    public GameObject FirePrefab { get; set; }
+    public bool IsOnFire { get; set; }
+    
+    public float TimeOnFire { get; set; }
     public int MaintenanceCost { get; set; }
     public int IncomeGenerated { get; set; }
     public float Beauty { get; set; }
@@ -764,19 +774,5 @@ public class Grid
         }
         return neighbours;
     }
-
-    public Vector3Int? GetRandomPositionOfTypeCell(Type cellType)
-    {
-        for (int i = 0; i < _width; i++)
-        {
-            for (int j = 0; j < _height; j++)
-            {
-                if (_grid[i, j].GetType() == cellType)
-                {
-                    return new Vector3Int(i, j, 0);
-                }
-            }
-        }
-        return null;
-    }
+    
 }

@@ -199,6 +199,7 @@ public class StructureManager : MonoBehaviour
             {
                 placementManager.buildPermanent = true;
                 placementManager.PlaceTemporaryStructureWithButton(position, _prefab, buildingType);
+                _structure.Position = position;
                 placementManager.PlaceObjectOnTheMap(position, _prefab, _structure, structureWidth, structureHeight);
                 AudioPlayer.instance.PlayPlacementSound();
                 gameState.UpdateGameVariablesWhenBuilding(position);

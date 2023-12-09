@@ -10,12 +10,13 @@ public class HeatwaveManager : MonoBehaviour
     public Volume heatwaveVolume;
     private float _time;
     private float _fireTime;
-    private float cooldownDuration = 100f; // 5 minutes cooldown
+    private float cooldownDuration = 300f; // 5 minutes cooldown
     private float heatwaveProbability = 0.02f; // Initial low probability
     private bool isHeatwaveActive = false;
     
     private void Update()
     {
+        
         // Check if it's time for a heatwave and cooldown is over
         if (_time  >= cooldownDuration )
         {
@@ -24,6 +25,7 @@ public class HeatwaveManager : MonoBehaviour
             if (Random.value < heatwaveProbability)
             {
                 StartHeatwave();
+                isHeatwaveActive = true;
                 _time = 0;
             }
         }
@@ -35,17 +37,23 @@ public class HeatwaveManager : MonoBehaviour
             // Start a fire at a random structure position every 5 seconds
             if (_fireTime >= 5f)
             {
-                //TODO fix GetRandomPositionOfTypeCell function 
-                Vector3Int? randomPosition = placementManager.placementGrid.GetRandomPositionOfTypeCell(typeof(StructureCell));
+                Vector3Int? randomPosition = placementManager.GetRandomPositionOfTypeCellSatisfying(typeof(StructureCell),
+                    (cell) => placementManager.IsStructureCellOnFire(cell));
+                
                 if (randomPosition != null)
                 {
-                    GameObject firePrefab = Instantiate(fire, (Vector3Int)randomPosition,Quaternion.identity);
-                    Destroy(firePrefab, 30f);
+                    Cell cell = placementManager.GetCellAtPosition((Vector3Int)randomPosition);
+                    if (cell is StructureCell structureCell)
+                    {
+                        structureCell.IsOnFire = true;
+                        structureCell.FirePrefab = Instantiate(fire, (Vector3Int)randomPosition,Quaternion.identity);
+                        gameState.structuresOnFire.Add(structureCell);
+                    }
                 }
                 _fireTime = 0;
             }
             // Check if the heatwave need to be stopped
-            if(_time >= 30f)
+            if(_time >= 60f)
             {
                 StopHeatwave();
                 _time = 0;

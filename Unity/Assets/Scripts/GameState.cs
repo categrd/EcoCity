@@ -12,8 +12,8 @@ using Random = System.Random;
 
 public class GameState : MonoBehaviour
 {
-    
-    
+
+    public List<StructureCell> structuresOnFire = new List<StructureCell>();
     public PlacementManager placementManager;
     public PopulationManager populationManager;
     public TransportManager transportManager;
@@ -74,6 +74,7 @@ public class GameState : MonoBehaviour
     private void Update()
     {
         _time += Time.deltaTime;
+        
         if(_time >= 1)
         {
             UpdateGameVariables();
@@ -85,10 +86,29 @@ public class GameState : MonoBehaviour
     {
         UpdateTotalPopulation();
         UpdateEmployment();
+        UpdateStructuresOnFire();
         populationManager.FindJob();
         currentMoney += GetEarnings();
         populationManager.HandlePeopleMovement();
         Debug.Log("jobless people:" + populationManager.joblessPeople.Count);
+    }
+    private void UpdateStructuresOnFire()
+    {
+        foreach (var structureCell in structuresOnFire)
+        {
+            if (structureCell.IsOnFire)
+            {
+                structureCell.TimeOnFire ++;
+                if (structureCell.TimeOnFire >= 60f)
+                {
+                    structureCell.IsOnFire = false;
+                    structureCell.TimeOnFire = 0;
+                    Destroy(structureCell.FirePrefab);
+                    placementManager.DestroyGameObjectAt(structureCell.Position);
+                    structuresOnFire.Remove(structureCell);
+                }
+            }
+        }
     }
     private void UpdateTotalPopulation()
     {
