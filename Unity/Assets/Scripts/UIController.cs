@@ -14,7 +14,7 @@ public class UIController : MonoBehaviour
     //public GameObject environmentStatsPanel;
     public TextMeshProUGUI populationText;
     public TextMeshProUGUI moneyText;
-
+    public Text notEnoughMoneyText;
 
     public Action OnRoadPlacement, OnHousePlacement, OnClinicPlacement, OnHospitalPlacement, OnSolarPanelPlacement, OnWindTurbinePlacement, OnCarbonPowerPlantPlacement,
         OnNuclearPlantPlacement, OnWaterPlantPlacement, OnHighDensityHousePlacement, OnShopPlacement, OnRestaurantPlacement, OnBarPlacement, OnCinemaPlacement, OnUniversityPlacement,
@@ -264,7 +264,20 @@ public class UIController : MonoBehaviour
                 panel.SetActive(false);
         }
     }
+    public void ShowNotEnoughMoneyText()
+    {
+        notEnoughMoneyText.gameObject.SetActive(true);
 
+        // Schedule a function to hide the text after 2 seconds
+        Invoke("HideNotEnoughMoneyText", 2f);
+    }
+
+    private void HideNotEnoughMoneyText()
+    {
+        notEnoughMoneyText.gameObject.SetActive(false);
+    }
+
+    
     private void Update()
     {
         _currentMoney = gameState.currentMoney;

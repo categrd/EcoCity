@@ -8,6 +8,7 @@ using UnityEngine;
 
 public class StructureManager : MonoBehaviour
 {
+    public UIController uiController;
     public GameState gameState;
     private BuildingType _buildingType;
     public StructurePrefabWeighted[] housesPrefabs, specialPrefabs, bigStructuresPrefabs;
@@ -70,7 +71,7 @@ public class StructureManager : MonoBehaviour
             structureWidth = structureHeight;
             structureHeight = temp;
         }
-        if (CheckBigStructure(position, structureWidth, structureHeight ))
+        if (CheckBigStructure(position, structureWidth, structureHeight ) && CheckIfEnoughMoney(cost))
         {
             switch (buildingType)
             {
@@ -251,7 +252,16 @@ public class StructureManager : MonoBehaviour
         }
         return 0;
     }
-
+    private bool CheckIfEnoughMoney(int cost)
+    {
+        if (gameState.currentMoney >= cost)
+        {
+            return true;
+        }
+        uiController.ShowNotEnoughMoneyText();
+        Debug.Log("Not enough money");
+        return false;
+    }
     public bool CheckPositionBeforePlacement(Vector3Int position)
     {
         if (DefaultCheck(position) == false)
