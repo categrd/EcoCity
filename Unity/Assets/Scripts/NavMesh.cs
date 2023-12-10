@@ -4,7 +4,8 @@ using UnityEngine.AI;
 
 public class NavMeshBaker : MonoBehaviour
 {
-    public NavMeshSurface navMeshSurface;
+    public NavMeshSurface navMeshSurfaceWalkable;
+    public NavMeshSurface navMeshSurfaceRoad;
 
     void Start()
     {
@@ -13,9 +14,13 @@ public class NavMeshBaker : MonoBehaviour
 
     void BakeNavMesh()
     {
-        if (navMeshSurface != null)
+        if (navMeshSurfaceWalkable != null)
         {
-            navMeshSurface.BuildNavMesh();
+            navMeshSurfaceWalkable.BuildNavMesh();
+        }
+        if (navMeshSurfaceRoad != null)
+        {
+            navMeshSurfaceRoad.BuildNavMesh();
         }
     }
     void Update()

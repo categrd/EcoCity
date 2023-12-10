@@ -11,6 +11,8 @@ public class PopulationManager : MonoBehaviour
     public GameObject femaleDress;
     public GameObject maleCasual;
     public GameObject maleSuit;
+    public GameObject car1;
+    public GameObject car2;
     GameObject prefab;
     
     public TransportManager transportManager;
@@ -39,7 +41,7 @@ public class PopulationManager : MonoBehaviour
     {
         foreach (Person person in peopleList)
         {
-            if (person.isPersonFree && person.personPrefab == null && person.currentPosition != null)
+            if (person.isPersonFree && person.personPrefab == null && person.carPrefab == null && person.currentPosition != null)
             {
                 
                 Vector3Int personCurrentPosition = (Vector3Int) person.currentPosition;
@@ -56,6 +58,7 @@ public class PopulationManager : MonoBehaviour
                         if (randomValue == 0)
                         {
                             targetPosition = placementManager.GetRandomPositionOfTypeCellSatisfying(typeof(EntertainmentCell));
+                            
                             if(person.sex == 0)
                                 prefab = maleCasual;
                             else
@@ -82,7 +85,26 @@ public class PopulationManager : MonoBehaviour
                         Vector3Int? targetRoad = GetTargetRoadPosition((Vector3Int)targetPosition);
                         if (targetRoad != null)
                         {
-                            transportManager.MovePersonToPosition(person, startingPosition, (Vector3Int)targetPosition, prefab);
+                            // if distance from starting to target position is too big, use car
+                           // if (Vector3Int.Distance(startingPosition, (Vector3Int)targetRoad) > 5)
+                            {
+                                // use random car prefab
+                                //int randomValue = UnityEngine.Random.Range(0, 2);
+                                //if (randomValue == 0)
+                                {
+                                    //prefab = car1;
+                                }
+                               // else
+                                {
+                                    //prefab = car2;
+                                }
+                                //transportManager.MoveCarToPosition(person, startingPosition, (Vector3Int)targetRoad, prefab);
+                            }
+                           // else
+                            {
+                                transportManager.MovePersonToPosition(person, startingPosition, (Vector3Int)targetPosition, prefab);
+                            }
+                            
                         }
 
                     }
