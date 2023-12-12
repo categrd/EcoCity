@@ -71,7 +71,7 @@ public class StructureManager : MonoBehaviour
             structureWidth = structureHeight;
             structureHeight = temp;
         }
-        if (CheckBigStructure(position, structureWidth, structureHeight ) && CheckIfEnoughMoney(cost))
+        if (CheckBigStructure(position, structureWidth, structureHeight ) )
         {
             switch (buildingType)
             {
@@ -196,7 +196,7 @@ public class StructureManager : MonoBehaviour
             {
                 placementManager.PlaceTemporaryStructureWithButton(position, _prefab, buildingType);
             }
-            else
+            else if (CheckIfEnoughMoney(cost))
             {
                 placementManager.buildPermanent = true;
                 placementManager.PlaceTemporaryStructureWithButton(position, _prefab, buildingType);

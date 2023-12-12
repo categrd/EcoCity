@@ -269,7 +269,7 @@ public class UIController : MonoBehaviour
         notEnoughMoneyText.gameObject.SetActive(true);
 
         // Schedule a function to hide the text after 2 seconds
-        Invoke("HideNotEnoughMoneyText", 2f);
+        Invoke(nameof(HideNotEnoughMoneyText), 2f);
     }
 
     private void HideNotEnoughMoneyText()
