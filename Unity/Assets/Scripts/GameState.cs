@@ -59,6 +59,7 @@ public class GameState : MonoBehaviour
     
     private float _time;
     public float co2Emissions;
+    public float airPollution;
 
     private void Start()
     {
@@ -69,6 +70,8 @@ public class GameState : MonoBehaviour
         scientificProgress = new bool[20];
         //try high value of co2 emissions for testing
         co2Emissions = 1000f;
+        // try high value of air pollution for testing
+        airPollution = 1000f;
     }
 
     private void Update()
