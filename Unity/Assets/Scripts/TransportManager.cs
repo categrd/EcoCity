@@ -8,7 +8,8 @@ public class TransportManager : MonoBehaviour
 {
     
     //make a list of different prefabs for different types of people
-    
+    public GameObject fireTruckPrefab;
+    private List<Person> _fireTruckList = new List<Person>();
     
     private List<Person> _pedestrianMovingList = new List<Person>();
     private List<Person> _peopleArrivedAtDestination = new List<Person>();
@@ -59,6 +60,12 @@ public class TransportManager : MonoBehaviour
             Debug.LogError("NavMeshAgent component not found on the personPrefab.");
         }
     }
+    public void SendFireTruckToFire(Person person, Vector3Int startingPosition, Vector3Int targetPosition, GameObject prefab)
+    {
+        MoveCarToPosition(person, startingPosition, targetPosition, prefab);
+        _fireTruckList.Add(person);
+        
+    }
 
     private bool destroyPerson;
     private bool destroyCar;
@@ -70,8 +77,9 @@ public class TransportManager : MonoBehaviour
         {
             _time = 0;
             HandlePeopleMovement();
-            //HandleCarMovement();
+            HandleCarMovement();
         }
+        
     }
     void HandlePeopleMovement()
     {
@@ -135,6 +143,11 @@ public class TransportManager : MonoBehaviour
         {
             person.busyTime = 100;
             person.currentPosition = person.targetPosition;
+            //if the person is a fire truck, let's make him extinguish the fire
+            if (_fireTruckList.Contains(person))
+            {
+                Destroy(person.carPrefab, 5f);
+            }
             Destroy(person.carPrefab);
             person.personPrefab = null;
             person.carPrefab = null;

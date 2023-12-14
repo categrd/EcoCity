@@ -461,8 +461,10 @@ public class PublicServiceCell : JobCell
 {
     private int _criminalsCovered;
     private int _firesCovered;
+    private int _fireTrucks;
     public int CriminalsCovered { get; set; }
     public int FiresCovered { get; set; }
+    public int FireTrucks { get; set; }
     public PublicServiceCell(BuildingType buildingType)
     {
         EmployeeList = new List<Person>();
@@ -488,6 +490,7 @@ public class PublicServiceCell : JobCell
             EnergyConsumption = 100;
             WasteProduction = 5;
             NumberOfEmployeesCapacity = 10;
+            FireTrucks = 3;
         }
         if(buildingType == BuildingType.University)
         {

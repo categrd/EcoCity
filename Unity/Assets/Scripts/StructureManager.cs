@@ -41,6 +41,7 @@ public class StructureManager : MonoBehaviour
     public PlacementManager placementManager;
     public GameManager gameManager;
     public RoadManager roadManager;
+    
 
     private float[] houseWeights, specialWeights, bigStructureWeights;
 

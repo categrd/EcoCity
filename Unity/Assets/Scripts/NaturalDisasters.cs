@@ -10,57 +10,63 @@ public class HeatwaveManager : MonoBehaviour
     public Volume heatwaveVolume;
     private float _time;
     private float _fireTime;
-    private float cooldownDuration = 300f; // 5 minutes cooldown
+    private float cooldownDuration = 1f; // 5 minutes cooldown
     private float heatwaveProbability = 0.02f; // Initial low probability
     private bool isHeatwaveActive = false;
+
+    public GameObject acidRainPrefab;
+    private GameObject _acidRain = null;
+    private float _acidRainTime;
+    private float acidRainProbability = 0.02f; // Initial low probability
+    private bool isAcidRainActive = false;
+
+    public GameObject smogPrefab;
+    private GameObject _smog = null;
+    private float _smogTime;
+    private float smogProbability = 0.02f; // Initial low probability
+    private bool isSmogActive = false;
     
     private void Update()
     {
         
         // Check if it's time for a heatwave and cooldown is over
-        if (_time  >= cooldownDuration )
+        if (_time >= cooldownDuration)
         {
             HandleHeatwaveProbability();
+            HandleAcidRainProbability();
+            HandleSmogProbability();
             // Check if a heatwave should occur based on probability
-            if (Random.value < heatwaveProbability)
+            if (Random.value < heatwaveProbability && !isHeatwaveActive && !isAcidRainActive && !isSmogActive)
             {
                 StartHeatwave();
                 isHeatwaveActive = true;
                 _time = 0;
             }
+
+            // Check if a acidRain should occur based on probability
+            if (Random.value < acidRainProbability && !isHeatwaveActive && !isAcidRainActive && !isSmogActive)
+            {
+                StartAcidRain();
+                isAcidRainActive = true;
+                _time = 0;
+            }
+
+            // Check if a smog should occur based on probability
+            if (Random.value < smogProbability && !isHeatwaveActive && !isAcidRainActive && !isSmogActive)
+            {
+                StartSmog();
+                isSmogActive = true;
+                _time = 0;
+            }
+
         }
         else _time += Time.deltaTime;
         if (isHeatwaveActive)
-        {
-            _time += Time.deltaTime;
-            _fireTime += Time.deltaTime;
-            // Start a fire at a random structure position every 5 seconds
-            if (_fireTime >= 5f)
-            {
-                Vector3Int? randomPosition = placementManager.GetRandomPositionOfTypeCellSatisfying(typeof(StructureCell),
-                    (cell) => placementManager.IsStructureCellOnFire(cell));
-                
-                if (randomPosition != null)
-                {
-                    Cell cell = placementManager.GetCellAtPosition((Vector3Int)randomPosition);
-                    if (cell is StructureCell structureCell)
-                    {
-                        structureCell.IsOnFire = true;
-                        structureCell.FirePrefab = Instantiate(fire, (Vector3Int)randomPosition,Quaternion.identity);
-                        gameState.structuresOnFire.Add(structureCell);
-                    }
-                }
-                _fireTime = 0;
-            }
-            // Check if the heatwave need to be stopped
-            if(_time >= 60f)
-            {
-                StopHeatwave();
-                _time = 0;
-                _fireTime = 0;
-                isHeatwaveActive = false;
-            }
-        }
+            HandleHeatwave();
+        if (isAcidRainActive)
+            HandleAcidRain();
+        if (isSmogActive)
+            HandleSmog();
     }
 
     private void StartHeatwave()
@@ -76,6 +82,41 @@ public class HeatwaveManager : MonoBehaviour
             Debug.LogError("Heatwave Volume not assigned!");
         }
     }
+
+    private void HandleHeatwave()
+    {
+        _time += Time.deltaTime;
+        _fireTime += Time.deltaTime;
+        // Start a fire at a random structure position every 5 seconds
+        if (_fireTime >= 5f)
+        {
+            Vector3Int? randomPosition = placementManager.GetRandomPositionOfTypeCellSatisfying(typeof(StructureCell),
+                (cell) => placementManager.IsStructureCellOnFire(cell));
+
+            if (randomPosition != null)
+            {
+                Cell cell = placementManager.GetCellAtPosition((Vector3Int)randomPosition);
+                if (cell is StructureCell structureCell)
+                {
+                    structureCell.IsOnFire = true;
+                    structureCell.FirePrefab = Instantiate(fire, (Vector3Int)randomPosition, Quaternion.identity);
+                    gameState.structuresOnFire.Add(structureCell);
+                }
+            }
+
+            _fireTime = 0;
+        }
+
+        // Check if the heatwave need to be stopped
+        if (_time >= 60f)
+        {
+            StopHeatwave();
+            _time = 0;
+            _fireTime = 0;
+            isHeatwaveActive = false;
+        }
+    }
+
     private void StopHeatwave()
     {
         // Stop your heatwave effects or events here
@@ -95,7 +136,7 @@ public class HeatwaveManager : MonoBehaviour
         // Probability depends on current C02 emissions with a exponential function
         heatwaveProbability = Mathf.Pow(gameState.co2Emissions, 2) / 1000000;
     }
-    
+
     // Start is called before the first frame update
 
     void ApplyHeatwaveSettings()
@@ -115,121 +156,57 @@ public class HeatwaveManager : MonoBehaviour
             Debug.LogError("Color Adjustments not found in the Heatwave Volume!");
         }
     }
-}
 
-public class AcidRain : MonoBehaviour
-{
-    public GameState gameState;
-    public PlacementManager placementManager;
-    public GameObject acidRainPrefab;
-    private GameObject _acidRain = null;
-    private float _time;
-    private float _acidRainTime;
-    private float cooldownDuration = 300f; // 5 minutes cooldown
-    private float acidRainProbability = 0.02f; // Initial low probability
-    private bool isAcidRainActive = false;
 
-    private void Update()
-    {
-
-        // Check if it's time for a acidRain and cooldown is over
-        if (_time >= cooldownDuration)
-        {
-            HandleAcidRainProbability();
-            // Check if a acidRain should occur based on probability
-            if (Random.value < acidRainProbability)
-            {
-                StartAcidRain();
-                isAcidRainActive = true;
-                _time = 0;
-            }
-        }
-        else _time += Time.deltaTime;
-
-        if (isAcidRainActive)
-        {
-            _time += Time.deltaTime;
-
-            // Check if the acidRain need to be stopped
-            if (_time >= 60f)
-            {
-                StopAcidRain();
-                _time = 0;
-                isAcidRainActive = false;
-            }
-        }
-    }
     private void HandleAcidRainProbability()
     {
         // Probability depends on current C02 emissions with a exponential function
         acidRainProbability = Mathf.Pow(gameState.airPollution, 2) / 1000000;
     }
-    
+
     private void StartAcidRain()
     {
-        _acidRain = Instantiate(acidRainPrefab, new Vector3(7.56f, -0.78f, 7.65f), Quaternion.identity);
+        _acidRain = Instantiate(acidRainPrefab, new Vector3(6.17f, 5.59f, 5.72f), Quaternion.identity);
+    }
+    private void HandleAcidRain()
+    {
+        _acidRainTime += Time.deltaTime;
+        if (_acidRainTime >= 60f)
+        {
+            StopAcidRain();
+            _acidRainTime = 0;
+            isAcidRainActive = false;
+        }
+        
     }
     private void StopAcidRain()
     {
         Destroy(_acidRain);
     }
-}
-
-public class SmogEvent : MonoBehaviour
-{
-    public GameState gameState;
-    public PlacementManager placementManager;
-    public GameObject smogPrefab;
-    private GameObject _smog = null;
-    private float _time;
-    private float _smogTime;
-    private float cooldownDuration = 300f; // 5 minutes cooldown
-    private float smogProbability = 0.02f; // Initial low probability
-    private bool isSmogActive = false;
-
-    private void Update()
-    {
-
-        // Check if it's time for a smog and cooldown is over
-        if (_time >= cooldownDuration)
-        {
-            HandleSmogProbability();
-            // Check if a smog should occur based on probability
-            if (Random.value < smogProbability)
-            {
-                StartSmog();
-                isSmogActive = true;
-                _time = 0;
-            }
-        }
-        else _time += Time.deltaTime;
-
-        if (isSmogActive)
-        {
-            _time += Time.deltaTime;
-
-            // Check if the smog need to be stopped
-            if (_time >= 60f)
-            {
-                StopSmog();
-                _time = 0;
-                isSmogActive = false;
-            }
-        }
-    }
+    
     private void HandleSmogProbability()
     {
         // Probability depends on current C02 emissions with a exponential function
         smogProbability = Mathf.Pow(gameState.airPollution, 2) / 1000000;
     }
-    
+
     private void StartSmog()
     {
         _smog = Instantiate(smogPrefab, new Vector3(6.009356f, 1.044306f, 6.765965f), Quaternion.identity);
+    }
+    private void HandleSmog()
+    {
+        _smogTime += Time.deltaTime;
+        if (_smogTime >= 60f)
+        {
+            StopSmog();
+            _smogTime = 0;
+            isSmogActive = false;
+        }
+        
     }
     private void StopSmog()
     {
         Destroy(_smog);
     }
-    
 }

@@ -69,9 +69,9 @@ public class GameState : MonoBehaviour
         _totalNumberOfJobs= 0;
         scientificProgress = new bool[20];
         //try high value of co2 emissions for testing
-        co2Emissions = 1000f;
+        co2Emissions = 100f;
         // try high value of air pollution for testing
-        airPollution = 1000f;
+        airPollution = 100f;
     }
 
     private void Update()
@@ -82,6 +82,30 @@ public class GameState : MonoBehaviour
         {
             UpdateGameVariables();
             _time = 0;
+        }
+        foreach (var structureCell in structuresOnFire)
+        {
+            if (structureCell.IsOnFire)
+            {
+                // get random position of a fire station by checking if it's a fire station (using buildingtype) and if it's not busy
+                Vector3Int? fireStationPosition = placementManager.GetRandomPositionOfTypeCellSatisfying(typeof(StructureCell),
+                    (cell) => placementManager.CheckIfCellIsOfBuildingType(cell, BuildingType.FireStation));
+                // send fire truck to fire
+                if (fireStationPosition != null)
+                {
+                    PublicServiceCell fireStationCell = (PublicServiceCell) placementManager.GetCellAtPosition((Vector3Int)fireStationPosition);
+                    if (fireStationCell.FireTrucks > 0)
+                    {
+                        if(fireStationCell.EmployeeList.Count > 0)
+                        {
+                            transportManager.SendFireTruckToFire(fireStationCell.EmployeeList[0], (Vector3Int)fireStationPosition, 
+                                structureCell.Position, transportManager.fireTruckPrefab);
+                            fireStationCell.FireTrucks--;
+                        }
+                    }
+                }
+                
+            }
         }
     }
 

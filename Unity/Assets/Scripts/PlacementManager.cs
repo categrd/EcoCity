@@ -90,7 +90,6 @@ public class PlacementManager : MonoBehaviour
     
     public bool IsStructureCellOnFire(Cell cell)
     {
-        
         if (cell is StructureCell structureCell)
         {
             
@@ -137,7 +136,14 @@ public class PlacementManager : MonoBehaviour
 
         return null;
     }
-
+    public bool CheckIfCellIsOfBuildingType(Cell cell, BuildingType buildingType)
+    {
+        if (cell is StructureCell structureCell)
+        {
+            return structureCell.BuildingType == buildingType;
+        }
+        return false;
+    }
         
 
     public void RemovePeopleFromResidence(Vector3Int residencePosition)
