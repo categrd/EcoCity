@@ -88,12 +88,12 @@ public class PlacementManager : MonoBehaviour
         cell.PersonList.Add(person);
     }
     
-    public bool IsStructureCellOnFire(Cell cell)
+    public bool IsStructureCellNotOnFire(Cell cell)
     {
         if (cell is StructureCell structureCell)
         {
             
-            return structureCell.IsOnFire;
+            return !structureCell.IsOnFire;
         }
         return false;
     }
@@ -111,11 +111,13 @@ public class PlacementManager : MonoBehaviour
                 // Check if the current type is the specified type or derived from it
                 if (cellType.IsAssignableFrom(currentType))
                 {
+                    Debug.Log("Found a cell of type " + currentType + " at position " + position);
                     if (predicate != null)
                     {
-                        
-                        if (!predicate(GetCellAtPosition(position)))
+                        Debug.Log("Checking predicate");
+                        if (predicate(GetCellAtPosition(position)))
                         {
+                            Debug.Log("Predicate satisfied");
                             positionsOfType.Add(new Vector3Int(i, 0, j));
                             
                         }

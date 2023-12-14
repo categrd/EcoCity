@@ -8710,6 +8710,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc36edd6286657c45b36cad4fda0f814, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fireTruckPrefab: {fileID: 5183646283984915337, guid: 3f2b84c39321bc344ae18ba66871809c, type: 3}
+  placementManager: {fileID: 540532163}
 --- !u!4 &676388511
 Transform:
   m_ObjectHideFlags: 0
@@ -14776,8 +14778,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1004649339}
-  - component: {fileID: 1004649338}
   - component: {fileID: 1004649340}
+  - component: {fileID: 1004649341}
   m_Layer: 0
   m_Name: NaturalDisasters
   m_TagString: Untagged
@@ -14785,22 +14787,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1004649338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1004649337}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9435f45586bd824f8a2c61b75d2c521, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameState: {fileID: 1951506727}
-  placementManager: {fileID: 540532163}
-  fire: {fileID: 1452542608924745734, guid: 378ca53baf1f85c409044edca5ccdc06, type: 3}
-  heatwaveVolume: {fileID: 1004649340}
 --- !u!4 &1004649339
 Transform:
   m_ObjectHideFlags: 0
@@ -14833,6 +14819,24 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   sharedProfile: {fileID: 11400000, guid: acc155bbcb495c54fa910f110b154471, type: 2}
+--- !u!114 &1004649341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1004649337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9435f45586bd824f8a2c61b75d2c521, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameState: {fileID: 1951506727}
+  placementManager: {fileID: 540532163}
+  fire: {fileID: 9118689033940421992, guid: 78a155bf291a66845b118412ba75a17d, type: 3}
+  heatwaveVolume: {fileID: 1004649340}
+  acidRainPrefab: {fileID: 4088700808508664489, guid: 0118f6fde3e7cb64885903dc258cf260, type: 3}
+  smogPrefab: {fileID: 7801600441101290108, guid: 5ea7ed638433dd043bfdf7548ad7b4cc, type: 3}
 --- !u!1001 &1017618414
 PrefabInstance:
   m_ObjectHideFlags: 0

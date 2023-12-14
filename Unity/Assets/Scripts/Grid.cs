@@ -107,10 +107,7 @@ public class Person
     public Vector3? startingPosition = null;
     public Vector3Int? currentPosition = null;
     public Vector3Int? targetPosition = null;
-    public int crime;
-    public int fire;
-    public int entertainment;
-    public int transport;
+    public StructureCell structureToExtinguishFire = null;
 }
 
 public class Cell
@@ -203,6 +200,7 @@ public class StructureCell : Cell
     private GameObject _firePrefab;
     private bool _isOnFire;
     private float _timeOnFire;
+    private bool _isFireTruckOnTheWay;
     private int _maintenanceCost;
     private int _incomeGenerated;
     private float _beauty;
@@ -218,6 +216,7 @@ public class StructureCell : Cell
     public bool IsOnFire { get; set; }
     
     public float TimeOnFire { get; set; }
+    public bool IsFireTruckOnTheWay { get; set; }
     public int MaintenanceCost { get; set; }
     public int IncomeGenerated { get; set; }
     public float Beauty { get; set; }

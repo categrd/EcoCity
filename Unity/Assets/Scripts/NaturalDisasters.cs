@@ -42,7 +42,7 @@ public class HeatwaveManager : MonoBehaviour
                 isHeatwaveActive = true;
                 _time = 0;
             }
-
+            /*
             // Check if a acidRain should occur based on probability
             if (Random.value < acidRainProbability && !isHeatwaveActive && !isAcidRainActive && !isSmogActive)
             {
@@ -58,6 +58,7 @@ public class HeatwaveManager : MonoBehaviour
                 isSmogActive = true;
                 _time = 0;
             }
+            */
 
         }
         else _time += Time.deltaTime;
@@ -91,7 +92,7 @@ public class HeatwaveManager : MonoBehaviour
         if (_fireTime >= 5f)
         {
             Vector3Int? randomPosition = placementManager.GetRandomPositionOfTypeCellSatisfying(typeof(StructureCell),
-                (cell) => placementManager.IsStructureCellOnFire(cell));
+                (cell) => placementManager.IsStructureCellNotOnFire(cell));
 
             if (randomPosition != null)
             {

@@ -14,6 +14,7 @@ public class GameState : MonoBehaviour
 {
 
     public List<StructureCell> structuresOnFire = new List<StructureCell>();
+    public List<StructureCell> structuresOnFireToDestroy = new List<StructureCell>();
     public PlacementManager placementManager;
     public PopulationManager populationManager;
     public TransportManager transportManager;
@@ -77,34 +78,48 @@ public class GameState : MonoBehaviour
     private void Update()
     {
         _time += Time.deltaTime;
-        
-        if(_time >= 1)
+
+        if (_time >= 1)
         {
             UpdateGameVariables();
             _time = 0;
         }
+
         foreach (var structureCell in structuresOnFire)
         {
-            if (structureCell.IsOnFire)
+            if (structureCell.IsOnFire && structureCell.IsFireTruckOnTheWay == false)
             {
-                // get random position of a fire station by checking if it's a fire station (using buildingtype) and if it's not busy
-                Vector3Int? fireStationPosition = placementManager.GetRandomPositionOfTypeCellSatisfying(typeof(StructureCell),
-                    (cell) => placementManager.CheckIfCellIsOfBuildingType(cell, BuildingType.FireStation));
-                // send fire truck to fire
-                if (fireStationPosition != null)
+                List<Vector3Int> neighboursRoads =
+                    placementManager.GetNeighboursOfTypeFor<RoadCell>(structureCell.Position);
+                // if there's at least a road next to the person, we continue with the code
+                if (neighboursRoads.Count > 0)
                 {
-                    PublicServiceCell fireStationCell = (PublicServiceCell) placementManager.GetCellAtPosition((Vector3Int)fireStationPosition);
-                    if (fireStationCell.FireTrucks > 0)
+                    Vector3Int targetPosition = neighboursRoads[0];
+                    // get random position of a fire station by checking if it's a fire station (using buildingtype) and if it's not busy
+                    Vector3Int? fireStationPosition = placementManager.GetRandomPositionOfTypeCellSatisfying(
+                        typeof(PublicServiceCell),
+                        (cell) => placementManager.CheckIfCellIsOfBuildingType(cell, BuildingType.FireStation));
+                    // send fire truck to fire
+                    Debug.Log("fire station position: " + fireStationPosition);
+                    if (fireStationPosition != null)
                     {
-                        if(fireStationCell.EmployeeList.Count > 0)
+                        PublicServiceCell fireStationCell =
+                            (PublicServiceCell)placementManager.GetCellAtPosition((Vector3Int)fireStationPosition);
+                        if (fireStationCell.FireTrucks > 0)
                         {
-                            transportManager.SendFireTruckToFire(fireStationCell.EmployeeList[0], (Vector3Int)fireStationPosition, 
-                                structureCell.Position, transportManager.fireTruckPrefab);
-                            fireStationCell.FireTrucks--;
+                            if (fireStationCell.EmployeeList.Count > 0)
+                            {
+                                transportManager.SendFireTruckToFire(fireStationCell.EmployeeList[0],
+                                    (Vector3Int)fireStationPosition,
+                                    targetPosition, structureCell, transportManager.fireTruckPrefab);
+                                fireStationCell.FireTrucks--;
+                                structureCell.IsFireTruckOnTheWay = true;
+
+                            }
                         }
                     }
+
                 }
-                
             }
         }
     }
@@ -130,11 +145,16 @@ public class GameState : MonoBehaviour
                 {
                     structureCell.IsOnFire = false;
                     structureCell.TimeOnFire = 0;
-                    Destroy(structureCell.FirePrefab);
-                    placementManager.DestroyGameObjectAt(structureCell.Position);
-                    structuresOnFire.Remove(structureCell);
+                    structuresOnFireToDestroy.Add(structureCell);
+                    
                 }
             }
+        }
+        foreach (var structureCell in structuresOnFireToDestroy)
+        {
+            Destroy(structureCell.FirePrefab);
+            placementManager.DestroyGameObjectAt(structureCell.Position);
+            structuresOnFire.Remove(structureCell);
         }
     }
     private void UpdateTotalPopulation()

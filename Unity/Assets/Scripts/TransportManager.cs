@@ -9,6 +9,7 @@ public class TransportManager : MonoBehaviour
     
     //make a list of different prefabs for different types of people
     public GameObject fireTruckPrefab;
+    public PlacementManager placementManager;
     private List<Person> _fireTruckList = new List<Person>();
     
     private List<Person> _pedestrianMovingList = new List<Person>();
@@ -60,11 +61,11 @@ public class TransportManager : MonoBehaviour
             Debug.LogError("NavMeshAgent component not found on the personPrefab.");
         }
     }
-    public void SendFireTruckToFire(Person person, Vector3Int startingPosition, Vector3Int targetPosition, GameObject prefab)
+    public void SendFireTruckToFire(Person person, Vector3Int startingPosition, Vector3Int targetPosition, StructureCell structureTarget ,GameObject prefab)
     {
         MoveCarToPosition(person, startingPosition, targetPosition, prefab);
         _fireTruckList.Add(person);
-        
+        person.structureToExtinguishFire = structureTarget;
     }
 
     private bool destroyPerson;
@@ -147,6 +148,15 @@ public class TransportManager : MonoBehaviour
             if (_fireTruckList.Contains(person))
             {
                 Destroy(person.carPrefab, 5f);
+                _fireTruckList.Remove(person);
+                if (person.jobPosition.HasValue)
+                {
+                    Vector3Int fireTruckStructure = person.jobPosition.Value;
+                    PublicServiceCell fireTruckStructureCell = (PublicServiceCell) placementManager.GetCellAtPosition(fireTruckStructure);
+                    fireTruckStructureCell.FireTrucks++;
+                    // extinguish the fire after 5 seconds
+                    StartCoroutine(ExtinguishFire(person));
+                }
             }
             Destroy(person.carPrefab);
             person.personPrefab = null;
@@ -248,5 +258,14 @@ public class TransportManager : MonoBehaviour
         person.currentPosition = person.housePosition;
         person.idleTime = 0;
         person.idleTimeAtStartingPosition = 0;
+    }
+    IEnumerator ExtinguishFire(Person person)
+    {
+        yield return new WaitForSeconds(5);
+        if (person.structureToExtinguishFire != null)
+        {
+            person.structureToExtinguishFire.IsOnFire = false;
+            person.structureToExtinguishFire = null;
+        }
     }
 }
