@@ -95,7 +95,7 @@ public class GameState : MonoBehaviour
                 if (neighboursRoads.Count > 0)
                 {
                     Vector3Int targetPosition = neighboursRoads[0];
-                    // get random position of a fire station by checking if it's a fire station (using buildingtype) and if it's not busy
+                    // get random position of a fire station by checking if it's a fire station (using buildingType) and if it's not busy
                     Vector3Int? fireStationPosition = placementManager.GetRandomPositionOfTypeCellSatisfying(
                         typeof(PublicServiceCell),
                         (cell) => placementManager.CheckIfCellIsOfBuildingType(cell, BuildingType.FireStation));
@@ -126,7 +126,6 @@ public class GameState : MonoBehaviour
                             }
                         }
                     }
-
                 }
             }
         }

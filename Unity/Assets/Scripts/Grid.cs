@@ -199,7 +199,6 @@ public class StructureCell : Cell
 {
     private BuildingType _buildingType;
     private bool _isFireTruckOnTheWay;
-    private Vector3Int _position;
     private GameObject _firePrefab;
     private float _timeOnFire;
     private bool _isOnFire;
@@ -217,7 +216,6 @@ public class StructureCell : Cell
 
     public BuildingType BuildingType { get; set; }
     public bool IsFireTruckOnTheWay { get; set; }
-    public Vector3Int Position { get; set; }
     public GameObject FirePrefab { get; set; }
     public float TimeOnFire { get; set; }
     public bool IsOnFire { get; set; }
@@ -480,6 +478,7 @@ public class PublicServiceCell : JobCell
             EnergyConsumption = 100;
             WasteProduction = 5;
             NumberOfEmployeesCapacity = 10;
+            FireTrucks = 4;
         }
         if(buildingType == BuildingType.University)
         {
