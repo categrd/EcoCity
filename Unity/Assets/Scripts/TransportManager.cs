@@ -195,8 +195,15 @@ public class TransportManager : MonoBehaviour
         {
             Debug.Log("extinguish fire in " + person.structureToExtinguishFire);
             person.structureToExtinguishFire.IsOnFire = false;
+            person.structureToExtinguishFire.TimeOnFire = 0;
+            person.structureToExtinguishFire.IsFireTruckOnTheWay = false;
             person.structureToExtinguishFire.FirePrefab.SetActive(false);
             person.structureToExtinguishFire = null;
+            person.isPersonFree = true;
+            person.busyTime = 0;
+            person.currentPosition = person.housePosition;
+            person.targetPosition = null;
+            person.startingPosition = null;
             _fireTruckList.Remove(person);
             Destroy(person.carPrefab);
             person.personPrefab = null;
