@@ -252,8 +252,8 @@ public class PlacementManager : MonoBehaviour
             int heightStructureToDestroy = 1;
             if(cellToDestroy is StructureCell)
             {
-                StructureCell structureCellToDestroy = (StructureCell)cellToDestroy;
-                var (structureWidth, structureHeight, cost) = Cell.GetAttributesForBuildingType(structureCellToDestroy.BuildingType);
+                StructureCell structureCell = (StructureCell)cellToDestroy;
+                var (structureWidth, structureHeight, cost) = Cell.GetAttributesForBuildingType(structureCell.BuildingType);
                 //Debug.Log("Structure width  :" + structureWidth );
                 //Debug.Log("Structure height  : "+ structureHeight );
                 widthStructureToDestroy = structureWidth;
