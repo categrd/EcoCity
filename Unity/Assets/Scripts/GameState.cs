@@ -87,7 +87,29 @@ public class GameState : MonoBehaviour
 
     private void UpdateCarbonMonoxideProduction()
     {
-        
+        float totalArea = 0;
+
+        // Calculate total area occupied by cells
+        foreach (var cell in _grid)
+        {
+            if (cell is StructureCell structureCell)
+            {
+                totalArea += structureCell.StructureWidth * structureCell.StructureHeight;
+            }
+        }
+
+        // Update CarbonMonoxideProduction for each StructureCell
+        foreach (var cell in _grid)
+        {
+            if (cell is StructureCell structureCell)
+            {
+                float normalizedValue = GetNormalizedCarbonMonoxideValue(structureCell.BuildingType);
+                float normalizedArea = (structureCell.StructureWidth * structureCell.StructureHeight) / totalArea;
+                structureCell.CarbonMonoxideProduction = normalizedValue * normalizedArea;
+            }
+        }
+    }
+
     }
 
     private void HandlePeopleMovement()
