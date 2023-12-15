@@ -10,7 +10,7 @@ public class HeatwaveManager : MonoBehaviour
     public Volume heatwaveVolume;
     private float _time;
     private float _fireTime;
-    private float cooldownDuration = 1f; // 5 minutes cooldown
+    private float cooldownDuration = 20f; // 5 minutes cooldown
     private float heatwaveProbability = 0.02f; // Initial low probability
     private bool isHeatwaveActive = false;
 
@@ -89,7 +89,7 @@ public class HeatwaveManager : MonoBehaviour
         _time += Time.deltaTime;
         _fireTime += Time.deltaTime;
         // Start a fire at a random structure position every 5 seconds
-        if (_fireTime >= 5f)
+        if (_fireTime >= 10f)
         {
             Vector3Int? randomPosition = placementManager.GetRandomPositionOfTypeCellSatisfying(typeof(StructureCell),
                 (cell) => placementManager.IsStructureCellNotOnFire(cell));
@@ -104,7 +104,6 @@ public class HeatwaveManager : MonoBehaviour
                     gameState.structuresOnFire.Add(structureCell);
                 }
             }
-
             _fireTime = 0;
         }
 

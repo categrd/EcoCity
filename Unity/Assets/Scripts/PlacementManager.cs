@@ -111,13 +111,13 @@ public class PlacementManager : MonoBehaviour
                 // Check if the current type is the specified type or derived from it
                 if (cellType.IsAssignableFrom(currentType))
                 {
-                    Debug.Log("Found a cell of type " + currentType + " at position " + position);
+                    
                     if (predicate != null)
                     {
-                        Debug.Log("Checking predicate");
+                        
                         if (predicate(GetCellAtPosition(position)))
                         {
-                            Debug.Log("Predicate satisfied");
+                            
                             positionsOfType.Add(new Vector3Int(i, 0, j));
                             
                         }

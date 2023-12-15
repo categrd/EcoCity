@@ -164,7 +164,7 @@ public class PopulationManager : MonoBehaviour
         {
             person = peopleList[0];
         }
-        if (person != null)
+        if (person != null && person.personPrefab == null && person.carPrefab == null)
         {
             residencePosition = person.housePosition;
             jobPosition = person.jobPosition;

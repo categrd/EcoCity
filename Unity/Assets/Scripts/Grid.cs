@@ -80,14 +80,23 @@ public enum BuildingType
     IncinerationPlant,
     WasteToEnergyPlant,
     
-    Park
+    BigPark,
 
-    
+    WaterPlant
 }
 
 public class Person
 {
     public GameObject personPrefab = null;
+    public GameObject carPrefab = null;
+    public float idleTimeAtStartingPosition;
+    public Vector3? lastPosition;
+    public float idleTime;
+    public Vector3Int? targetPosition;
+    public StructureCell structureToExtinguishFire = null;
+    public Animator personAnimator;
+    public Vector3? startingPosition;
+    public int sex;
     public int health;
     public int education;
     public int happiness;
@@ -105,9 +114,11 @@ public class Person
 
 public class Cell
 {
+    private Vector3Int _position;
     private int _cost;
     private int _structureHeight;
     private int _structureWidth;
+    public Vector3Int Position { get; set; }
     public int Cost { get; set; }
     public int StructureHeight { get; set; }
     public int StructureWidth { get; set; }
@@ -119,11 +130,11 @@ public class Cell
             case BuildingType.House:
                 return (1, 1, 100000);
             case BuildingType.HighDensityHouse:
-                return (1, 1, 300000);
+                return (2, 2, 300000);
             case BuildingType.Clinic:
                 return (1, 1, 200000);
             case BuildingType.Hospital:
-                return (1, 1, 1000000);
+                return (2, 2, 1000000);
             case BuildingType.Cinema:
                 return (1, 2, 400000);
             case BuildingType.Crop:
@@ -138,8 +149,21 @@ public class Cell
                 return (1, 1, 50000);
             case BuildingType.Shop:
                 return (1, 1, 100000);
-            case BuildingType.Park:
-                return (1, 1, 10000);
+            case BuildingType.BigPark:
+                return (2, 2, 10000);
+            case BuildingType.FireStation:
+                return (1, 1, 250000);
+            case BuildingType.University:
+                return (2, 1, 1000000);
+            case BuildingType.Restaurant:
+                return (1, 1, 100000);
+            case BuildingType.NuclearPlant:
+                return (3, 2, 10000000);
+            case BuildingType.SolarPanel:
+                return (2,2, 500000);
+            case BuildingType.CarbonPowerPlant:
+                return(3,2,1000000);
+            
             
             // Add more cases for other building types
             default:
@@ -174,6 +198,11 @@ public class RoadCell : Cell
 public class StructureCell : Cell
 {
     private BuildingType _buildingType;
+    private bool _isFireTruckOnTheWay;
+    private Vector3Int _position;
+    private GameObject _firePrefab;
+    private float _timeOnFire;
+    private bool _isOnFire;
     private int _maintenanceCost;
     private int _incomeGenerated;
     private float _beauty;
@@ -187,6 +216,11 @@ public class StructureCell : Cell
 
 
     public BuildingType BuildingType { get; set; }
+    public bool IsFireTruckOnTheWay { get; set; }
+    public Vector3Int Position { get; set; }
+    public GameObject FirePrefab { get; set; }
+    public float TimeOnFire { get; set; }
+    public bool IsOnFire { get; set; }
     public int MaintenanceCost { get; set; }
     public int IncomeGenerated { get; set; }
     public float Beauty { get; set; }
@@ -419,7 +453,9 @@ public class PublicServiceCell : JobCell
 {
     private int _criminalsCovered;
     private int _firesCovered;
+    private int _fireTrucks;
     public int CriminalsCovered { get; set; }
+    public int FireTrucks { get; set; }
     public int FiresCovered { get; set; }
     public PublicServiceCell(BuildingType buildingType)
     {

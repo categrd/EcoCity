@@ -1,22 +1,26 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using TMPro;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = System.Random;
 
 public class GameState : MonoBehaviour
 {
+
+    public List<StructureCell> structuresOnFire = new List<StructureCell>();
+    public List<StructureCell> structuresOnFireToDestroy = new List<StructureCell>();
     public PlacementManager placementManager;
     public PopulationManager populationManager;
     public TransportManager transportManager;
     public float currentMoney;
     private int _totalIncome;
-    private int _totalCosts;
-    
+    private int _totalCosts;    
     public int populationCapacity;
     public int PopulationCapacity => populationCapacity;    
     
@@ -51,11 +55,12 @@ public class GameState : MonoBehaviour
     private int _totalUnemployed;
     private int _totalEmployed;
 
-    private float _totalCarbonMonoxyde;
-    private int _totalArea;
+    private bool[] scientificProgress;
+
     
     private float _time;
-    
+    public float co2Emissions;
+    public float airPollution;
 
     private void Start()
     {
@@ -63,15 +68,67 @@ public class GameState : MonoBehaviour
         populationCapacity = 0;
         _time = 0f;
         _totalNumberOfJobs= 0;
+        scientificProgress = new bool[20];
+        //try high value of co2 emissions for testing
+        co2Emissions = 100f;
+        // try high value of air pollution for testing
+        airPollution = 100f;
     }
 
     private void Update()
     {
         _time += Time.deltaTime;
-        if(_time >= 1)
+
+        if (_time >= 1)
         {
             UpdateGameVariables();
             _time = 0;
+        }
+
+        foreach (var structureCell in structuresOnFire)
+        {
+            if (structureCell.IsOnFire && structureCell.IsFireTruckOnTheWay == false)
+            {
+                List<Vector3Int> neighboursRoads =
+                    placementManager.GetNeighboursOfTypeFor<RoadCell>(structureCell.Position);
+                // if there's at least a road next to the person, we continue with the code
+                if (neighboursRoads.Count > 0)
+                {
+                    Vector3Int targetPosition = neighboursRoads[0];
+                    // get random position of a fire station by checking if it's a fire station (using buildingtype) and if it's not busy
+                    Vector3Int? fireStationPosition = placementManager.GetRandomPositionOfTypeCellSatisfying(
+                        typeof(PublicServiceCell),
+                        (cell) => placementManager.CheckIfCellIsOfBuildingType(cell, BuildingType.FireStation));
+                    // send fire truck to fire
+                    
+                    if (fireStationPosition != null)
+                    {
+                        PublicServiceCell fireStationCell =
+                            (PublicServiceCell)placementManager.GetCellAtPosition((Vector3Int)fireStationPosition);
+                        if (fireStationCell.FireTrucks > 0 && fireStationCell.EmployeeList.Count > 0)
+                        {
+                            foreach(Person person in fireStationCell.EmployeeList)
+                            {
+                                if (person.isPersonFree)
+                                {
+                                    Person fireman = person;
+                                    fireman.personPrefab = null;
+                                    fireman.carPrefab = null;
+                                    fireman.busyTime = 0;
+                                    fireman.isPersonFree = true;
+                                    transportManager.SendFireTruckToFire(fireman,
+                                            (Vector3Int)fireStationPosition,
+                                        targetPosition, structureCell, transportManager.fireTruckPrefab);
+                                    fireStationCell.FireTrucks--;
+                                    structureCell.IsFireTruckOnTheWay = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
         }
     }
 
@@ -79,89 +136,36 @@ public class GameState : MonoBehaviour
     {
         UpdateTotalPopulation();
         UpdateEmployment();
+        UpdateStructuresOnFire();
         populationManager.FindJob();
         currentMoney += GetEarnings();
-        HandlePeopleMovement();
-        Debug.Log("jobless people:" + populationManager.joblessPeople.Count);
+        populationManager.HandlePeopleMovement();
+        
     }
-
-    private void UpdateCarbonMonoxideProduction()
+    private void UpdateStructuresOnFire()
     {
-        float totalArea = 0;
-
-        // Calculate total area occupied by cells
-        foreach (var cell in _grid)
+        foreach (var structureCell in structuresOnFire)
         {
-            if (cell is StructureCell structureCell)
+            if (structureCell.IsOnFire)
             {
-                totalArea += structureCell.StructureWidth * structureCell.StructureHeight;
-            }
-        }
-
-        // Update CarbonMonoxideProduction for each StructureCell
-        foreach (var cell in _grid)
-        {
-            if (cell is StructureCell structureCell)
-            {
-                float normalizedValue = GetNormalizedCarbonMonoxideValue(structureCell.BuildingType);
-                float normalizedArea = (structureCell.StructureWidth * structureCell.StructureHeight) / totalArea;
-                structureCell.CarbonMonoxideProduction = normalizedValue * normalizedArea;
-            }
-        }
-    }
-
-    }
-
-    private void HandlePeopleMovement()
-    {
-        foreach (Person person in populationManager.peopleList)
-        {
-            if (person.isPersonFree && person.currentPosition != null)
-            {
-                Vector3Int personCurrentPosition = (Vector3Int) person.currentPosition;
-                Vector3Int? targetPosition = null;
-                List<Vector3Int> neighboursRoads = placementManager.GetNeighboursOfTypeFor<RoadCell>(personCurrentPosition);
-                if (neighboursRoads.Count <= 0)
+                structureCell.TimeOnFire ++;
+                if (structureCell.TimeOnFire >= 60f)
                 {
-                    return;
-                }
-                Vector3Int startingPosition = neighboursRoads[0];
-                if (placementManager.GetCellAtPosition(personCurrentPosition) is ResidenceCell)
-                {
-                    Random random = new Random();
-                    int randomValue = random.Next(2);
-                    if (randomValue == 0)
-                    {
-                        targetPosition = placementManager.placementGrid.GetRandomPositionOfTypeCell(typeof(EntertainmentCell));
-
-                    }
-                    else
-                    {
-                        targetPosition = person.jobPosition;
-                    }
-                }
-
-                if (placementManager.GetCellAtPosition(personCurrentPosition) is JobCell)
-                {
-                    targetPosition = person.housePosition;
-
-                }
-
-                if (targetPosition != null)
-                {
-                    List<Vector3Int>  neighboursTargetRoads = placementManager.GetNeighboursOfTypeFor<RoadCell>((Vector3Int)targetPosition);
-                    if (neighboursTargetRoads.Count <= 0)
-                    {
-                        return;
-                    }
-                    Vector3Int targetRoad = neighboursTargetRoads[0];
-                    transportManager.MovePersonToPosition(person, startingPosition, (Vector3Int)targetRoad);
-                    person.isPersonFree = false;
+                    structureCell.IsOnFire = false;
+                    structureCell.TimeOnFire = 0;
+                    structuresOnFireToDestroy.Add(structureCell);
+                    
                 }
             }
         }
+        foreach (var structureCell in structuresOnFireToDestroy)
+        {
+            Destroy(structureCell.FirePrefab);
+            placementManager.DestroyGameObjectAt(structureCell.Position);
+            structuresOnFire.Remove(structureCell);
+        }
     }
-
+    
     private void UpdateTotalPopulation()
     {
         if(totalPopulation < populationCapacity)
@@ -181,22 +185,19 @@ public class GameState : MonoBehaviour
                 for (int i = 0; i < -GetPopulationChange(); i++)
                 {
                     populationManager.RemoveRandomPerson();
-                    
                 }
             }
-            
-
         }
         if( totalPopulation > populationCapacity)
         {
             totalPopulation = populationCapacity;
             Debug.Log("Population is over capacity");
-            /*
+            
             for(int i = 0; i < totalPopulation - populationCapacity; i++)
             {
                 populationManager.RemoveRandomPerson();
             }
-            */
+            
         } 
     }
 
@@ -216,7 +217,7 @@ public class GameState : MonoBehaviour
         var employmentWeight = 6f;
         var beautyWeight = 0.5f;
         return (_totalResidenceComfort + (GetCriminalsCoveredRatio() - 0.1f)+ (GetPatientsCoveredRatio() - 0.1f) + GetGoodsDemandSatisfactionRatio() + GetMeatDemandSatisfactionRatio()
-                + GetVegetablesDemandSatisfactionRatio() + (GetEmploymentRatio() * employmentWeight - 0.5f) + _totalBeauty * beautyWeight) / 8;
+                + GetVegetablesDemandSatisfactionRatio() + ((1-GetEmploymentRatio()) * employmentWeight - 0.5f) + _totalBeauty * beautyWeight) / 8;
     }
 
     private int GetPopulationChange()
@@ -253,7 +254,9 @@ public class GameState : MonoBehaviour
     }
     private float GetEarnings()
     {
-        return _totalIncome  * GetJobsOccupiedRatio() - _totalCosts;
+        return _totalIncome  * GetJobsOccupiedRatio() - _totalCosts + (_totalGoodsProduced - _totalGoodsConsumed) * 10 + 
+               (_totalVegetablesProduced - _totalVegetablesConsumed) * 10 + (_totalMeatProduced - _totalMeatConsumed) * 10
+               + _totalEnergyProduced - _totalEnergyConsumed;
     }
     public float GetJobsOccupiedRatio()
     {
@@ -284,14 +287,9 @@ public class GameState : MonoBehaviour
     public void UpdateGameVariablesWhenDestroying(Vector3Int position)
     {
         Cell cell = placementManager.GetCellAtPosition(position);
+        
         if (cell is StructureCell)
         {
-            StructureCell structureCell = (StructureCell) cell;
-            var (width, height, cost) = StructureCell.GetAttributesForBuildingType(structureCell.BuildingType);
-            int single_area = width * height;
-            _totalArea -= single_area;
-
-            _totalCarbonMonoxyde -= structureCell.CarbonMonoxideProduction;
             if(cell.GetType() != typeof(ResidenceCell))
             {
                 populationManager.RemovePeopleJob(position);
@@ -382,14 +380,6 @@ public class GameState : MonoBehaviour
     public void UpdateGameVariablesWhenBuilding(Vector3Int position)
     {
         Cell cell = placementManager.GetCellAtPosition(position);
-        if (cell is StructureCell)
-        {
-            StructureCell structureCell = (StructureCell) cell;
-            var (width, height, cost) = StructureCell.GetAttributesForBuildingType(structureCell.BuildingType);
-            int single_area = width * height;
-            _totalArea += single_area;
-            _totalCarbonMonoxyde += structureCell.CarbonMonoxideProduction;
-        }
         if (cell is ResidenceCell residenceCell)
         {
             //Update variables relative to ResidenceCell
@@ -477,6 +467,45 @@ public class GameState : MonoBehaviour
         }
         currentMoney -= cell.Cost;
     }
+
+    public int GetScientificProgressLevel()
+    {
+        int numberOfScientificProgress = 0;
+        foreach (bool progress in scientificProgress)
+        {
+            if (progress)
+            {
+                numberOfScientificProgress++;
+            }
+        }
+        return numberOfScientificProgress;
+    }
+    
+    public float GetScientificProgressRatio()
+    {
+        int numberOfScientificProgress = 0;
+        foreach (bool progress in scientificProgress)
+        {
+            if (progress)
+            {
+                numberOfScientificProgress++;
+            }
+        }
+        return (float) numberOfScientificProgress / scientificProgress.Length;
+    }
+    
+    public bool upgradeScientificProgress()
+    {
+        try
+        {
+            scientificProgress[Array.IndexOf(scientificProgress, false)] = true;
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+       
+    }
+
 }
-
-

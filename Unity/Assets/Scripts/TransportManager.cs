@@ -66,6 +66,7 @@ public class TransportManager : MonoBehaviour
         MoveCarToPosition(person, startingPosition, targetPosition, prefab);
         _fireTruckList.Add(person);
         person.structureToExtinguishFire = structureTarget;
+        Debug.Log("structure to extinguish fire" + person.structureToExtinguishFire);
     }
 
     private bool destroyPerson;
@@ -127,13 +128,14 @@ public class TransportManager : MonoBehaviour
             {
                 destroyCar = false;
                 //let's check if person has reached his destination in a small radius
-                if (person.targetPosition.HasValue && Vector3.Distance(person.carPrefab.transform.position, person.targetPosition.Value) < 0.5f)
+                if (person.targetPosition.HasValue && Vector3.Distance(person.carPrefab.transform.position, person.targetPosition.Value) < 1f)
                 {
+                    Debug.Log("car arrived at destination");
                     _peopleArrivedAtDestination.Add(person);
                 
                 }
-                HandleCarStayingAtStartingPosition(person);
-                HandleCarStayingAtSamePosition(person);
+                //HandleCarStayingAtStartingPosition(person);
+                //HandleCarStayingAtSamePosition(person);
                 if (destroyCar)
                 {
                     _peopleToDestroy.Add(person);
@@ -144,24 +146,29 @@ public class TransportManager : MonoBehaviour
         {
             person.busyTime = 100;
             person.currentPosition = person.targetPosition;
+            Debug.Log("How many firetrack" + _fireTruckList.Count);
             //if the person is a fire truck, let's make him extinguish the fire
             if (_fireTruckList.Contains(person))
             {
-                Destroy(person.carPrefab, 5f);
-                _fireTruckList.Remove(person);
+                Debug.Log("fire truck arrived at destination");
+                
                 if (person.jobPosition.HasValue)
                 {
+                    Debug.Log("fire truck extinguishing fire");
                     Vector3Int fireTruckStructure = person.jobPosition.Value;
                     PublicServiceCell fireTruckStructureCell = (PublicServiceCell) placementManager.GetCellAtPosition(fireTruckStructure);
                     fireTruckStructureCell.FireTrucks++;
                     // extinguish the fire after 5 seconds
-                    StartCoroutine(ExtinguishFire(person));
+                    StartCoroutine(DelayedExtinguishFire(person, 5f));
                 }
             }
-            Destroy(person.carPrefab);
-            person.personPrefab = null;
-            person.carPrefab = null;
-            _carMovingList.Remove(person);  
+            else
+            {
+                Destroy(person.carPrefab);
+                person.personPrefab = null;
+                person.carPrefab = null;
+                _carMovingList.Remove(person);
+            } 
         }
         _peopleArrivedAtDestination.Clear(); 
         foreach (var person in _peopleToDestroy)
@@ -170,13 +177,41 @@ public class TransportManager : MonoBehaviour
         }
         _peopleToDestroy.Clear();
     }
+    IEnumerator DelayedExtinguishFire(Person person, float delay)
+    {
+        Debug.Log("delayed extinguish fire");
+        yield return new WaitForSeconds(delay);
+
+        if (person != null)
+        {
+            // Your logic for ExtinguishFire using the provided Person instance
+            ExtinguishFire(person);
+        }
+    }
+    void ExtinguishFire(Person person)
+    {
+        Debug.Log("extinguish fire");
+        if (person.structureToExtinguishFire != null)
+        {
+            Debug.Log("extinguish fire in " + person.structureToExtinguishFire);
+            person.structureToExtinguishFire.IsOnFire = false;
+            person.structureToExtinguishFire.FirePrefab.SetActive(false);
+            person.structureToExtinguishFire = null;
+            _fireTruckList.Remove(person);
+            Destroy(person.carPrefab);
+            person.personPrefab = null;
+            person.carPrefab = null;
+            _carMovingList.Remove(person);
+        }
+    }
+    
     void HandleCarStayingAtStartingPosition(Person person)
     {
         //let's check if person is idle by checking  if he's in a small radius from his starting position
         if (person.startingPosition.HasValue && Vector3.Distance(person.carPrefab.transform.position, person.startingPosition.Value) < 0.1f)
         {
             person.idleTimeAtStartingPosition +=1;
-            if (person.idleTimeAtStartingPosition >= 5)
+            if (person.idleTimeAtStartingPosition >= 10)
             {
                 destroyCar = true;
             }
@@ -190,7 +225,7 @@ public class TransportManager : MonoBehaviour
         {
             Debug.Log("car is staying at same position with idleTime:" + person.idleTime);
             person.idleTime += 1;
-            if (person.idleTime >= 5)
+            if (person.idleTime >= 10)
             {
                 destroyCar = true;
             }
@@ -259,13 +294,5 @@ public class TransportManager : MonoBehaviour
         person.idleTime = 0;
         person.idleTimeAtStartingPosition = 0;
     }
-    IEnumerator ExtinguishFire(Person person)
-    {
-        yield return new WaitForSeconds(5);
-        if (person.structureToExtinguishFire != null)
-        {
-            person.structureToExtinguishFire.IsOnFire = false;
-            person.structureToExtinguishFire = null;
-        }
-    }
+    
 }
