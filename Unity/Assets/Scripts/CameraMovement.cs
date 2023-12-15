@@ -22,8 +22,23 @@ using UnityEngine;
 
         public void ZoomCamera(float zoom)
         {
-            if(gameCamera.orthographicSize - zoom > minPossibleZoom && gameCamera.orthographicSize + zoom < maxPossibleZoom )
-                gameCamera.orthographicSize -= zoom;
-            
+            float newSize = gameCamera.orthographicSize - zoom;
+
+            // Use epsilon to account for floating-point imprecisions
+            if (newSize >= minPossibleZoom - float.Epsilon && newSize <= maxPossibleZoom + float.Epsilon)
+            {
+                gameCamera.orthographicSize = newSize;
+            }
+
+            // Limit the zoom after the adjustment
+            LimitZoomCamera();
+        }
+
+        public void LimitZoomCamera()
+        {
+            if (gameCamera.orthographicSize < minPossibleZoom)
+                gameCamera.orthographicSize = minPossibleZoom;
+            if (gameCamera.orthographicSize > maxPossibleZoom)
+                gameCamera.orthographicSize = maxPossibleZoom;
         }
     }

@@ -223,5 +223,6 @@ public class GameManager : MonoBehaviour
     {
         cameraMovement.MoveCamera(new Vector3(inputManager.CameraMovementVector.x,0, inputManager.CameraMovementVector.y));
         cameraMovement.ZoomCamera(inputManager.Zoom);
+        cameraMovement.LimitZoomCamera();
     }
 }
