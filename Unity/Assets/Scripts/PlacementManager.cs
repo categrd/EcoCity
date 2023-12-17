@@ -99,6 +99,17 @@ public class PlacementManager : MonoBehaviour
     }
     public Vector3Int? GetRandomPositionOfTypeCellSatisfying(Type cellType, Func <Cell, bool> predicate = null)
     {
+        List<Vector3Int?> positionsOfType = GetAllPositionOfTypeCellSatisfying(cellType, predicate);
+
+        if (positionsOfType.Count > 0)
+        {
+            return positionsOfType[UnityEngine.Random.Range(0, positionsOfType.Count)];
+        }
+
+        return null;
+    }
+    public List<Vector3Int?> GetAllPositionOfTypeCellSatisfying(Type cellType, Func <Cell, bool> predicate = null)
+    {
         List<Vector3Int> positionsOfType = new List<Vector3Int>();
     
         for (var i = 0; i < width; i++)
@@ -130,14 +141,10 @@ public class PlacementManager : MonoBehaviour
                 }
             }
         }
-
-        if (positionsOfType.Count > 0)
-        {
-            return positionsOfType[UnityEngine.Random.Range(0, positionsOfType.Count)];
-        }
-
-        return null;
+        return positionsOfType.Select(position => (Vector3Int?) position).ToList();
     }
+
+    
     public bool CheckIfCellIsOfBuildingType(Cell cell, BuildingType buildingType)
     {
         if (cell is StructureCell structureCell)

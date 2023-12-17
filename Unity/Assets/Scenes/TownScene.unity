@@ -221,7 +221,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 927403151}
+      - m_Target: {fileID: 534530234}
         m_TargetAssemblyTypeName: Research, Assembly-CSharp
         m_MethodName: OnClickCropButton
         m_Mode: 1
@@ -1289,9 +1289,9 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 72797277}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.91, y: 0.56, z: 1}
+  m_LocalScale: {x: 0.9100001, y: 0.56, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 282078428}
@@ -1945,7 +1945,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 927403151}
+      - m_Target: {fileID: 534530234}
         m_TargetAssemblyTypeName: Research, Assembly-CSharp
         m_MethodName: OnSpeedResearchButton
         m_Mode: 1
@@ -2022,7 +2022,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 117253038}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3790,9 +3790,9 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 239204283}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.91, y: 0.56, z: 1}
+  m_LocalScale: {x: 0.9100001, y: 0.56, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 359756306}
@@ -4200,7 +4200,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 267183761}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4782,7 +4782,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 304077687}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4953,7 +4953,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 927403151}
+      - m_Target: {fileID: 534530234}
         m_TargetAssemblyTypeName: Research, Assembly-CSharp
         m_MethodName: OnClickWindEnergyButton
         m_Mode: 1
@@ -5209,6 +5209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c25b01563a8066a4db4058ad88bc11bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  research: {fileID: 534530234}
   uiController: {fileID: 681313529}
   gameState: {fileID: 1951506727}
   housesPrefabs:
@@ -6247,9 +6248,9 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 363220700}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.91, y: 0.56, z: 1}
+  m_LocalScale: {x: 0.9100001, y: 0.56, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1030633329}
@@ -6700,7 +6701,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 927403151}
+      - m_Target: {fileID: 534530234}
         m_TargetAssemblyTypeName: Research, Assembly-CSharp
         m_MethodName: OnGeoengineeringSolutionsButton
         m_Mode: 1
@@ -8088,6 +8089,64 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4728182390724970563, guid: c8c46a24f1192964a9c4a213493c1c7b, type: 3}
   m_PrefabInstance: {fileID: 531727198}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &534530232
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 534530233}
+  - component: {fileID: 534530234}
+  m_Layer: 5
+  m_Name: ScientificProgress
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &534530233
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534530232}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 927403148}
+  m_Father: {fileID: 681313533}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &534530234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534530232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a90fc81372e4ff4fb03c6c92a365706, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  placementManager: {fileID: 540532163}
+  RenewableEnergyPanel: {fileID: 1455235184}
+  GreenConstructionPanel: {fileID: 363220700}
+  NaturalDisastersPanel: {fileID: 239204283}
+  IndustryPanel: {fileID: 660706058}
+  AdvancedResearchPanel: {fileID: 72797277}
+  ResearchEfficiencyPanel: {fileID: 1623006939}
+  TimeText: {fileID: 1090514537}
+  TimeSlider: {fileID: 681352419}
 --- !u!1001 &536697052
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8811,7 +8870,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 927403151}
+      - m_Target: {fileID: 534530234}
         m_TargetAssemblyTypeName: Research, Assembly-CSharp
         m_MethodName: OnAdvanceCaptureCO2Button
         m_Mode: 1
@@ -9786,9 +9845,9 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 660706058}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.91, y: 0.56, z: 1}
+  m_LocalScale: {x: 0.9100001, y: 0.56, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1720597098}
@@ -9937,7 +9996,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 927403151}
+      - m_Target: {fileID: 534530234}
         m_TargetAssemblyTypeName: Research, Assembly-CSharp
         m_MethodName: OnHeatwaveEventButton
         m_Mode: 1
@@ -10896,7 +10955,7 @@ RectTransform:
   - {fileID: 942688711}
   - {fileID: 699671033}
   - {fileID: 968643237}
-  - {fileID: 927403148}
+  - {fileID: 534530233}
   - {fileID: 565177393}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10929,7 +10988,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 681352419}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -13671,7 +13730,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 927403151}
+      - m_Target: {fileID: 534530234}
         m_TargetAssemblyTypeName: Research, Assembly-CSharp
         m_MethodName: OnClickLivestockButton
         m_Mode: 1
@@ -14472,7 +14531,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 927403151}
+      - m_Target: {fileID: 534530234}
         m_TargetAssemblyTypeName: Research, Assembly-CSharp
         m_MethodName: OnUnlockResearchButton
         m_Mode: 1
@@ -15410,7 +15469,6 @@ GameObject:
   - component: {fileID: 927403148}
   - component: {fileID: 927403150}
   - component: {fileID: 927403149}
-  - component: {fileID: 927403151}
   m_Layer: 5
   m_Name: ScientificProgressPanel
   m_TagString: Untagged
@@ -15425,28 +15483,28 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 927403147}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 267183762}
-  - {fileID: 1435701634}
-  - {fileID: 1622243610}
-  - {fileID: 1956954084}
-  - {fileID: 1260759128}
-  - {fileID: 1372359534}
-  - {fileID: 1460171048}
-  - {fileID: 1455235185}
-  - {fileID: 363220701}
-  - {fileID: 239204284}
-  - {fileID: 660706059}
-  - {fileID: 1623006940}
-  - {fileID: 72797278}
-  - {fileID: 117253039}
-  - {fileID: 681352420}
   - {fileID: 304077688}
-  m_Father: {fileID: 681313533}
+  - {fileID: 681352420}
+  - {fileID: 117253039}
+  - {fileID: 72797278}
+  - {fileID: 1623006940}
+  - {fileID: 660706059}
+  - {fileID: 239204284}
+  - {fileID: 363220701}
+  - {fileID: 1455235185}
+  - {fileID: 1460171048}
+  - {fileID: 1372359534}
+  - {fileID: 1260759128}
+  - {fileID: 1956954084}
+  - {fileID: 1622243610}
+  - {fileID: 1435701634}
+  - {fileID: 267183762}
+  m_Father: {fileID: 534530233}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -15491,28 +15549,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 927403147}
   m_CullTransparentMesh: 1
---- !u!114 &927403151
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 927403147}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a90fc81372e4ff4fb03c6c92a365706, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RenewableEnergyPanel: {fileID: 1455235184}
-  GreenConstructionPanel: {fileID: 363220700}
-  NaturalDisastersPanel: {fileID: 239204283}
-  IndustryPanel: {fileID: 660706058}
-  AdvancedResearchPanel: {fileID: 72797277}
-  ResearchEfficiencyPanel: {fileID: 1623006939}
-  TimeText: {fileID: 1090514537}
-  TimeSlider: {fileID: 681352419}
-  windTurbineModifier: 1.5
-  solarPanelModifier: 1
 --- !u!1001 &931265793
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15709,7 +15745,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 927403151}
+      - m_Target: {fileID: 534530234}
         m_TargetAssemblyTypeName: Research, Assembly-CSharp
         m_MethodName: OnClickGreenMaterialsButton
         m_Mode: 1
@@ -20317,7 +20353,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 927403151}
+      - m_Target: {fileID: 534530234}
         m_TargetAssemblyTypeName: Research, Assembly-CSharp
         m_MethodName: OnClickFactorButton
         m_Mode: 1
@@ -21075,7 +21111,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -18.3, y: 255.3}
+  m_AnchoredPosition: {x: -18.3, y: 255.30003}
   m_SizeDelta: {x: 16, y: 16}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1260759129
@@ -21137,7 +21173,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 927403151}
+      - m_Target: {fileID: 534530234}
         m_TargetAssemblyTypeName: Research, Assembly-CSharp
         m_MethodName: OnButtonIndustryButton
         m_Mode: 1
@@ -23192,7 +23228,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 115.2, y: 254.4}
+  m_AnchoredPosition: {x: 115.2, y: 254.39996}
   m_SizeDelta: {x: 16, y: 16}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1372359535
@@ -23254,7 +23290,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 927403151}
+      - m_Target: {fileID: 534530234}
         m_TargetAssemblyTypeName: Research, Assembly-CSharp
         m_MethodName: OnButtonAdvancedResearchButton
         m_Mode: 1
@@ -23713,7 +23749,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Reduces  pollution from livestock
+  m_Text: Increase production from livestock
 --- !u!222 &1377673612
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -24469,7 +24505,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -203.7, y: 255.3}
+  m_AnchoredPosition: {x: -203.7, y: 255.30003}
   m_SizeDelta: {x: 16, y: 16}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1435701635
@@ -24531,7 +24567,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 927403151}
+      - m_Target: {fileID: 534530234}
         m_TargetAssemblyTypeName: Research, Assembly-CSharp
         m_MethodName: OnButtonRenewableEnergyButton
         m_Mode: 1
@@ -24907,7 +24943,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 927403151}
+      - m_Target: {fileID: 534530234}
         m_TargetAssemblyTypeName: Research, Assembly-CSharp
         m_MethodName: OnClickReduceCostButton
         m_Mode: 1
@@ -25472,9 +25508,9 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1455235184}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.91, y: 0.56, z: 1}
+  m_LocalScale: {x: 0.9100001, y: 0.56, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 308347466}
@@ -25560,7 +25596,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 44.5, y: 255.3}
+  m_AnchoredPosition: {x: 44.5, y: 255.30003}
   m_SizeDelta: {x: 16, y: 16}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1460171049
@@ -25622,7 +25658,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 927403151}
+      - m_Target: {fileID: 534530234}
         m_TargetAssemblyTypeName: Research, Assembly-CSharp
         m_MethodName: OnButtonResearchEfficiencyButton
         m_Mode: 1
@@ -28210,7 +28246,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -136.5, y: 255.3}
+  m_AnchoredPosition: {x: -136.5, y: 255.30003}
   m_SizeDelta: {x: 16, y: 16}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1622243611
@@ -28272,7 +28308,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 927403151}
+      - m_Target: {fileID: 534530234}
         m_TargetAssemblyTypeName: Research, Assembly-CSharp
         m_MethodName: OnButtonGreenConstructionButton
         m_Mode: 1
@@ -28347,9 +28383,9 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1623006939}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.91, y: 0.56, z: 1}
+  m_LocalScale: {x: 0.9100001, y: 0.56, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 812473753}
@@ -34247,7 +34283,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 927403151}
+      - m_Target: {fileID: 534530234}
         m_TargetAssemblyTypeName: Research, Assembly-CSharp
         m_MethodName: OnAcidRainEventButton
         m_Mode: 1
@@ -35038,7 +35074,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -78.3, y: 255.3}
+  m_AnchoredPosition: {x: -78.3, y: 255.30003}
   m_SizeDelta: {x: 16, y: 16}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1956954085
@@ -35100,7 +35136,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 927403151}
+      - m_Target: {fileID: 534530234}
         m_TargetAssemblyTypeName: Research, Assembly-CSharp
         m_MethodName: OnButtonNaturalDisastersButton
         m_Mode: 1
@@ -35929,7 +35965,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 927403151}
+      - m_Target: {fileID: 534530234}
         m_TargetAssemblyTypeName: Research, Assembly-CSharp
         m_MethodName: OnSmogEventButton
         m_Mode: 1
@@ -36798,7 +36834,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 927403151}
+      - m_Target: {fileID: 534530234}
         m_TargetAssemblyTypeName: Research, Assembly-CSharp
         m_MethodName: OnClickSolarEnergyButton
         m_Mode: 1
@@ -37965,7 +38001,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 927403151}
+      - m_Target: {fileID: 534530234}
         m_TargetAssemblyTypeName: Research, Assembly-CSharp
         m_MethodName: OnClickReduceWasteButton
         m_Mode: 1

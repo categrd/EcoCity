@@ -115,14 +115,14 @@ public class Person
 
 public class Cell
 {
-    public Research Research;
-    
+    private float _wasteProduction;
     private Vector3Int _position;
-    private int _cost;
+    private float _cost;
     private int _structureHeight;
     private int _structureWidth;
     public Vector3Int Position { get; set; }
-    public int Cost { get; set; }
+    public float Cost { get; set; }
+    public float WasteProduction { get; set; }
     public int StructureHeight { get; set; }
     public int StructureWidth { get; set; }
     public static (int _structureWidth, int _structureHeight, int cost) GetAttributesForBuildingType(BuildingType buildingType)
@@ -209,7 +209,7 @@ public class StructureCell : Cell
     private int _incomeGenerated;
     private float _beauty;
     private float _energyConsumption;
-    private float _wasteProduction;
+    
     private int _numberOfEmployeesCapacity;
     private List<Person> _employeeList;
     private float _carbonMonoxide;
@@ -226,7 +226,7 @@ public class StructureCell : Cell
     public int IncomeGenerated { get; set; }
     public float Beauty { get; set; }
     public float EnergyConsumption { get; set; }
-    public float WasteProduction { get; set; }
+    
     public int NumberOfEmployeesCapacity { get; set; }
     public List<Person> EmployeeList { get; set; }
     public float CarbonMonoxideProduction { get; set; }
@@ -339,7 +339,7 @@ public class EnergyProductionCell : JobCell
             EnergyConsumption = 0;
             WasteProduction = 1;
             NumberOfEmployeesCapacity = 2;
-            EnergyProduced = 1000 * Research.solarPanelModifier ;
+            EnergyProduced = 1000;
             CarbonMonoxideProduction = 0;
         }
 
@@ -352,7 +352,7 @@ public class EnergyProductionCell : JobCell
             EnergyConsumption = 0;
             WasteProduction = 1;
             NumberOfEmployeesCapacity = 2;
-            EnergyProduced = 100 * Research.windTurbineModifier ;
+            EnergyProduced = 100;
             CarbonMonoxideProduction = 0;
 
         }
@@ -501,11 +501,11 @@ public class PublicServiceCell : JobCell
 public class IndustryCell : JobCell
 {
     private int _goods;
-    private int _vegetablesProduced;
-    private int _meatProduced;
+    private float _vegetablesProduced;
+    private float _meatProduced;
     public int GoodsProduced { get; set;}
-    public int VegetablesProduced { get; set; }
-    public int MeatProduced { get; set; }
+    public float VegetablesProduced { get; set; }
+    public float MeatProduced { get; set; }
 
     public IndustryCell(BuildingType buildingType)
     {

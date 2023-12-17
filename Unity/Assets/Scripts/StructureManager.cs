@@ -8,6 +8,7 @@ using UnityEngine;
 
 public class StructureManager : MonoBehaviour
 {
+    public Research research;
     public UIController uiController;
     public GameState gameState;
     private BuildingType _buildingType;
@@ -66,12 +67,7 @@ public class StructureManager : MonoBehaviour
     public void PlaceStructure(Vector3Int position, BuildingType buildingType,int structureRotation, bool temporaryPlacementMode)
     {
         var (structureWidth, structureHeight, cost) = Cell.GetAttributesForBuildingType(buildingType);
-        if(structureRotation == 90 || structureRotation == 270)
-        {
-            var temp = structureWidth;
-            structureWidth = structureHeight;
-            structureHeight = temp;
-        }
+        
         if (CheckBigStructure(position, structureWidth, structureHeight ) )
         {
             switch (buildingType)
@@ -182,12 +178,14 @@ public class StructureManager : MonoBehaviour
                 case BuildingType.SolarPanel:
                     var solarPanel = new EnergyProductionCell(BuildingType.SolarPanel);
                     solarPanel.BuildingType = BuildingType.SolarPanel;
+                    solarPanel.EnergyProduced *= research.SolarPanelModifier;
                     _structure = solarPanel;
                     _prefab = solarPanelPrefab;
                     break;
                 case BuildingType.WindTurbine:
                     var windTurbine = new EnergyProductionCell(BuildingType.WindTurbine);
                     windTurbine.BuildingType = BuildingType.WindTurbine;
+                    windTurbine.EnergyProduced *= research.WindTurbineModifier;
                     _structure = windTurbine;  
                     _prefab = windTurbinePrefab;
                     break;
@@ -216,6 +214,7 @@ public class StructureManager : MonoBehaviour
                     _prefab = bigParkPrefab;
                     break;
             }
+            _structure.WasteProduction *= research.WasteProductionModifier;
             if(temporaryPlacementMode)
             {
                 placementManager.PlaceTemporaryStructureWithButton(position, _prefab, buildingType);

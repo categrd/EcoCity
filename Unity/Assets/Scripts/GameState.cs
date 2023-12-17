@@ -43,9 +43,9 @@ public class GameState : MonoBehaviour
     private int _totalGoodsProduced;
     private int _totalGoodsConsumed;
     
-    private int _totalVegetablesProduced;
+    private float _totalVegetablesProduced;
     private int _totalVegetablesConsumed;
-    private int _totalMeatProduced;
+    private float _totalMeatProduced;
     private int _totalMeatConsumed;
     
     private int _totalCriminalsCovered;
