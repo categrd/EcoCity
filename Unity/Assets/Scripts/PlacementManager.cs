@@ -34,7 +34,7 @@ public class PlacementManager : MonoBehaviour
         }
         return false;
     }
-
+    
     internal void PlaceObjectOnTheMap(Vector3Int position, GameObject structurePrefab, Cell cell, int structureWidth = 1, int structureHeight = 1)
     {
         StructureModel structure = CreateANewStructureModel(position, structurePrefab, cell);

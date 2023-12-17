@@ -8,6 +8,7 @@ using Random = System.Random;
 /// <summary>
 /// Source https://github.com/lordjesus/Packt-Introduction-to-graph-algorithms-for-game-developers
 /// </summary>
+
 public class Point
 {
     public int X { get; set; }
@@ -114,6 +115,8 @@ public class Person
 
 public class Cell
 {
+    public Research Research;
+    
     private Vector3Int _position;
     private int _cost;
     private int _structureHeight;
@@ -320,7 +323,9 @@ public class ResidenceCell : StructureCell
 public class EnergyProductionCell : JobCell
 {
     private float _energyProduced;
+    
     public float EnergyProduced { get; set; }
+    
 
     public EnergyProductionCell(BuildingType buildingType)
     {
@@ -334,7 +339,7 @@ public class EnergyProductionCell : JobCell
             EnergyConsumption = 0;
             WasteProduction = 1;
             NumberOfEmployeesCapacity = 2;
-            EnergyProduced = 1000;
+            EnergyProduced = 1000 * Research.solarPanelModifier ;
             CarbonMonoxideProduction = 0;
         }
 
@@ -347,7 +352,7 @@ public class EnergyProductionCell : JobCell
             EnergyConsumption = 0;
             WasteProduction = 1;
             NumberOfEmployeesCapacity = 2;
-            EnergyProduced = 1000;
+            EnergyProduced = 100 * Research.windTurbineModifier ;
             CarbonMonoxideProduction = 0;
 
         }
