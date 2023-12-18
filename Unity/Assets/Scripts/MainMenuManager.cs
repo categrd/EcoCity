@@ -442,7 +442,10 @@ public class MainMenuManager : MonoBehaviour
         }
         this.cluster = arg_max(c);
     }
-
+    public int GetCluster()
+    {
+        return this.cluster;
+    }
     public int arg_max(int[] c)
     {
         int max = 0;

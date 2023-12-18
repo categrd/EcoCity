@@ -3,31 +3,33 @@ using SVS;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class NaturalDisasters : MonoBehaviour
 {
     public GameState gameState;
     public PlacementManager placementManager;
+    public MainMenuManager mainMenuManager;
     public AudioPlayer audioPlayer;
     public GameObject fire;
     public Volume heatwaveVolume;
     private float _time;
     private float _fireTime;
     private float cooldownDuration = 300f; // 5 minutes cooldown
-    private float heatwaveProbability = 0.001f; // Initial low probability
+    private float heatwaveProbability; // Initial low probability
     private bool isHeatwaveActive = false;
 
     public GameObject acidRainPrefab;
     private GameObject _acidRain = null;
     private float _acidRainTime;
-    private float acidRainProbability = 0.001f; // Initial low probability
+    private float acidRainProbability; // Initial low probability
     private bool isAcidRainActive = false;
-
+    [FormerlySerializedAs("clusterModifier")] public float clusterModifierNaturalDisaster = 1.0f;
     public GameObject smogPrefab;
     private GameObject _smog = null;
     private float _smogTime;
-    private float smogProbability = 0.001f; // Initial low probability
+    private float smogProbability; // Initial low probability
     private bool isSmogActive = false;
     private float researchSmogModifier = 1.0f;
     
@@ -108,6 +110,15 @@ public class NaturalDisasters : MonoBehaviour
     private void Start()
     {
         _fireTime = 20f;
+        if(mainMenuManager.GetCluster() == 0)
+            clusterModifierNaturalDisaster = 1f;
+        if(mainMenuManager.GetCluster() == 1)
+            clusterModifierNaturalDisaster = 0.1f;
+        if(mainMenuManager.GetCluster() == 2)
+            clusterModifierNaturalDisaster = 0.5f;
+        heatwaveProbability = 0.001f * clusterModifierNaturalDisaster;
+        acidRainProbability = 0.001f * clusterModifierNaturalDisaster;
+        smogProbability = 0.001f * clusterModifierNaturalDisaster;
     }
 
     private void HandleHeatwave()
