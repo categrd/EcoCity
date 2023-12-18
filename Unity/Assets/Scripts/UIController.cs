@@ -15,6 +15,7 @@ public class UIController : MonoBehaviour
     public TextMeshProUGUI populationText;
     public TextMeshProUGUI moneyText;
     public Text notEnoughMoneyText;
+    public Text buildUniversityText;
 
     public Action OnRoadPlacement, OnHousePlacement, OnClinicPlacement, OnHospitalPlacement, OnSolarPanelPlacement, OnWindTurbinePlacement, OnCarbonPowerPlantPlacement,
         OnNuclearPlantPlacement, OnWaterPlantPlacement, OnHighDensityHousePlacement, OnShopPlacement, OnRestaurantPlacement, OnBarPlacement, OnCinemaPlacement, OnUniversityPlacement,
@@ -270,6 +271,17 @@ public class UIController : MonoBehaviour
 
         // Schedule a function to hide the text after 2 seconds
         Invoke(nameof(HideNotEnoughMoneyText), 2f);
+    }
+    public void ShowBuildUniversityText()
+    {
+        buildUniversityText.gameObject.SetActive(true);
+
+        // Schedule a function to hide the text after 2 seconds
+        Invoke(nameof(HideBuildUniversityText), 2f);
+    }
+    private void HideBuildUniversityText()
+    {
+        buildUniversityText.gameObject.SetActive(false);
     }
 
     private void HideNotEnoughMoneyText()

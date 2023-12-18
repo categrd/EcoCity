@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
     public UIController uiController;
     public StructureManager structureManager;
     public PlacementManager placementManager;
+    
+    public GameState gameState;
 
     public float zoomSpeed;
 
@@ -58,7 +60,7 @@ public class GameManager : MonoBehaviour
         uiController.OnShowMenu += () => PanelHandler(menuPanel);
         uiController.OnShowStats += () => PanelHandler(statsPanel);
         uiController.OnShowEnvironmentStats += () => PanelHandler(environmentStatsPanel);
-        uiController.OnShowScientificProgress += () => PanelHandler(scientificProgressPanel);
+        uiController.OnShowScientificProgress += () => ScientificPanelHandler(scientificProgressPanel);
         uiController.OnCloseScientificProgress += () => PanelHandler(scientificProgressPanel); 
         uiController.OnUpgradeScientificProgress += UpgradeScientificProgressHandler;
 
@@ -136,6 +138,30 @@ public class GameManager : MonoBehaviour
         inputManager.OnPressingEsc += () => ToggleMenu(panel);
 
     }
+    private void ScientificPanelHandler(GameObject panel)
+    {
+        ClearInputActions();
+        if (panel.activeSelf)
+        {
+            ClearInputActionsAndButtonColor();    
+        }
+        if(gameState.NumberOfUniversity > 0)
+        {
+            ToggleMenu(panel);
+        }
+        else
+        {
+            // show a message that the university is not built yet
+            uiController.ShowBuildUniversityText();
+            inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
+            // on pressing esc set the menu inactive
+            inputManager.OnPressingEsc += () => SetMenuInactive(panel);
+        }
+        
+        inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
+        inputManager.OnPressingEsc += () => ToggleMenu(panel);
+
+    }
 
     private void BuildingPanelHandler(GameObject panel)
     {
@@ -162,6 +188,10 @@ public class GameManager : MonoBehaviour
     private void ToggleMenu(GameObject panel)
     {
         panel.SetActive(!(panel.activeSelf));
+    }
+    private void SetMenuInactive(GameObject panel)
+    {
+        panel.SetActive(false);
     }
     
     private void DestroyStructureHandler()

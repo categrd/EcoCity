@@ -69,7 +69,13 @@ public class GameState : MonoBehaviour
         set => _smokeModifier = value;
     }
     
-    
+    private int numberOfUniversity = 0;
+    // set university built method
+    public int NumberOfUniversity
+    {
+        get => numberOfUniversity;
+        set => numberOfUniversity = value;
+    }
     
     private int _totalCriminalsCovered;
     private int _totalFiresCovered;
@@ -453,6 +459,10 @@ public class GameState : MonoBehaviour
             _totalWasteProduced -= publicServiceCell.WasteProduction;
             _totalNumberOfJobs -= publicServiceCell.NumberOfEmployeesCapacity;
             _totalCriminalsCovered -= publicServiceCell.CriminalsCovered;
+            if (publicServiceCell.BuildingType == BuildingType.University)
+            {
+                numberOfUniversity --;
+            }
         }
         if (cell is GarbageDisposalCell garbageDisposalCell)
         {
@@ -542,6 +552,11 @@ public class GameState : MonoBehaviour
             _totalWasteProduced += publicServiceCell.WasteProduction;
             _totalNumberOfJobs += publicServiceCell.NumberOfEmployeesCapacity;
             _totalCriminalsCovered += publicServiceCell.CriminalsCovered;
+            // if cell is a university, unlock researches
+            if (publicServiceCell.BuildingType == BuildingType.University)
+            {
+                numberOfUniversity ++;
+            }
             
         }
         if (cell is GarbageDisposalCell garbageDisposalCell)
