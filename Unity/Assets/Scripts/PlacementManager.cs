@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using SVS;
 using UnityEngine;
 
 public class PlacementManager : MonoBehaviour
@@ -16,6 +17,7 @@ public class PlacementManager : MonoBehaviour
     private Dictionary<Vector3Int, StructureModel> _structureDictionary = new Dictionary<Vector3Int, StructureModel>();
 
     public StructureManager structureManager;
+    public AudioPlayer audioPlayer;
     private void Start()
     {
         placementGrid = new Grid(width, height);
@@ -34,17 +36,17 @@ public class PlacementManager : MonoBehaviour
         }
         return false;
     }
-
-    internal void PlaceObjectOnTheMap(Vector3Int position, GameObject structurePrefab, Cell type, int structureWidth = 1, int structureHeight = 1)
+    
+    internal void PlaceObjectOnTheMap(Vector3Int position, GameObject structurePrefab, Cell cell, int structureWidth = 1, int structureHeight = 1)
     {
-        StructureModel structure = CreateANewStructureModel(position, structurePrefab, type);
+        StructureModel structure = CreateANewStructureModel(position, structurePrefab, cell);
         for (var x = 0; x < structureWidth; x++)
         {
             for (var z = 0; z < structureHeight; z++)
             {
                 var newPosition = position + new Vector3Int(x, 0, z);
-                placementGrid[newPosition.x, newPosition.z] = type;
-                Debug.Log(placementGrid[newPosition.x, newPosition.z]);
+                placementGrid[newPosition.x, newPosition.z] = cell;
+                //Debug.Log(placementGrid[newPosition.x, newPosition.z]);
                 _structureDictionary.Add(newPosition, structure);
                 DestroyNatureAt(newPosition);
             }
@@ -63,7 +65,7 @@ public class PlacementManager : MonoBehaviour
                     // Check if cell is not null
                     if (cell != null)
                     {
-                        Debug.Log(cell.NumberOfResidentsCapacity + " " + cell.PersonList.Count);
+                        //Debug.Log(cell.NumberOfResidentsCapacity + " " + cell.PersonList.Count);
 
                         // Check if PersonList is not null before accessing Count
                         if (cell.NumberOfResidentsCapacity > cell.PersonList?.Count)
@@ -87,38 +89,73 @@ public class PlacementManager : MonoBehaviour
         var cell = (ResidenceCell)placementGrid[residencePosition.x, residencePosition.z];
         cell.PersonList.Add(person);
     }
-
-    public Vector3Int? CheckOccupiedResidence()
+    
+    public bool IsStructureCellNotOnFire(Cell cell)
     {
+        if (cell is StructureCell structureCell)
+        {
+            
+            return !structureCell.IsOnFire;
+        }
+        return false;
+    }
+    public Vector3Int? GetRandomPositionOfTypeCellSatisfying(Type cellType, Func <Cell, bool> predicate = null)
+    {
+        List<Vector3Int?> positionsOfType = GetAllPositionOfTypeCellSatisfying(cellType, predicate);
+
+        if (positionsOfType.Count > 0)
+        {
+            return positionsOfType[UnityEngine.Random.Range(0, positionsOfType.Count)];
+        }
+
+        return null;
+    }
+    public List<Vector3Int?> GetAllPositionOfTypeCellSatisfying(Type cellType, Func <Cell, bool> predicate = null)
+    {
+        List<Vector3Int> positionsOfType = new List<Vector3Int>();
+    
         for (var i = 0; i < width; i++)
         {
             for (var j = 0; j < height; j++)
             {
-                if (GetTypeOfPosition(new Vector3Int(i, 0, j)) == typeof(ResidenceCell))
-                {
-                    ResidenceCell cell = (ResidenceCell)placementGrid[i, j];
-                
-                    // Check if cell is not null
-                    if (cell != null)
-                    {
-                        Debug.Log(cell.NumberOfResidentsCapacity + " " + cell.PersonList.Count);
+                Type currentType = GetTypeOfPosition(new Vector3Int(i, 0, j));
+                Vector3Int position = new Vector3Int(i, 0, j);
 
-                        // Check if PersonList is not null before accessing Count
-                        if (cell.PersonList?.Count > 0)
+                // Check if the current type is the specified type or derived from it
+                if (cellType.IsAssignableFrom(currentType))
+                {
+                    
+                    if (predicate != null)
+                    {
+                        
+                        if (predicate(GetCellAtPosition(position)))
                         {
-                            return new Vector3Int(i, 0, j);
+                            
+                            positionsOfType.Add(new Vector3Int(i, 0, j));
+                            
                         }
+                        
                     }
                     else
                     {
-                        // Log an error or handle the case where cell is null
-                        Debug.LogError("ResidenceCell is null at position: " + new Vector3Int(i, 0, j));
+                        positionsOfType.Add(new Vector3Int(i, 0, j));
                     }
                 }
             }
         }
-        return null;
+        return positionsOfType.Select(position => (Vector3Int?) position).ToList();
     }
+
+    
+    public bool CheckIfCellIsOfBuildingType(Cell cell, BuildingType buildingType)
+    {
+        if (cell is StructureCell structureCell)
+        {
+            return structureCell.BuildingType == buildingType;
+        }
+        return false;
+    }
+        
 
     public void RemovePeopleFromResidence(Vector3Int residencePosition)
     {
@@ -150,8 +187,8 @@ public class PlacementManager : MonoBehaviour
                     // Check if cell is not null
                     if (cell != null)
                     {
-                        Debug.Log("employees capacity: " + cell.NumberOfEmployeesCapacity);
-                        Debug.Log("employees list: " + cell.EmployeeList.Count);
+                        //Debug.Log("employees capacity: " + cell.NumberOfEmployeesCapacity);
+                        //Debug.Log("employees list: " + cell.EmployeeList.Count);
                         if (cell.NumberOfEmployeesCapacity > cell.EmployeeList.Count)
                         {
                             return new Vector3Int(i, 0, j);
@@ -219,15 +256,17 @@ public class PlacementManager : MonoBehaviour
         {
             // Destroy the game object if a collider is hit
             Destroy(hit.collider.gameObject);
+            audioPlayer.PlayDestroySound();
+            
             Cell cellToDestroy = placementGrid[position.x, position.z];
             int widthStructureToDestroy = 1;
             int heightStructureToDestroy = 1;
             if(cellToDestroy is StructureCell)
             {
-                StructureCell structureCellToDestroy = (StructureCell)cellToDestroy;
-                var (structureWidth, structureHeight, cost) = Cell.GetAttributesForBuildingType(structureCellToDestroy.BuildingType);
-                Debug.Log("Structure width  :" + structureWidth );
-                Debug.Log("Structure height  : "+ structureHeight );
+                StructureCell structureCell = (StructureCell)cellToDestroy;
+                var (structureWidth, structureHeight, cost) = Cell.GetAttributesForBuildingType(structureCell.BuildingType);
+                //Debug.Log("Structure width  :" + structureWidth );
+                //Debug.Log("Structure height  : "+ structureHeight );
                 widthStructureToDestroy = structureWidth;
                 heightStructureToDestroy = structureHeight;
             }
@@ -238,33 +277,34 @@ public class PlacementManager : MonoBehaviour
                 {
                     var newPosition = position + new Vector3Int(x, 0, z);
                 
-                    if(placementGrid[newPosition.x, newPosition.z] ==  cellToDestroy)
+                    if( CheckIfPositionInBound(newPosition) && placementGrid[newPosition.x, newPosition.z] ==  cellToDestroy)
                     {
-                        Debug.Log("Destroying structure at " + newPosition);
+                        //Debug.Log("Destroying structure at " + newPosition);
                         placementGrid[newPosition.x, newPosition.z] = new EmptyCell();
                         _structureDictionary.Remove(newPosition);
                     }
                     newPosition = position - new Vector3Int(x, 0, z);
-                
-                    if(placementGrid[newPosition.x, newPosition.z] ==  cellToDestroy)
+                    
+                    //check if new position is in bounds
+                    if( CheckIfPositionInBound(newPosition) && placementGrid[newPosition.x, newPosition.z] ==  cellToDestroy)
                     {
-                        Debug.Log("Destroying structure at " + newPosition);
+                        //Debug.Log("Destroying structure at " + newPosition);
                         placementGrid[newPosition.x, newPosition.z] = new EmptyCell();
                         _structureDictionary.Remove(newPosition);
                     }
                     newPosition = position + new Vector3Int(-x, 0, z);
                 
-                    if(placementGrid[newPosition.x, newPosition.z] ==  cellToDestroy)
+                    if(CheckIfPositionInBound(newPosition) && placementGrid[newPosition.x, newPosition.z] ==  cellToDestroy)
                     {
-                        Debug.Log("Destroying structure at " + newPosition);
+                        //Debug.Log("Destroying structure at " + newPosition);
                         placementGrid[newPosition.x, newPosition.z] = new EmptyCell();
                         _structureDictionary.Remove(newPosition);
                     }
                     newPosition = position + new Vector3Int(x, 0, -z);
                 
-                    if(placementGrid[newPosition.x, newPosition.z] ==  cellToDestroy)
+                    if(CheckIfPositionInBound(newPosition) && placementGrid[newPosition.x, newPosition.z] ==  cellToDestroy)
                     {
-                        Debug.Log("Destroying structure at " + newPosition);
+                        //Debug.Log("Destroying structure at " + newPosition);
                         placementGrid[newPosition.x, newPosition.z] = new EmptyCell();
                         _structureDictionary.Remove(newPosition);
                     }
@@ -407,4 +447,19 @@ public class PlacementManager : MonoBehaviour
         else if (_structureDictionary.ContainsKey(position))
             _structureDictionary[position].SwapModel(newModel, rotation);
     }
+
+    public float UpdateTotalArea()
+    {
+        float totalArea;
+        // Count each position in which there's present a structure cell by scanning the grid
+        List<Vector3Int?> positions = GetAllPositionOfTypeCellSatisfying(typeof(StructureCell));
+        totalArea = positions.Count;
+        return totalArea;
+    }
+    public void ResetGrid()
+    {
+        placementGrid = new Grid(width, height);
+        _structureDictionary.Clear();
+    }
+    
 }

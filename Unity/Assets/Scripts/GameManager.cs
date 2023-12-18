@@ -26,6 +26,8 @@ using UnityEngine.UI;
     public UIController uiController;
     public StructureManager structureManager;
     public PlacementManager placementManager;
+    
+    public GameState gameState;
 
     public float zoomSpeed;
 
@@ -55,13 +57,13 @@ using UnityEngine.UI;
         uiController.OnIncinerationPlantPlacement += () => StructurePlacementHandler(BuildingType.IncinerationPlant);
         uiController.OnWasteToEnergyPlantPlacement += () => StructurePlacementHandler(BuildingType.WasteToEnergyPlant);
         uiController.OnBigParkPlacement += () => StructurePlacementHandler(BuildingType.BigPark);
-        
+        uiController.OnWaterPlantPlacement += () => StructurePlacementHandler(BuildingType.WaterPlant);
+
         uiController.OnShowMenu += () => PanelHandler(menuPanel);
         uiController.OnShowStats += () => PanelHandler(statsPanel);
         uiController.OnShowEnvironmentStats += () => PanelHandler(environmentStatsPanel);
-        uiController.OnShowScientificProgress += () => PanelHandler(scientificProgressPanel);
+        uiController.OnShowScientificProgress += () => ScientificPanelHandler(scientificProgressPanel);
         uiController.OnCloseScientificProgress += () => PanelHandler(scientificProgressPanel); 
-        uiController.OnUpgradeScientificProgress += UpgradeScientificProgressHandler;
 
         uiController.OnHouseMenu += () => BuildingPanelHandler(housePanel);
         uiController.OnIndustryMenu += () => BuildingPanelHandler(industryPanel);
@@ -117,12 +119,7 @@ using UnityEngine.UI;
     }
     */ 
 
-    private void UpgradeScientificProgressHandler()
-    {
-        uiController.gameState.upgradeScientificProgress();
-        ToggleMenu(uiController.ScientificProgressTexts[uiController.gameState.GetScientificProgressLevel()-1]);
-        ToggleMenu(uiController.ScientificProgressTexts[uiController.gameState.GetScientificProgressLevel()]);
-    }
+    
 
     private void PanelHandler(GameObject panel)
     {
@@ -133,6 +130,30 @@ using UnityEngine.UI;
         }
 
         ToggleMenu(panel);
+        inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
+        inputManager.OnPressingEsc += () => ToggleMenu(panel);
+
+    }
+    private void ScientificPanelHandler(GameObject panel)
+    {
+        ClearInputActions();
+        if (panel.activeSelf)
+        {
+            ClearInputActionsAndButtonColor();    
+        }
+        if(gameState.NumberOfUniversity > 0)
+        {
+            ToggleMenu(panel);
+        }
+        else
+        {
+            // show a message that the university is not built yet
+            uiController.ShowBuildUniversityText();
+            inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
+            // on pressing esc set the menu inactive
+            inputManager.OnPressingEsc += () => SetMenuInactive(panel);
+        }
+        
         inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
         inputManager.OnPressingEsc += () => ToggleMenu(panel);
 
@@ -164,6 +185,10 @@ using UnityEngine.UI;
     {
         panel.SetActive(!(panel.activeSelf));
     }
+    private void SetMenuInactive(GameObject panel)
+    {
+        panel.SetActive(false);
+    }
     
     private void DestroyStructureHandler()
     {
@@ -178,10 +203,6 @@ using UnityEngine.UI;
         int structureRotation = 0;
         inputManager.OnMouseHover += (hoverPosition) =>
         {
-            if(inputManager.CheckPressingE())
-                structureRotation += 90;
-            if(inputManager.CheckPressingQ())
-                structureRotation -= 90;
             structureManager.PlaceStructure(hoverPosition, buildingType, structureRotation, true );
         };
         inputManager.OnMouseClick -= (hoverPosition) =>
@@ -224,5 +245,6 @@ using UnityEngine.UI;
     {
         cameraMovement.MoveCamera(new Vector3(inputManager.CameraMovementVector.x,0, inputManager.CameraMovementVector.y));
         cameraMovement.ZoomCamera(inputManager.Zoom);
+        cameraMovement.LimitZoomCamera();
     }
 }

@@ -122,7 +122,7 @@ public class RoadManager : MonoBehaviour
 
         foreach (Vector3Int item in positionsToCheck)
         {
-            if (placementManager.CheckIfPositionIsOfType(item, roadFixer.roadCellType))
+            if (placementManager.CheckIfPositionInBound(item) && placementManager.CheckIfPositionIsOfType(item, roadFixer.roadCellType))
             {
                 roadFixer.FixRoadAtPosition(placementManager, item);
             }
