@@ -142,7 +142,6 @@ public class GameState : MonoBehaviour
         {
             UpdateGameVariables();
             HandleLooseConditions();
-            Debug.Log("air pollution: " + airPollution);
             HandleWinConditions();
             _time = 0;
         }

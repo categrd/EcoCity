@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,14 +16,14 @@ using UnityEngine.UI;
 
 
     public GameObject housePanel, decorationPanel, publicservicesPanel, industryPanel, shopPanel, wastedisposalPanel,
-     watersourcePanel, energysourcePanel;   
+    watersourcePanel, energysourcePanel;   
 
 
     public CameraMovement cameraMovement;
     public RoadManager roadManager;
     public InputManager inputManager;
 
-    
+    public Dictionary<QuestionAndAnswer,BuildingType> checkUnlock = new Dictionary<QuestionAndAnswer,BuildingType>();
     public UIController uiController;
     public StructureManager structureManager;
     public PlacementManager placementManager;
@@ -33,6 +34,7 @@ using UnityEngine.UI;
 
     private void Start()
     {
+
         uiController.OnDestroyStructure += DestroyStructureHandler;
         uiController.OnRoadPlacement += RoadPlacementHandler;
         uiController.OnCinemaPlacement += () => StructurePlacementHandler(BuildingType.Cinema);
@@ -72,10 +74,25 @@ using UnityEngine.UI;
         uiController.OnWasteDisposalMenu += () => BuildingPanelHandler(wastedisposalPanel);
         uiController.OnShopMenu += () => BuildingPanelHandler(shopPanel);
         uiController.OnDecorationMenu += () => BuildingPanelHandler(decorationPanel);
-        uiController.OnPublicServiceMenu += () => BuildingPanelHandler(publicservicesPanel);
+        uiController.OnPublicServiceMenu += () => BuildingPanelHandler(publicservicesPanel);        
         
     }
     
+    public void CreateDictionary(List<QuestionAndAnswer> qanda){
+        checkUnlock.Add(qanda[0],BuildingType.CarbonPowerPlant);
+        checkUnlock.Add(qanda[1],BuildingType.NuclearPlant);
+        checkUnlock.Add(qanda[2],BuildingType.University);
+        checkUnlock.Add(qanda[3],BuildingType.HighDensityHouse);
+        checkUnlock.Add(qanda[4],BuildingType.Hospital);
+        checkUnlock.Add(qanda[5],BuildingType.SolarPanel);
+        checkUnlock.Add(qanda[6],BuildingType.WindTurbine);
+        checkUnlock.Add(qanda[7],BuildingType.Landfill);
+        checkUnlock.Add(qanda[8],BuildingType.Factory);
+        checkUnlock.Add(qanda[9],BuildingType.Cinema);
+        checkUnlock.Add(qanda[10],BuildingType.Restaurant);
+    }
+
+
     /*
     private void ShowMenuHandler()
     {
@@ -199,6 +216,8 @@ using UnityEngine.UI;
     }
     private void StructurePlacementHandler(BuildingType buildingType)
     {
+        if(!IsUnlocked(buildingType))
+        {
         ClearInputActions();
         int structureRotation = 0;
         inputManager.OnMouseHover += (hoverPosition) =>
@@ -214,6 +233,11 @@ using UnityEngine.UI;
             structureManager.PlaceStructure(hoverPosition, buildingType,structureRotation, false );
         };
         inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
+        }
+        else
+        {
+            uiController.ShowBuildingBlockedText();
+        }
     }
     private void RoadPlacementHandler()
     {
@@ -240,6 +264,31 @@ using UnityEngine.UI;
         ClearInputActions();
         uiController.ResetButtonColor();
     }
+    
+    public QuestionAndAnswer getKeyfromValue(BuildingType value)
+    {
+        foreach (var k in checkUnlock.Keys)
+        {
+            if (checkUnlock[k] == value)
+            {
+                return k;
+            }
+        }
+        return null;
+    }
+
+    public bool IsUnlocked(BuildingType buildingType)
+    {  
+        if(getKeyfromValue(buildingType) == null)
+        {
+            return true;
+        }
+        else{
+            return getKeyfromValue(buildingType).isDone;  
+        }
+    } 
+
+
 
     private void Update()
     {

@@ -6,11 +6,15 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Serialization;
+using System.Threading;
 
 public class UIController : MonoBehaviour
 {
     public GameState gameState;
     public GameObject statsPanel;
+    
+
+  
     //public GameObject environmentStatsPanel;
     public TextMeshProUGUI populationText;
     public TextMeshProUGUI moneyText;
@@ -60,6 +64,9 @@ public class UIController : MonoBehaviour
     public GameObject IndustryPanel;
     public GameObject DecorationPanel;
     public GameObject ShopPanel;
+
+
+    public GameObject BlockedBuildingPanel;
 
 
 
@@ -114,6 +121,7 @@ public class UIController : MonoBehaviour
     public Slider criminalsCoveredSlider;
     public Slider patientsCoveredSlider;
 
+    public float timer = 0.0f;
     public Color outlineColor;
     List<Button> buttonList;
     List<GameObject> buildingPanelList;
@@ -127,6 +135,8 @@ public class UIController : MonoBehaviour
             action.Invoke();
         });
     }
+
+
 
     private void Start()
     {
@@ -234,6 +244,11 @@ public class UIController : MonoBehaviour
         */
     }
 
+    public void ShowBuildingBlockedText()
+    {
+        BlockedBuildingPanel.SetActive(true);
+        timer = 7.0f;
+    }
     private void ModifyOutline(Button button)
     {
         var outline = button.GetComponent<Outline>();
@@ -318,6 +333,12 @@ public class UIController : MonoBehaviour
     
     private void Update()
     {
+        timer -= Time.deltaTime;
+        if (timer > 0.0f && timer < 2.0f)
+        {
+            BlockedBuildingPanel.SetActive(false);
+            timer = 0.0f;
+        }
         _currentMoney = gameState.currentMoney;
         populationText.text = "Population: " + gameState.totalPopulation;
         if (_currentMoney >= 1000000)
@@ -346,5 +367,7 @@ public class UIController : MonoBehaviour
         particlePollutionText.text = "Particle Pollution: " + Math.Round(gameState.GetAirPollution(), 2) + "%";
         carbonDioxideSlider.value = (float)gameState.GetCo2Emissions()/100;
         carbonDioxideText.text = "Carbon Dioxide: " + Math.Round(gameState.GetCo2Emissions(), 2) + "%";
+
+       
     }
 }
