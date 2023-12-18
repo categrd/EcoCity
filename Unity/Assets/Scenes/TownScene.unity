@@ -8386,6 +8386,7 @@ MonoBehaviour:
   height: 15
   buildPermanent: 0
   structureManager: {fileID: 319897188}
+  audioPlayer: {fileID: 1105030475}
 --- !u!4 &540532164
 Transform:
   m_ObjectHideFlags: 0
@@ -17760,6 +17761,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameState: {fileID: 1951506727}
   placementManager: {fileID: 540532163}
+  audioPlayer: {fileID: 1105030475}
   fire: {fileID: 9118689033940421992, guid: 78a155bf291a66845b118412ba75a17d, type: 3}
   heatwaveVolume: {fileID: 1004649340}
   acidRainPrefab: {fileID: 4088700808508664489, guid: 0118f6fde3e7cb64885903dc258cf260, type: 3}
@@ -19060,6 +19062,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placementSound: {fileID: 8300000, guid: 7e26c9daf4c32483b9c2790e662d3f1b, type: 3}
+  destroySound: {fileID: 8300000, guid: 7bef0064f8567430cac22499c6b93d4f, type: 3}
+  heatwaveSound: {fileID: 8300000, guid: 86b908a985a7436458de8f3bc6b5c7bc, type: 3}
+  acidRainSound: {fileID: 8300000, guid: 91b2fb10487a3b342b6217405281ad8b, type: 3}
+  smogSound: {fileID: 8300000, guid: 7a9cddeab7702b74b837263100be45be, type: 3}
   audioSource: {fileID: 1105030476}
 --- !u!82 &1105030476
 AudioSource:
@@ -38767,37 +38773,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3970261373664373580, guid: b251aac2e265df74f91db1dee1baee73, type: 3}
   m_PrefabInstance: {fileID: 2103146636}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2111028651
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2111028652}
-  m_Layer: 0
-  m_Name: Landfill
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2111028652
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2111028651}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 938.843, y: 538.49396, z: 68.234375}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2122427958
 GameObject:
   m_ObjectHideFlags: 0
@@ -41236,4 +41211,3 @@ SceneRoots:
   - {fileID: 676388511}
   - {fileID: 1004649339}
   - {fileID: 286867478}
-  - {fileID: 2111028652}

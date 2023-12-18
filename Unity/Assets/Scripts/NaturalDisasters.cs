@@ -1,4 +1,5 @@
 using System;
+using SVS;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -8,24 +9,25 @@ public class NaturalDisasters : MonoBehaviour
 {
     public GameState gameState;
     public PlacementManager placementManager;
+    public AudioPlayer audioPlayer;
     public GameObject fire;
     public Volume heatwaveVolume;
     private float _time;
     private float _fireTime;
-    private float cooldownDuration = 20f; // 5 minutes cooldown
-    private float heatwaveProbability = 0.02f; // Initial low probability
+    private float cooldownDuration = 300f; // 5 minutes cooldown
+    private float heatwaveProbability = 0.001f; // Initial low probability
     private bool isHeatwaveActive = false;
 
     public GameObject acidRainPrefab;
     private GameObject _acidRain = null;
     private float _acidRainTime;
-    private float acidRainProbability = 0.02f; // Initial low probability
+    private float acidRainProbability = 0.001f; // Initial low probability
     private bool isAcidRainActive = false;
 
     public GameObject smogPrefab;
     private GameObject _smog = null;
     private float _smogTime;
-    private float smogProbability = 0.02f; // Initial low probability
+    private float smogProbability = 0.001f; // Initial low probability
     private bool isSmogActive = false;
     private float researchSmogModifier = 1.0f;
     
@@ -49,7 +51,6 @@ public class NaturalDisasters : MonoBehaviour
     
     private void Update()
     {
-        
         // Check if it's time for a heatwave and cooldown is over
         if (_time >= cooldownDuration)
         {
@@ -79,8 +80,6 @@ public class NaturalDisasters : MonoBehaviour
                 isSmogActive = true;
                 _time = 0;
             }
-            
-
         }
         else _time += Time.deltaTime;
         if (isHeatwaveActive)
@@ -98,6 +97,7 @@ public class NaturalDisasters : MonoBehaviour
         if (heatwaveVolume != null)
         {
             ApplyHeatwaveSettings();
+            audioPlayer.PlayHeatwaveSound();
         }
         else
         {
@@ -194,6 +194,7 @@ public class NaturalDisasters : MonoBehaviour
 
     private void StartAcidRain()
     {
+        audioPlayer.PlayAcidRainSound();
         _acidRain = Instantiate(acidRainPrefab, new Vector3(6.17f, 5.59f, 5.72f), Quaternion.identity);
     }
     private void HandleAcidRain()
@@ -222,6 +223,7 @@ public class NaturalDisasters : MonoBehaviour
 
     private void StartSmog()
     {
+        audioPlayer.PlaySmogSound();
         _smog = Instantiate(smogPrefab, new Vector3(6.009356f, 1.044306f, 6.765965f), Quaternion.identity);
     }
     private void HandleSmog()

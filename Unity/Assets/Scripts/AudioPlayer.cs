@@ -46,8 +46,16 @@ namespace SVS
         {
             if (heatwaveSound != null)
             {
+                // play sound for 1 minute, then stop
                 audioSource.PlayOneShot(heatwaveSound);
+                Invoke("StopHeatwaveSound", 60f);
+               
             }
+        }
+        // stop heatwave sound
+        public void StopHeatwaveSound()
+        {
+            audioSource.Stop();
         }
         // play sound when acid rain starts
         public void PlayAcidRainSound()
@@ -55,7 +63,13 @@ namespace SVS
             if (acidRainSound != null)
             {
                 audioSource.PlayOneShot(acidRainSound);
+                Invoke("StopAcidRainSound", 60f);
             }
+        }
+        // stop acid rain sound
+        public void StopAcidRainSound()
+        {
+            audioSource.Stop();
         }
         // play sound when smog starts
         public void PlaySmogSound()
@@ -63,9 +77,13 @@ namespace SVS
             if (smogSound != null)
             {
                 audioSource.PlayOneShot(smogSound);
+                Invoke("StopSmogSound", 60f);
             }
         }
-        
-        
+        // stop smog sound
+        public void StopSmogSound()
+        {
+            audioSource.Stop();
+        }
     }
 }
