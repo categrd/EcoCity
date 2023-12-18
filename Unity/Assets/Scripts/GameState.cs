@@ -128,9 +128,7 @@ public class GameState : MonoBehaviour
         populationCapacity = 0;
         _time = 0f;
         _totalNumberOfJobs= 0;
-        //try high value of co2 emissions for testing
         _co2Emissions = 0f;
-        // try high value of air pollution for testing
         airPollution = 0f;
         _temperature = 20f;
         _totalArea = 0f;

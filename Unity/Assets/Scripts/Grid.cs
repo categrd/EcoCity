@@ -258,6 +258,7 @@ public class SanityCell : JobCell
             NumberOfEmployeesCapacity = 20;
             PatientCapacity = 50;
             Co2Production = 1;
+            AirPollutionProduction = 0.1f;
         }
 
         if (buildingType == BuildingType.Hospital)
@@ -271,6 +272,7 @@ public class SanityCell : JobCell
             NumberOfEmployeesCapacity = 150;
             PatientCapacity = 500;
             Co2Production = 3;
+            AirPollutionProduction = 0.3f;
             
         }
     }
@@ -295,6 +297,7 @@ public class WaterProductionCell : JobCell
             NumberOfEmployeesCapacity = 10;
             WaterProduced = 1000;
             Co2Production = 0;
+            AirPollutionProduction = 0;
         }
     }
 }
@@ -323,7 +326,8 @@ public class ResidenceCell : StructureCell
             NumberOfResidentsCapacity = 4;
             IncomeGenerated = 100 * NumberOfResidentsCapacity;
             ComfortLevel = 0.1f;
-            Co2Production = 0.1f;
+            Co2Production = 0.3f;
+            AirPollutionProduction = 0.01f;
         }
 
         if (buildingType == BuildingType.HighDensityHouse)
@@ -337,7 +341,8 @@ public class ResidenceCell : StructureCell
             NumberOfResidentsCapacity = 40;
             IncomeGenerated = 100 * NumberOfResidentsCapacity;
             ComfortLevel = -0.5f;
-            Co2Production = 0.5f;
+            Co2Production = 3f;
+            AirPollutionProduction = 0.05f;
         }
 
     }
@@ -364,6 +369,7 @@ public class EnergyProductionCell : JobCell
             NumberOfEmployeesCapacity = 2;
             EnergyProduced = 1000;
             Co2Production = 0;
+            AirPollutionProduction = 0;
         }
 
         if (buildingType == BuildingType.WindTurbine)
@@ -377,6 +383,7 @@ public class EnergyProductionCell : JobCell
             NumberOfEmployeesCapacity = 2;
             EnergyProduced = 100;
             Co2Production = 0;
+            AirPollutionProduction = 0;
 
         }
 
@@ -390,7 +397,8 @@ public class EnergyProductionCell : JobCell
             WasteProduction = 20;
             NumberOfEmployeesCapacity = 10;
             EnergyProduced = 10000;
-            Co2Production = 10;
+            Co2Production = 20;
+            AirPollutionProduction = 100;
 
         }
 
@@ -401,10 +409,11 @@ public class EnergyProductionCell : JobCell
             IncomeGenerated = 0;
             Beauty = -1f;
             EnergyConsumption = 0;
-            WasteProduction = 1;
+            WasteProduction = 50;
             NumberOfEmployeesCapacity = 25;
             EnergyProduced = 50000;
-            Co2Production = 0;
+            Co2Production = 10;
+            AirPollutionProduction = 0;
 
         }
     }
@@ -429,6 +438,8 @@ public class EntertainmentCell : JobCell
             WasteProduction = 1;
             NumberOfEmployeesCapacity = 5;
             CostumersCapacity = 20;
+            Co2Production = 0.3f;
+            AirPollutionProduction = 0.01f;
 
         }
         if (buildingType == BuildingType.Bar)
@@ -441,6 +452,8 @@ public class EntertainmentCell : JobCell
             WasteProduction = 5;
             NumberOfEmployeesCapacity = 5;
             CostumersCapacity = 10;
+            Co2Production = 0.3f;
+            AirPollutionProduction = 0.01f;
 
         }
         if (buildingType == BuildingType.Restaurant)
@@ -453,6 +466,8 @@ public class EntertainmentCell : JobCell
             WasteProduction = 10;
             NumberOfEmployeesCapacity = 15;
             CostumersCapacity = 30;
+            Co2Production = 0.6f;
+            AirPollutionProduction = 0.02f;
 
         }
         if (buildingType == BuildingType.Cinema)
@@ -467,6 +482,8 @@ public class EntertainmentCell : JobCell
             WasteProduction = 3;
             NumberOfEmployeesCapacity = 6;
             CostumersCapacity = 40;
+            Co2Production = 0.45f;
+            AirPollutionProduction = 0.02f;
         }
     }
 }
@@ -492,6 +509,8 @@ public class PublicServiceCell : JobCell
             WasteProduction = 5;
             NumberOfEmployeesCapacity = 20;
             CriminalsCovered = 100;
+            Co2Production = 0.1f;
+            AirPollutionProduction = 0.01f;
         }
         if(buildingType == BuildingType.FireStation)
         {
@@ -503,6 +522,9 @@ public class PublicServiceCell : JobCell
             WasteProduction = 5;
             NumberOfEmployeesCapacity = 10;
             FireTrucks = 4;
+            FiresCovered = 100;
+            Co2Production = 0.1f;
+            AirPollutionProduction = 0.01f;
         }
         if(buildingType == BuildingType.University)
         {
@@ -513,6 +535,8 @@ public class PublicServiceCell : JobCell
             EnergyConsumption = 300;
             WasteProduction = 20;
             NumberOfEmployeesCapacity = 30;
+            Co2Production = 0.5f;
+            AirPollutionProduction = 0.01f;
         }
         
     }
@@ -541,6 +565,8 @@ public class IndustryCell : JobCell
             GoodsProduced = 50;
             VegetablesProduced = 0;
             MeatProduced = 0;
+            Co2Production = 5;
+            AirPollutionProduction = 30f;
 
 
         }
@@ -558,6 +584,8 @@ public class IndustryCell : JobCell
             GoodsProduced = 0;
             VegetablesProduced = 120;
             MeatProduced = 0;
+            Co2Production = 0.5f;
+            AirPollutionProduction = 0.01f;
 
         }
         if (buildingType == BuildingType.Livestock)
@@ -572,6 +600,8 @@ public class IndustryCell : JobCell
             GoodsProduced = 0;
             VegetablesProduced = 0;
             MeatProduced = 100;
+            Co2Production = 2f;
+            AirPollutionProduction = 0.01f;
         }
     }
 }
@@ -594,6 +624,8 @@ public class GarbageDisposalCell : JobCell
             WasteProduction = 0;
             NumberOfEmployeesCapacity = 10;
             GarbageDisposed = 500;
+            Co2Production = 0.1f;
+            AirPollutionProduction = 0.01f;
         }
         if (buildingType == BuildingType.IncinerationPlant)
         {
@@ -605,17 +637,8 @@ public class GarbageDisposalCell : JobCell
             WasteProduction = 0;
             NumberOfEmployeesCapacity = 15;
             GarbageDisposed = 200;
-        }
-        if (buildingType == BuildingType.WasteToEnergyPlant)
-        {
-            Cost = 1000000;
-            MaintenanceCost = 1000;
-            IncomeGenerated = 0;
-            Beauty = 0f;
-            EnergyConsumption = 0;
-            WasteProduction = 0;
-            NumberOfEmployeesCapacity = 20;
-            GarbageDisposed = 500;
+            Co2Production = 1f;
+            AirPollutionProduction = 0.01f;
         }
     }
 }
