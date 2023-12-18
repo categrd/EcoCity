@@ -23,7 +23,7 @@ public class QuizManager : MonoBehaviour{
     public GameObject closingPanel;
      public UnityEngine.UI.Button closeQuiz;
 
-    private float timerDuration = 120f;  // Duration of the timer in seconds
+    private float timerDuration = 10f;  // Duration of the timer in seconds
     private float elapsedTime = 0f;
     private float t = 1000f;
 
@@ -44,9 +44,9 @@ public class QuizManager : MonoBehaviour{
 
     public void ResetQuiz(){
         closingPanel.SetActive(false);
-        quizPanel.SetActive(false);
         elapsedTime = 0f;
         t = 0f;
+        GameOver();
     }
     public List<QuestionAndAnswer> CreateQuestions(){
         QuestionAndAnswer q1 = new QuestionAndAnswer();
@@ -176,8 +176,9 @@ public class QuizManager : MonoBehaviour{
     public void StartQuiz(){
         
         if(QnA.Count >0)
-        {
+        {   
             quizPanel.SetActive(true);
+            closingPanel.SetActive(false);
             answerPanel.SetActive(true);
             generateQuestion();
             elapsedTime = 0f;
@@ -209,21 +210,6 @@ public class QuizManager : MonoBehaviour{
         t = 0f;
     }
     
-
-    
-
-    void SetAnswers(){
-        for(int i = 0; i < options.Length; i++){
-            options[i].transform.GetChild(0).GetComponent<TMP_Text>().text = QnA[currentQuestion].answers[i];
-            if (QnA[currentQuestion].correctAnswer == i + 1){
-                QnA[currentQuestion].isDone = true;
-                setButtonColor(options[i], Color.green);
-            }
-            else{
-                setButtonColor(options[i], Color.red);
-            }
-        }
-    }
 
     void setButtonColor(UnityEngine.UI.Button button, Color color){
             UnityEngine.UI.Image img = button.GetComponent<UnityEngine.UI.Image>();

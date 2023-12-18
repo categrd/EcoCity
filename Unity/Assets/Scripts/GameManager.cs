@@ -174,7 +174,7 @@ using UnityEngine.UI;
     }
     private void StructurePlacementHandler(BuildingType buildingType)
     {
-        if(!IsUnlocked(buildingType))
+        if(IsUnlocked(buildingType))
         {
         ClearInputActions();
         int structureRotation = 0;
