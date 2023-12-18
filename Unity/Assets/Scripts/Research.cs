@@ -9,14 +9,15 @@ public class Research : MonoBehaviour
     public PlacementManager placementManager;
     public NaturalDisasters naturalDisasters;
     public GameState gameState;
-    /*
+    public UIController uiController;
+    
     public Button RenewableEnergyButton;
     public Button GreenConstructionButton;
     public Button NaturalDisastersButton;
     public Button IndustryButton;
     public Button AdvancedResearchButton;
     public Button ResearchEfficiencyButton;
-    */
+    
     public Button WindEnergyButton;
     public Button SolarEnergyButton;
     public Button GreenMaterialsButton;
@@ -87,11 +88,18 @@ public class Research : MonoBehaviour
     private bool currentlyResearching = false;
     private float timeOfCurrentResearch = 0.0f;
     private float _timeResearch;
+    private List<Button> _mainButtons;
 
     private void Start()
     {
-        
-        
+        // add all buttons to a list
+        _mainButtons = new List<Button>();
+        _mainButtons.Add(RenewableEnergyButton);
+        _mainButtons.Add(GreenConstructionButton);
+        _mainButtons.Add(NaturalDisastersButton);
+        _mainButtons.Add(IndustryButton);
+        _mainButtons.Add(AdvancedResearchButton);
+        _mainButtons.Add(ResearchEfficiencyButton);
     }
     private void Update()
     {
@@ -101,10 +109,12 @@ public class Research : MonoBehaviour
         {
             _timeResearch += Time.deltaTime;
             TimeText.text = (_timeResearch / timeOfCurrentResearch * 100).ToString("F2") + "%";
+            TimeSlider.value = _timeResearch / timeOfCurrentResearch;
             if(_timeResearch >= timeOfCurrentResearch)
             {
                 currentlyResearching = false;
                 _timeResearch = 0.0f;
+                uiController.ShowResearchFinishedText();
             }
         }
         else
@@ -114,9 +124,12 @@ public class Research : MonoBehaviour
         }
         
     }
-
+    // when a button is clicked, we activate the panel of the button and deactivate all other panels
+    // and we set the outline active for the button and inactive for all other buttons
     public void OnButtonRenewableEnergyButton()
     {
+        SetOutlineActive(RenewableEnergyButton);
+        SetAllOtherOutlineInactive(RenewableEnergyButton);
         ActivatePanel(RenewableEnergyPanel);
         DeactivatePanel(GreenConstructionPanel);
         DeactivatePanel(NaturalDisastersPanel);
@@ -127,6 +140,8 @@ public class Research : MonoBehaviour
 
     public void OnButtonGreenConstructionButton()
     {
+        SetOutlineActive(GreenConstructionButton);
+        SetAllOtherOutlineInactive(GreenConstructionButton);
         ActivatePanel(GreenConstructionPanel);
         DeactivatePanel(RenewableEnergyPanel);
         DeactivatePanel(NaturalDisastersPanel);
@@ -137,6 +152,8 @@ public class Research : MonoBehaviour
     
     public void OnButtonNaturalDisastersButton()
     {
+        SetOutlineActive(NaturalDisastersButton);
+        SetAllOtherOutlineInactive(NaturalDisastersButton);
         ActivatePanel(NaturalDisastersPanel);
         DeactivatePanel(RenewableEnergyPanel);
         DeactivatePanel(GreenConstructionPanel);
@@ -147,6 +164,8 @@ public class Research : MonoBehaviour
     
     public void OnButtonIndustryButton()
     {
+        SetOutlineActive(IndustryButton);
+        SetAllOtherOutlineInactive(IndustryButton);
         ActivatePanel(IndustryPanel);
         DeactivatePanel(RenewableEnergyPanel);
         DeactivatePanel(GreenConstructionPanel);
@@ -157,6 +176,8 @@ public class Research : MonoBehaviour
     
     public void OnButtonAdvancedResearchButton()
     {
+        SetOutlineActive(AdvancedResearchButton);
+        SetAllOtherOutlineInactive(AdvancedResearchButton);
         ActivatePanel(AdvancedResearchPanel);
         DeactivatePanel(RenewableEnergyPanel);
         DeactivatePanel(GreenConstructionPanel);
@@ -167,6 +188,8 @@ public class Research : MonoBehaviour
     
     public void OnButtonResearchEfficiencyButton()
     {
+        SetOutlineActive(ResearchEfficiencyButton);
+        SetAllOtherOutlineInactive(ResearchEfficiencyButton);
         ActivatePanel(ResearchEfficiencyPanel);
         DeactivatePanel(RenewableEnergyPanel);
         DeactivatePanel(GreenConstructionPanel);
@@ -188,6 +211,22 @@ public class Research : MonoBehaviour
         if (panel != null)
         {
             panel.SetActive(false);
+        }
+    }
+    private void SetOutlineActive(Button button)
+    {
+        // set activate the outline
+        button.GetComponent<Outline>().enabled = true;
+    }
+    private void SetAllOtherOutlineInactive(Button button)
+    {
+        // set all other outlines inactive
+        foreach (Button mainButton in _mainButtons)
+        {
+            if (mainButton != button)
+            {
+                mainButton.GetComponent<Outline>().enabled = false;
+            }
         }
     }
     public void OnClickWindEnergyButton()

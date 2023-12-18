@@ -18,6 +18,7 @@ public class UIController : MonoBehaviour
     public Text buildUniversityText;
     public Text youWonText;
     public Text gameOverText;
+    public Text researchFinishedText;
 
     public Action OnRoadPlacement, OnHousePlacement, OnClinicPlacement, OnHospitalPlacement, OnSolarPanelPlacement, OnWindTurbinePlacement, OnCarbonPowerPlantPlacement,
         OnNuclearPlantPlacement, OnWaterPlantPlacement, OnHighDensityHousePlacement, OnShopPlacement, OnRestaurantPlacement, OnBarPlacement, OnCinemaPlacement, OnUniversityPlacement,
@@ -33,8 +34,7 @@ public class UIController : MonoBehaviour
     public Button showScientificProgress;
     public Button upgradeScientificProgressButton;
     public Button closeScientificProgress;
-
-    public GameObject[] ScientificProgressTexts = new GameObject[21] ;
+    
 
 
 
@@ -271,14 +271,14 @@ public class UIController : MonoBehaviour
     {
         notEnoughMoneyText.gameObject.SetActive(true);
 
-        // Schedule a function to hide the text after 2 seconds
+        // Schedule a function to hide the text after 5 seconds
         Invoke(nameof(HideNotEnoughMoneyText), 2f);
     }
     public void ShowBuildUniversityText()
     {
         buildUniversityText.gameObject.SetActive(true);
 
-        // Schedule a function to hide the text after 2 seconds
+        // Schedule a function to hide the text after 5 seconds
         Invoke(nameof(HideBuildUniversityText), 2f);
     }
     private void HideBuildUniversityText()
@@ -289,7 +289,7 @@ public class UIController : MonoBehaviour
     {
         youWonText.gameObject.SetActive(true);
 
-        // Schedule a function to hide the text after 2 seconds
+        // Schedule a function to hide the text after 5 seconds
         Invoke(nameof(HideYouWonText), 5f);
     }
     private void HideYouWonText()
@@ -300,7 +300,7 @@ public class UIController : MonoBehaviour
     {
         gameOverText.gameObject.SetActive(true);
 
-        // Schedule a function to hide the text after 2 seconds
+        // Schedule a function to hide the text after 5 seconds
         Invoke(nameof(HideGameOverText), 5f);
     }
     private void HideGameOverText()
@@ -311,6 +311,17 @@ public class UIController : MonoBehaviour
     private void HideNotEnoughMoneyText()
     {
         notEnoughMoneyText.gameObject.SetActive(false);
+    }
+    public void ShowResearchFinishedText()
+    {
+        researchFinishedText.gameObject.SetActive(true);
+
+        // Schedule a function to hide the text after 5 seconds
+        Invoke(nameof(HideResearchFinishedText), 5f);
+    }
+    private void HideResearchFinishedText()
+    {
+        researchFinishedText.gameObject.SetActive(false);
     }
 
     
