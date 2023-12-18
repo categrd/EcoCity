@@ -396,8 +396,8 @@ public class EnergyProductionCell : JobCell
             WasteProduction = 20;
             NumberOfEmployeesCapacity = 10;
             EnergyProduced = 10000;
-            Co2Production = 20;
-            AirPollutionProduction = 100;
+            Co2Production = 10;
+            AirPollutionProduction = 40;
 
         }
 

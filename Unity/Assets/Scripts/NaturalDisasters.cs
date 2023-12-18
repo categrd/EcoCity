@@ -195,7 +195,7 @@ public class NaturalDisasters : MonoBehaviour
     private void StartAcidRain()
     {
         audioPlayer.PlayAcidRainSound();
-        _acidRain = Instantiate(acidRainPrefab, new Vector3(6.17f, 5.59f, 5.72f), Quaternion.identity);
+        _acidRain = Instantiate(acidRainPrefab, new Vector3(14.65f, 5.59f, 12.8f), Quaternion.identity);
     }
     private void HandleAcidRain()
     {
@@ -224,7 +224,7 @@ public class NaturalDisasters : MonoBehaviour
     private void StartSmog()
     {
         audioPlayer.PlaySmogSound();
-        _smog = Instantiate(smogPrefab, new Vector3(6.009356f, 1.044306f, 6.765965f), Quaternion.identity);
+        _smog = Instantiate(smogPrefab, new Vector3(13.84f, 1.044306f, 14.49f), Quaternion.identity);
     }
     private void HandleSmog()
     {

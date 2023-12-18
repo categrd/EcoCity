@@ -116,10 +116,12 @@ public class UIController : MonoBehaviour
     public Text jobsOccupiedText;
     public Text criminalsCoveredText;
     public Text patientsCoveredText;
+    public Text energyRatioText;
     public Slider employmentSlider;
     public Slider jobsOccupiedSlider;
     public Slider criminalsCoveredSlider;
     public Slider patientsCoveredSlider;
+    public Slider energyRatioSlider;
 
     public float timer = 0.0f;
     public Color outlineColor;
@@ -367,7 +369,7 @@ public class UIController : MonoBehaviour
         particlePollutionText.text = "Particle Pollution: " + Math.Round(gameState.GetAirPollution(), 2) + "%";
         carbonDioxideSlider.value = (float)gameState.GetCo2Emissions()/100;
         carbonDioxideText.text = "Carbon Dioxide: " + Math.Round(gameState.GetCo2Emissions(), 2) + "%";
-
-       
+        energyRatioText.text = "Energy Ratio: " + Math.Round(gameState.GetEnergyRatio() * 100, 2) + "%";
+        energyRatioSlider.value = (float)gameState.GetEnergyRatio();
     }
 }
