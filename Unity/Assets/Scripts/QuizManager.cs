@@ -23,7 +23,7 @@ public class QuizManager : MonoBehaviour{
     public GameObject closingPanel;
      public UnityEngine.UI.Button closeQuiz;
 
-    private float timerDuration = 10f;  // Duration of the timer in seconds
+    private float timerDuration = 120f;  // Duration of the timer in seconds
     private float elapsedTime = 0f;
     private float t = 1000f;
 

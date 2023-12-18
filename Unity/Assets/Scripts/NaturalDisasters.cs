@@ -20,6 +20,8 @@ public class NaturalDisasters : MonoBehaviour
     private float heatwaveProbability; // Initial low probability
     private bool isHeatwaveActive = false;
 
+    
+
     public GameObject acidRainPrefab;
     private GameObject _acidRain = null;
     private float _acidRainTime;
@@ -109,6 +111,8 @@ public class NaturalDisasters : MonoBehaviour
 
     private void Start()
     {
+        
+
         _fireTime = 20f;
         if(mainMenuManager.GetCluster() == 0)
             clusterModifierNaturalDisaster = 1f;
