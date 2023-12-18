@@ -285,7 +285,7 @@ public class GameState : MonoBehaviour
         // and substract it by a constant
         if(_totalArea != 0)
         {
-            airPollution += airPollutionProduced / _totalArea - 0.001f * _totalArea;
+            airPollution += airPollutionProduced / _totalArea - 0.01f * _totalArea;
         }
         // limit it to a range: min = 0, max = 100
         if (airPollution < 0)
@@ -400,12 +400,19 @@ public class GameState : MonoBehaviour
             return (float) _totalEmployed / totalPopulation;
         return 0;
     }
+    public float GetEnergyRatio()
+    {
+        if(_totalEnergyConsumed!=0)
+            return (float) _totalEnergyProduced / _totalEnergyConsumed;
+        return 0;
+    }
     private float GetQualityOfLife()
     { 
         var employmentWeight = 6f;
         var beautyWeight = 0.5f;
         return (_totalResidenceComfort + (GetCriminalsCoveredRatio() - 0.1f)+ (GetPatientsCoveredRatio() - 0.1f) + GetGoodsDemandSatisfactionRatio() + GetMeatDemandSatisfactionRatio()
-                + GetVegetablesDemandSatisfactionRatio() + ((1-GetEmploymentRatio()) * employmentWeight - 0.5f) + _totalBeauty * beautyWeight) / 8 - _co2Emissions * 0.01f - airPollution * 0.01f;
+                + GetVegetablesDemandSatisfactionRatio() + ((1-GetEmploymentRatio()) * employmentWeight - 0.5f) + _totalBeauty * beautyWeight) / 8 - _co2Emissions * 0.01f - airPollution * 0.01f 
+               + (_totalEnergyProduced - _totalEnergyConsumed) * 0.001f;
     }
 
     private int GetPopulationChange()

@@ -74,51 +74,7 @@ public class GameManager : MonoBehaviour
         
     }
     
-    /*
-    private void ShowMenuHandler()
-    {
-        ClearInputActions();
-        if (menuPanel.activeSelf)
-        {
-            ClearInputActionsAndButtonColor();    
-        }
-
-        ToggleMenu(menuPanel);
-        inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
-        inputManager.OnPressingEsc += () => ToggleMenu(menuPanel);
-
-    }
-    private void ShowStatsHandler()
-    {
-        ClearInputActions();
-        if (statsPanel.activeSelf)
-        {
-            ClearInputActionsAndButtonColor();    
-        }
-
-        ToggleMenu(statsPanel);
-        inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
-        inputManager.OnPressingEsc += () => ToggleMenu(statsPanel);
-
-    }
-
-    private void ShowEnvironmentStatsHandler()
-    {
-        ClearInputActions();
-        if (environmentStatsPanel.activeSelf)
-        {
-            ClearInputActionsAndButtonColor();    
-        }
-
-        ToggleMenu(environmentStatsPanel);
-        inputManager.OnPressingEsc += ClearInputActionsAndButtonColor;
-        inputManager.OnPressingEsc += () => ToggleMenu(environmentStatsPanel);
-
-    }
-    */ 
-
     
-
     private void PanelHandler(GameObject panel)
     {
         ClearInputActions();
