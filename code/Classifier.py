@@ -28,10 +28,10 @@ from sklearn.metrics import *
 
 def prediction(data):
     scaler = joblib.load('code/scaler')
-    x = pd.DataFrame(data = data, columns = ['Age', 'Education','Affective Symptoms', 'Rumination', 'Behavioural Symptoms', 
+    x = pd.DataFrame(data = data, columns = ['Age', 'Education', 'Income', 'Male', 'Female', 'Non-binary', 
+                                         'Single', 'Married', 'Divorced', 'Widowed', 'Separated', 'Affective Symptoms', 'Rumination', 'Behavioural Symptoms', 
                                          'Anxiety Personal Impact', 'Attribution Skepticism', 'Impact Skepticism', 
-                                         'Trend Skepticism', 'Response Skepticism', 'Male', 'Female', 'Non-binary', 
-                                         'Single', 'Married', 'Divorced', 'Widowed', 'Separated', 'Income']) 
+                                         'Trend Skepticism', 'Response Skepticism']) 
     
 
     to_be_scaled = ['Age', 'Education', 'Income', 'Affective Symptoms', 

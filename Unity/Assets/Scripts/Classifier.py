@@ -1,67 +1,50 @@
-# Classification Task
-# Importing libraries
-import numpy as np
 import pandas as pd
 import joblib
-import argparse
 
-# Preprocessing
-from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import StratifiedKFold
-from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
+to_be_scaled = ['Age', 'Education', 'Income', 'Affective Symptoms', 'Rumination', 'Behavioural Symptoms', 
+                'Anxiety Personal Impact', 'Attribution Skepticism', 'Impact Skepticism', 
+                'Trend Skepticism', 'Response Skepticism']
 
+csv = pd.read_csv('Assets/Scripts/to_classify.csv', names=['Unnamed', 'Age', 'Education', 'Income', 'Male', 'Female', 'Non-binary', 
+                                        'Single', 'Married', 'Divorced', 'Widowed', 'Separated', 'Affective Symptoms', 
+                                        'Rumination', 'Behavioural Symptoms', 'Anxiety Personal Impact', 
+                                        'Attribution Skepticism', 'Impact Skepticism', 'Trend Skepticism', 
+                                        'Response Skepticism'])
 
-# Classification methods
-from sklearn.linear_model import LogisticRegression
-from sklearn.naive_bayes import GaussianNB
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.tree import DecisionTreeClassifier
+csv.drop('Unnamed', axis=1, inplace=True)
 
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.ensemble import ExtraTreesClassifier
-from sklearn.ensemble import AdaBoostClassifier
-from sklearn.ensemble import BaggingClassifier
+not_scaled = [column for column in csv.columns if column not in to_be_scaled]
 
-from sklearn.ensemble import VotingClassifier
+df = csv.iloc[[-1]]
 
-# Evaluation Metrics
-from sklearn.metrics import *
+#csv = csv['Age', 'Education', 'Income', 'Male', 'Female', 'Non-binary', 
+#                                        'Single', 'Married', 'Divorced', 'Widowed', 'Separated', 'Affective Symptoms', 
+#                                        'Rumination', 'Behavioural Symptoms', 'Anxiety Personal Impact', 
+#                                        'Attribution Skepticism', 'Impact Skepticism', 'Trend Skepticism', 
+#                                        'Response Skepticism']
 
-# data = pd.read_csv("Std_final_df_3clusters.csv", index_col="Unnamed: 0")
-# input_variables = data.columns[data.columns!='Cluster']
-# X = data[input_variables]
-# y = data['Cluster']
-# labels_unique = np.unique(y)
-# print(X.info(), y.info())
-# print(labels_unique)
-# new_user = np.array(X.iloc[2])
-# shape = data.shape[0]
-# x = np.reshape(data, (1, shape))  
-# data = pd.DataFrame(data = x, columns = ['Age', 'Education','Affective Symptoms', 
-#                                             'Rumination', 'Behavioural Symptoms', 
-#                                             'Anxiety Personal Impact', 'Attribution Skepticism',
-#                                             'Impact Skepticism', 'Trend Skepticism',
-#                                             'Response Skepticism', 'Gender', 'Marital', 'Income'])    
+#data = pd.DataFrame(data=csv, columns=['Age', 'Education', 'Income', 'Male', 'Female', 'Non-binary', 
+#                                        'Single', 'Married', 'Divorced', 'Widowed', 'Separated', 'Affective Symptoms', 
+#                                        'Rumination', 'Behavioural Symptoms', 'Anxiety Personal Impact', 
+#                                        'Attribution Skepticism', 'Impact Skepticism', 'Trend Skepticism', 
+#                                        'Response Skepticism'])
+print(df)
 
+try:
+    scaler = joblib.load('Assets/Scripts/scaler')
+    data_scaled = scaler.transform(df[to_be_scaled])
+    rf_classifier = joblib.load('Assets/Scripts/classifier')
+except FileNotFoundError:
+    print('Classifier not found. Please train the classifier first.')
 
+#standardized_data = scaler.transform(data[to_be_scaled])
+std_df = pd.DataFrame(data_scaled, columns=to_be_scaled)
+data_std = pd.concat((std_df[to_be_scaled[:3]], df[not_scaled], std_df[to_be_scaled[3:]]), axis=1)
 
-def prediction(x):
-    data = pd.DataFrame(data = x, columns = ['Age', 'Education', 'Income', 'Male', 'Female',  'Non-binary',  'Single', 
-                                             'Married', 'Divorced', 'Widowed', 'Separated','Affective Symptoms',  
-                                             'Rumination', 'Behavioural Symptoms','Anxiety Personal Impact', 
-                                             'Attribution Skepticism','Impact Skepticism', 'Trend Skepticism',
-                                             'Response Skepticism'])
-    try:
-        rf_classifier = joblib.load('classifier.joblib')
-    except FileNotFoundError:
-        print("Classifier not found. Please train the classifier first.")
-        return None
-    pred = rf_classifier.predict(data)
-    return pred
+print('last row shape: ', df.shape)
+pred = rf_classifier.predict(df)
+with open('Assets/Scripts/cluster.txt', 'w') as f:
+    f.write(str(pred))
+print('Pred: ',pred)
 
 
-if __name__ == "__main__":
-    arg_parse = argparse.ArgumentParser()
-    arg_parse.add_argument("a")
-    arguments = arg_parse.parse_args()
-    prediction(arguments.a)

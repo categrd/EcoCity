@@ -5,8 +5,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour
+ public class GameManager : MonoBehaviour
 {
+    public MainMenuManager mainMenuManager;
     public GameObject menuPanel;
     public GameObject statsPanel;
     public GameObject environmentStatsPanel;
@@ -21,6 +22,7 @@ public class GameManager : MonoBehaviour
     public RoadManager roadManager;
     public InputManager inputManager;
 
+    
     public UIController uiController;
     public StructureManager structureManager;
     public PlacementManager placementManager;

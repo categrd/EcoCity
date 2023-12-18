@@ -1,23 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-using SVS;
 using System;
-using System.Diagnostics;
-using System.Linq;
+using System.Runtime.InteropServices;
+using System.Collections.Generic;
+using System.IO;
+using IronPython.Hosting;
+using Microsoft.Scripting;
+using Microsoft.Scripting.Hosting;
+using Microsoft.Scripting.Runtime;
+using System.Dynamic;
+using System.Runtime;
+using System.Text;
 using TMPro;
+using System;
+
+
+
+
 using Debug = UnityEngine.Debug;
-using UnityEngine.Serialization;
-using UnityEngine.UIElements;
 using Button = UnityEngine.UI.Button;
+
 using Slider = UnityEngine.UI.Slider;
+using Dropdown = UnityEngine.UI.Dropdown;
+using System.Diagnostics;
+using UnityEngine.UI;
+using Palmmedia.ReportGenerator.Core.Parser.Analysis;
+using UnityEditor;
 using UnityEditor.UI;
-using TMPro.EditorUtilities;
-using System.Data.Common;
 using Unity.VisualScripting;
+using UnityEngine.XR;
+using Unity.VisualScripting.FullSerializer;
+
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -34,16 +47,19 @@ public class MainMenuManager : MonoBehaviour
     public TMP_Dropdown[] dropdown = new TMP_Dropdown[4];
    
     public Slider[] answer = new Slider[8]; 
-    private float[] results = new float[19]; 
+    public TMP_Text[] sliderText = new TMP_Text[8];
+    
         
     private bool isNewGame = true;
     private string pythonExecutable = "code/dist/Classifier"; 
     private string pythonScript = "code/Classifier.py";
     private string pythonFunction = "prediction";
     private string arguments;
-    private string cluster;
+    private int cluster;
     
     private float[] EduLevel = new float[6];
+    public string[] CCS_text = new string[7];
+    public string[] HEAS_text = new string[4];
 
  
 
@@ -63,19 +79,70 @@ public class MainMenuManager : MonoBehaviour
         EduLevel[5] = 25.0F;
 
 
-        
+        for (int i = 0; i<answer.Length; i++)
+        {
+            answer[i].onValueChanged.AddListener(delegate { UpdateSliderValue(); });
+        }
+
     }
 
-    public void GetDropdownValue()
-    {
-        for (int i = 0; i < dropdown.Length; i++)
+    public void UpdateSliderValue()
+    {   
+        for (int i = 0; i < answer.Length/2; i++)
         {
-            int pickedEntryIndex = (int)dropdown[0].value;
-            string selectedOption = dropdown[0].options[pickedEntryIndex].text;
-            Debug.Log(selectedOption);
-            
+            if (answer[i].value == 0)
+            {
+                sliderText[i].text = "Never";
+            }
+            else if (answer[i].value == 1)
+            {
+                sliderText[i].text = "Some days";
+            }
+            else if (answer[i].value == 2)
+            {
+                sliderText[i].text = "More than half";
+            }
+            else if (answer[i].value == 3)
+            {
+                sliderText[i].text = "Almost every day";
+            }
+        }
+
+        for (int i = 4; i<answer.Length; i++)
+        {
+            if (answer[i].value == 0)
+            {
+                sliderText[i].text = "Strongly disagree";
+            }
+            else if (answer[i].value == 1)
+            {
+                sliderText[i].text = "Disagree";
+            }
+            else if (answer[i].value == 2)
+            {
+                sliderText[i].text = "Somewhat disagree";
+            }
+            else if (answer[i].value == 3)
+            {
+                sliderText[i].text = "Neither agree nor disagree";
+            }
+            else if (answer[i].value == 4)
+            {
+                sliderText[i].text = "Somewhat agree";
+            }
+            else if (answer[i].value == 5)
+            {
+                sliderText[i].text = "Agree";
+            }
+            else if (answer[i].value == 6)
+            {
+                sliderText[i].text = "Strongly agree";
+            }
         }
     }
+
+
+    
     public void OnPlayButtonClick()
     {
         Debug.Log("Play Button Clicked");
@@ -109,6 +176,7 @@ public class MainMenuManager : MonoBehaviour
     */
     public void OnCommitAnswerClick()
     {
+        dynamic results = new float[19];
         Debug.Log("Commit Answer Button Clicked");
         results[0] = dropdown[0].value + 18;    
         results[1] = EduLevel[dropdown[3].value];
@@ -190,78 +258,209 @@ public class MainMenuManager : MonoBehaviour
         for (int i = 0; i < dropdown.Length; i++)
             results[i+11] = (float)answer[i].value;
 
-        string pythonExecutable = "Assets/Scripts/dist/Classifier";
-        string pythonScript = "Assets/Scripts/Classifier.py";
-        string args = "results";
+        predict(results);
 
-        arguments = $"{pythonScript} {args} {results}";
 
-        ProcessStartInfo psi = new ProcessStartInfo
+
+
+    /*
+
+        using (StreamWriter sw = new StreamWriter("Assets/Scripts/to_classify.csv", true, Encoding.UTF8))
         {
-            FileName = pythonExecutable,
-            Arguments = args,
+            string str = results[0].ToString();
+            for (int i = 0; i < results.Length; i++)
+            {
+                str = str + "," + results[i].ToString();
+            }
+            sw.WriteLine(str);
+        }
+
+
+        
+        // Path to your Python executable
+        //string pythonPath = "/Library/Frameworks/Python.framework/Versions/3.11/Python";
+        string pythonPath = "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3.11";
+
+        // Path to your Python script
+        string pythonScriptPath = "Assets/Scripts/Classifier.py";
+
+        // Arguments to pass to the Python script
+        string arguments = "";
+
+        // Create process start info
+        ProcessStartInfo startInfo = new ProcessStartInfo
+        {
+            FileName = pythonPath,
+            Arguments = $"{pythonScriptPath} {arguments}",
             RedirectStandardOutput = true,
+            RedirectStandardError = true,
             UseShellExecute = false,
             CreateNoWindow = true
         };
 
-        using (Process process = new Process { StartInfo = psi })
+        // Create process and start
+        using (Process process = new Process { StartInfo = startInfo })
         {
             process.Start();
-            cluster = process.StandardOutput.ReadToEnd();
 
-            string c = cluster.ToString();
-            Debug.Log('c'+ c); // Qui ci sarà il cluster a cui appartiene il giocatore
+            // Read the output (standard output and error)
+            string output = process.StandardOutput.ReadToEnd();
+            string error = process.StandardError.ReadToEnd();
+            this.cluster = output;
             process.WaitForExit();
+
+            // Display output and error
+            Console.WriteLine("Output:");
+            Console.WriteLine(output);
+
+            Console.WriteLine("Error:");
+            Console.WriteLine(error);
+        }
+        string[] lines = File.ReadAllLines("Assets/Scripts/prediction.csv");
+        if (lines.Length == 0)
+        {
+            
+        }
+        var cluster = lines[lines.Length - 1];
+        Debug.Log(cluster.ToString() + " Richiiiiii io sono quiiiii ");
+*/
+    
+/*
+        Runtime.PythonDLL = "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3.11";
+        PythonEngine.Initialize();
+        using (Py.GIL()) // Acquire the Python GIL (Global Interpreter Lock)
+        {
+        
+            var pythonScript = Py.Import("Classifier");
+            var tmp = new PyList(results);
+            var r = pythonScript.InvokeMethod("predict", new PyObject[] {tmp});
+
+            // Access the result from the Python script
+            //string[] lines = File.ReadAllLines("Assets/Scripts/prediction.csv");
+            //var c = lines[lines.Length - 1];
+            //Console.WriteLine(c);
+            this.cluster = r.ToString();
+        }
+        
+        // Create a new ScriptEngine
+        var engine = Python.CreateEngine();
+        var searchPaths = engine.GetSearchPaths();
+        searchPaths.Add("/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages");
+        engine.SetSearchPaths(searchPaths);
+      
+        var scriptSource = engine.CreateScriptSourceFromFile("Assets/Scripts/Classifier.py");
+
+        // Execute the Python script with the input data
+        scriptSource.Execute();
+        // Access the result from the Python script
+        string[] lines = File.ReadAllLines("Assets/Scripts/prediction.csv");
+        this.cluster = lines[lines.Length - 1];
+        Debug.Log(cluster.ToString());*/
+        SceneManager.LoadSceneAsync(1);
+    }
+
+    static string GetPythonLibPath()
+    {
+        string pythonPath = RuntimeEnvironment.GetRuntimeDirectory();
+
+        // Check if the Lib directory exists
+        string libPath = Path.Combine(pythonPath, "Lib");
+
+        if (Directory.Exists(libPath))
+        {
+            return libPath;
         }
 
-        // Qui cambiamo la scena (da capire come passare info del cluster)
-        SceneManager.LoadSceneAsync(1);
+        return null;
     }
+
+    public void predict(float[] r)
+    {
+        bool[] features = new bool[19];
+        features[0] = false;
+        features[1] = true;
+        features[2] = true;
+        features[3] = false;
+        features[4] = false;
+        features[5] = false;
+        features[6] = false;
+        features[7] = false;
+        features[8] = false;
+        features[9] = false;
+        features[10] = false;
+        features[11] = true;
+        features[12] = true;
+        features[13] = true;
+        features[14] = true;
+        features[15] = true;
+        features[16] = true;
+        features[17] = true;
+        features[18] = true;
+        
+        float[] result = new float[10];
+
+        int[] c = new int[3];
+        c[0] = 0;
+        c[1] = 0;
+        c[2] = 0;
+
+
+        if (r[1] < 13.0){ c[1] += 1; c[2] += 1;}
+        else { c[0] += 1;}
+        if (r[2] < 40000) { c[2] += 1; }
+        else { c[0] += 1; c[1] += 1; }
+        if (r[11] >= 2.0){ c[1] += 1; }
+        else {
+            if (r[11] >= 1.0){ c[2] += 1; }
+            else { c[0] += 1; }
+        }
+        if (r[12] <= 2.0){ c[0] += 1; }
+        else {
+            if (r[12] >= 2.33){ c[1] += 1; }
+            else { c[2] += 1; }
+        }
+        if (r[13] >= 3.0 ){ c[1] += 1;}
+        else{
+            if (r[13] >= 1.33){ c[2] += 1; }
+            else { c[0] += 1; }
+        }
+        if (r[14] >= 3.0) { c[1] += 1; }
+        else {
+            if (r[14] >= 1.66){ c[2] += 1; }
+            else { c[0] += 1; }
+        }
+        if (r[15] >= 3.0){ c[1] += 1; }
+        else {
+            if (r[15] >= 1.66){ c[2] += 1; }
+            else { c[0] += 1; }
+        }
+        if (r[16] >= 3.0){ c[1] += 1; }
+        else { c[2] += 1;  c[0] += 1; }
+        if (r[17] >= 3.0){ c[1] += 1; }
+        else { 
+            if (r[17] <= 1.33){ c[0] += 1; }
+            else { c[2] += 1; }
+        }
+        this.cluster = arg_max(c);
+    }
+
+    public int arg_max(int[] c)
+    {
+        int max = 0;
+        int index = 0;
+        for (int i = 0; i < c.Length; i++)
+        {
+            if (c[i] > max)
+            {
+                max = c[i];
+                index = i;
+            }
+        }
+        return index;
+    }
+    
+
+    
 
 }
-/*
-// Start is called before the first framepdate
-void Start()
-    {
-        buttonList = new List<Button> {
-            play,
-            quit
-        };
-
-        AddButtonClickListener(play, () => { NewGame?.Invoke(); });
-        AddButtonClickListener(quit, () => { QuitGame?.Invoke(); });
-
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    public void PlayGame()
-    {
-#if isNewGame
-        questionPanel.SetActive(true);
-        isNewGame = false;
-#else
-        SceneManager.LoadSceneAsync(1);
-        
-    #endif
-    }
-
-
-
-    /*public void QuitGame()
-    {
-
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit()
-#endif
-    }*/
-
 
