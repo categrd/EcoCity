@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using SVS;
 using UnityEngine;
 
 public class PlacementManager : MonoBehaviour
@@ -16,6 +17,7 @@ public class PlacementManager : MonoBehaviour
     private Dictionary<Vector3Int, StructureModel> _structureDictionary = new Dictionary<Vector3Int, StructureModel>();
 
     public StructureManager structureManager;
+    public AudioPlayer audioPlayer;
     private void Start()
     {
         placementGrid = new Grid(width, height);
@@ -254,6 +256,8 @@ public class PlacementManager : MonoBehaviour
         {
             // Destroy the game object if a collider is hit
             Destroy(hit.collider.gameObject);
+            audioPlayer.PlayDestroySound();
+            
             Cell cellToDestroy = placementGrid[position.x, position.z];
             int widthStructureToDestroy = 1;
             int heightStructureToDestroy = 1;

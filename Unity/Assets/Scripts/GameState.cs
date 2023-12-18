@@ -406,7 +406,7 @@ public class GameState : MonoBehaviour
         var employmentWeight = 6f;
         var beautyWeight = 0.5f;
         return (_totalResidenceComfort + (GetCriminalsCoveredRatio() - 0.1f)+ (GetPatientsCoveredRatio() - 0.1f) + GetGoodsDemandSatisfactionRatio() + GetMeatDemandSatisfactionRatio()
-                + GetVegetablesDemandSatisfactionRatio() + ((1-GetEmploymentRatio()) * employmentWeight - 0.5f) + _totalBeauty * beautyWeight) / 8;
+                + GetVegetablesDemandSatisfactionRatio() + ((1-GetEmploymentRatio()) * employmentWeight - 0.5f) + _totalBeauty * beautyWeight) / 8 - _co2Emissions * 0.01f - airPollution * 0.01f;
     }
 
     private int GetPopulationChange()
