@@ -18,6 +18,8 @@ public class GameState : MonoBehaviour
     public PlacementManager placementManager;
     public PopulationManager populationManager;
     public TransportManager transportManager;
+    public DifferentScenariosManager differentScenariosManager;
+    public UIController uiController;
     private float _temperature;
     public float Temperature
     {
@@ -85,9 +87,9 @@ public class GameState : MonoBehaviour
     private int _totalEmployed;
     private float _health;
 
-    private bool[] scientificProgress;
-
     
+
+    private float _timeWithNegativeMoney = 0f;
     private float _time;
     private float _co2Emissions;
     public float Co2Emissions
@@ -103,7 +105,6 @@ public class GameState : MonoBehaviour
         populationCapacity = 0;
         _time = 0f;
         _totalNumberOfJobs= 0;
-        scientificProgress = new bool[20];
         //try high value of co2 emissions for testing
         _co2Emissions = 100f;
         // try high value of air pollution for testing
@@ -118,9 +119,42 @@ public class GameState : MonoBehaviour
         if (_time >= 1)
         {
             UpdateGameVariables();
+            HandleLooseConditions();
+            HandleWinConditions();
             _time = 0;
         }
+        UpdateFire();
+        
+    }
+    private void HandleLooseConditions()
+    {
+        if (currentMoney < 0)
+        {
+            _timeWithNegativeMoney++;
+        }
+        else
+        {
+            _timeWithNegativeMoney = 0;
+        }
+        if (_timeWithNegativeMoney >= 60)
+        {
+            uiController.ShowGameOverText();
+            Invoke(nameof(PrepareToStartNewScenario), 5f);
+            
+        }
+    }
+    private void PrepareToStartNewScenario()
+    {
+        differentScenariosManager.StartNewScenario(0);
+    }
+    private void HandleWinConditions()
+    {
+        
+        
+    }
 
+    private void UpdateFire()
+    {
         foreach (var structureCell in structuresOnFire)
         {
             if (structureCell.IsOnFire && structureCell.IsFireTruckOnTheWay == false)
@@ -165,8 +199,8 @@ public class GameState : MonoBehaviour
                 }
             }
         }
+        
     }
-
     private void UpdateGameVariables()
     {
         UpdateTotalPopulation();
@@ -570,45 +604,59 @@ public class GameState : MonoBehaviour
         }
         currentMoney -= cell.Cost;
     }
+    
+    
+    public void SetParametersOfScenario(int scenario)
+    {
+        if (scenario == 0)
+        {
+            
+        }
 
-    public int GetScientificProgressLevel()
-    {
-        int numberOfScientificProgress = 0;
-        foreach (bool progress in scientificProgress)
+        if (scenario == 1)
         {
-            if (progress)
-            {
-                numberOfScientificProgress++;
-            }
+            
         }
-        return numberOfScientificProgress;
+        
     }
-    
-    public float GetScientificProgressRatio()
+
+    public void ResetGameState()
     {
-        int numberOfScientificProgress = 0;
-        foreach (bool progress in scientificProgress)
-        {
-            if (progress)
-            {
-                numberOfScientificProgress++;
-            }
-        }
-        return (float) numberOfScientificProgress / scientificProgress.Length;
-    }
-    
-    public bool upgradeScientificProgress()
-    {
-        try
-        {
-            scientificProgress[Array.IndexOf(scientificProgress, false)] = true;
-            return true;
-        }
-        catch (Exception)
-        {
-            return false;
-        }
-       
+        // reset all the variables
+        currentMoney = 10000000f;
+        populationCapacity = 0;
+        _time = 0f;
+        _totalNumberOfJobs= 0;
+        _totalVegetablesProduced = 0;
+        _totalMeatProduced = 0;
+        _totalGoodsProduced = 0;
+        _totalEnergyProduced = 0;
+        _totalWasteProduced = 0;
+        _totalBeauty = 0;
+        _totalCostumersCapacity = 0;
+        _totalPatientsCovered = 0;
+        _totalCriminalsCovered = 0;
+        _totalIncome = 0;
+        _totalEnergyConsumed = 0;
+        _totalEmployed = 0;
+        _totalUnemployed = 0;
+        _totalResidenceComfort = 0;
+        _totalFiresCovered = 0;
+        _totalCosts = 0;
+        _totalGoodsConsumed = 0;
+        _totalVegetablesConsumed = 0;
+        _totalMeatConsumed = 0;
+        _totalWasteProduced = 0;
+        _totalWasteDisposed = 0;
+        _co2Emissions = 100f;
+        airPollution = 100f;
+        _temperature = 20f;
+        _acidRainModifier = 1f;
+        _smokeModifier = 1f;
+        numberOfUniversity = 0;
+        _health = 100;
+        
+        
     }
 
 }

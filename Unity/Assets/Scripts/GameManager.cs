@@ -62,7 +62,6 @@ public class GameManager : MonoBehaviour
         uiController.OnShowEnvironmentStats += () => PanelHandler(environmentStatsPanel);
         uiController.OnShowScientificProgress += () => ScientificPanelHandler(scientificProgressPanel);
         uiController.OnCloseScientificProgress += () => PanelHandler(scientificProgressPanel); 
-        uiController.OnUpgradeScientificProgress += UpgradeScientificProgressHandler;
 
         uiController.OnHouseMenu += () => BuildingPanelHandler(housePanel);
         uiController.OnIndustryMenu += () => BuildingPanelHandler(industryPanel);
@@ -118,12 +117,7 @@ public class GameManager : MonoBehaviour
     }
     */ 
 
-    private void UpgradeScientificProgressHandler()
-    {
-        uiController.gameState.upgradeScientificProgress();
-        ToggleMenu(uiController.ScientificProgressTexts[uiController.gameState.GetScientificProgressLevel()-1]);
-        ToggleMenu(uiController.ScientificProgressTexts[uiController.gameState.GetScientificProgressLevel()]);
-    }
+    
 
     private void PanelHandler(GameObject panel)
     {

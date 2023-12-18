@@ -443,4 +443,9 @@ public class PlacementManager : MonoBehaviour
         else if (_structureDictionary.ContainsKey(position))
             _structureDictionary[position].SwapModel(newModel, rotation);
     }
+    public void ResetGrid()
+    {
+        placementGrid = new Grid(width, height);
+        _structureDictionary.Clear();
+    }
 }

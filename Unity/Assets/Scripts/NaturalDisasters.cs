@@ -1,6 +1,8 @@
+using System;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using Random = UnityEngine.Random;
 
 public class NaturalDisasters : MonoBehaviour
 {
@@ -103,12 +105,17 @@ public class NaturalDisasters : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        _fireTime = 20f;
+    }
+
     private void HandleHeatwave()
     {
         _time += Time.deltaTime;
-        _fireTime += Time.deltaTime;
+        _fireTime -=  Time.deltaTime;
         // Start a fire at a random structure position every 5 seconds
-        if (_fireTime >= 10f * (1-researchHeatwaveModifier))
+        if (_fireTime <= 10f * researchHeatwaveModifier)
         {
             Vector3Int? randomPosition = placementManager.GetRandomPositionOfTypeCellSatisfying(typeof(StructureCell),
                 (cell) => placementManager.IsStructureCellNotOnFire(cell));
@@ -123,7 +130,7 @@ public class NaturalDisasters : MonoBehaviour
                     gameState.structuresOnFire.Add(structureCell);
                 }
             }
-            _fireTime = 0;
+            _fireTime = 20;
         }
         // increase temperature
         gameState.Temperature += 0.1f * researchHeatwaveModifier*Time.deltaTime;

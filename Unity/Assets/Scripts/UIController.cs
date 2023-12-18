@@ -16,6 +16,8 @@ public class UIController : MonoBehaviour
     public TextMeshProUGUI moneyText;
     public Text notEnoughMoneyText;
     public Text buildUniversityText;
+    public Text youWonText;
+    public Text gameOverText;
 
     public Action OnRoadPlacement, OnHousePlacement, OnClinicPlacement, OnHospitalPlacement, OnSolarPanelPlacement, OnWindTurbinePlacement, OnCarbonPowerPlantPlacement,
         OnNuclearPlantPlacement, OnWaterPlantPlacement, OnHighDensityHousePlacement, OnShopPlacement, OnRestaurantPlacement, OnBarPlacement, OnCinemaPlacement, OnUniversityPlacement,
@@ -283,6 +285,28 @@ public class UIController : MonoBehaviour
     {
         buildUniversityText.gameObject.SetActive(false);
     }
+    public void ShowYouWonText()
+    {
+        youWonText.gameObject.SetActive(true);
+
+        // Schedule a function to hide the text after 2 seconds
+        Invoke(nameof(HideYouWonText), 5f);
+    }
+    private void HideYouWonText()
+    {
+        youWonText.gameObject.SetActive(false);
+    }
+    public void ShowGameOverText()
+    {
+        gameOverText.gameObject.SetActive(true);
+
+        // Schedule a function to hide the text after 2 seconds
+        Invoke(nameof(HideGameOverText), 5f);
+    }
+    private void HideGameOverText()
+    {
+        gameOverText.gameObject.SetActive(false);
+    }
 
     private void HideNotEnoughMoneyText()
     {
@@ -316,7 +340,7 @@ public class UIController : MonoBehaviour
         patientsCoveredText.text = "Patients Covered: " + Math.Round(gameState.GetPatientsCoveredRatio() * 100, 2) + "%";
         patientsCoveredSlider.value = (float)gameState.GetPatientsCoveredRatio();
         populationCapacityText.text = "Population Capacity: " + gameState.PopulationCapacity;
-        scientificProgressSlider.value = (float)gameState.GetScientificProgressRatio();
+        
 
     }
 
