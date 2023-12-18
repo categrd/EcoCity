@@ -162,7 +162,7 @@ public class NaturalDisasters : MonoBehaviour
     private void HandleHeatwaveProbability()
     {
         // Probability depends on current C02 emissions with a exponential function
-        heatwaveProbability = Mathf.Pow(gameState.Co2Emissions, 2) / 1000000;
+        heatwaveProbability = Mathf.Pow(gameState.Co2Emissions, 2) / 100000000;
     }
 
     // Start is called before the first frame update
@@ -189,7 +189,7 @@ public class NaturalDisasters : MonoBehaviour
     private void HandleAcidRainProbability()
     {
         // Probability depends on current C02 emissions with a exponential function
-        acidRainProbability = Mathf.Pow(gameState.airPollution, 2) / 1000000;
+        acidRainProbability = Mathf.Pow(gameState.AirPollution, 2) / 100000000;
     }
 
     private void StartAcidRain()
@@ -206,7 +206,7 @@ public class NaturalDisasters : MonoBehaviour
             isAcidRainActive = false;
         }
         // apply consequences of acid rain
-        gameState.AcidRainModifier += 0.01f * gameState.airPollution * researchAcidRainModifier * Time.deltaTime;
+        gameState.AcidRainModifier += 0.01f * gameState.AirPollution * researchAcidRainModifier * Time.deltaTime;
         
     }
     private void StopAcidRain()
@@ -217,7 +217,7 @@ public class NaturalDisasters : MonoBehaviour
     private void HandleSmogProbability()
     {
         // Probability depends on current C02 emissions with a exponential function
-        smogProbability = Mathf.Pow(gameState.airPollution, 2) / 1000000;
+        smogProbability = Mathf.Pow(gameState.AirPollution, 2) / 100000000;
     }
 
     private void StartSmog()
@@ -234,7 +234,7 @@ public class NaturalDisasters : MonoBehaviour
             isSmogActive = false;
         }
         // apply consequences of smog
-        gameState.SmokeModifier += 0.01f * gameState.airPollution * researchSmogModifier * Time.deltaTime;
+        gameState.SmokeModifier += 0.01f * gameState.AirPollution * researchSmogModifier * Time.deltaTime;
     }
     private void StopSmog()
     {

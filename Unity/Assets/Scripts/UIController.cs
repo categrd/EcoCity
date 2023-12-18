@@ -32,17 +32,15 @@ public class UIController : MonoBehaviour
     public Button showEnvironmentStats;
 
     public Button showScientificProgress;
-    public Button upgradeScientificProgressButton;
+    public Slider particlePollutionSlider;
+    public Text  particlePollutionText;
+    public Slider carbonDioxideSlider;
+    public Text carbonDioxideText;
+   
     public Button closeScientificProgress;
-    
-
-
-
 
     public Button destroyStructureButton;
-
-
-
+    
     public Button placeRoadButton;
     public Button openHouseMenuButton;
     public Button openPublicServiceMenuButton;
@@ -104,7 +102,6 @@ public class UIController : MonoBehaviour
     // Waste Management
     public Button placeLandfillButton;
     public Button placeIncinerationPlantButton;
-    public Button placeWasteToEnergyPlantButton;
 
     public Text populationCapacityText;
 
@@ -116,7 +113,6 @@ public class UIController : MonoBehaviour
     public Slider jobsOccupiedSlider;
     public Slider criminalsCoveredSlider;
     public Slider patientsCoveredSlider;
-    public Slider scientificProgressSlider;
 
     public Color outlineColor;
     List<Button> buttonList;
@@ -176,7 +172,7 @@ public class UIController : MonoBehaviour
             openDecorationMenuButton,
             openShopMenuButton,
             showScientificProgress,
-            upgradeScientificProgressButton,
+            
             closeScientificProgress,
             placeFireStationButton,
             placeRestaurantButton,
@@ -191,7 +187,6 @@ public class UIController : MonoBehaviour
             placeLivestockButton,
             placeLandfillButton,
             placeIncinerationPlantButton,
-            placeWasteToEnergyPlantButton
             */
         };
 
@@ -207,7 +202,6 @@ public class UIController : MonoBehaviour
         AddButtonClickListener(showStats, () => { OnShowStats?.Invoke(); });
         AddButtonClickListener(showEnvironmentStats, () => { OnShowEnvironmentStats?.Invoke(); });
         AddButtonClickListener(showScientificProgress, () => { OnShowScientificProgress?.Invoke(); });
-        AddButtonClickListener(upgradeScientificProgressButton, () => { OnUpgradeScientificProgress?.Invoke(); });
         AddButtonClickListener(closeScientificProgress, () => { OnCloseScientificProgress?.Invoke(); });
         AddButtonClickListener(placeCinemaButton, () => { OnCinemaPlacement?.Invoke(); });
         AddButtonClickListener(placeWindTurbineButton, () => { OnWindTurbinePlacement?.Invoke(); });
@@ -234,12 +228,9 @@ public class UIController : MonoBehaviour
         AddButtonClickListener(placeWaterPlantButton, () => { OnWaterPlantPlacement?.Invoke(); });
 
         /*
-        
-        AddButtonClickListener(placeCropButton, () => { OnCropPlacement?.Invoke(); });
         AddButtonClickListener(placeLivestockButton, () => { OnLivestockPlacement?.Invoke(); });
         AddButtonClickListener(placeLandfillButton, () => { OnLandfillPlacement?.Invoke(); });
         AddButtonClickListener(placeIncinerationPlantButton, () => { OnIncinerationPlantPlacement?.Invoke(); });
-        AddButtonClickListener(placeWasteToEnergyPlantButton, () => { OnWasteToEnergyPlantPlacement?.Invoke(); });
         */
     }
 
@@ -351,8 +342,9 @@ public class UIController : MonoBehaviour
         patientsCoveredText.text = "Patients Covered: " + Math.Round(gameState.GetPatientsCoveredRatio() * 100, 2) + "%";
         patientsCoveredSlider.value = (float)gameState.GetPatientsCoveredRatio();
         populationCapacityText.text = "Population Capacity: " + gameState.PopulationCapacity;
-        
-
+        particlePollutionSlider.value = (float)gameState.GetAirPollution()/100;
+        particlePollutionText.text = "Particle Pollution: " + Math.Round(gameState.GetAirPollution(), 2) + "%";
+        carbonDioxideSlider.value = (float)gameState.GetCo2Emissions()/100;
+        carbonDioxideText.text = "Carbon Dioxide: " + Math.Round(gameState.GetCo2Emissions(), 2) + "%";
     }
-
 }

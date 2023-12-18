@@ -51,6 +51,9 @@ public class GameState : MonoBehaviour
     private int _totalGoodsProduced;
     private int _totalGoodsConsumed;
     
+    
+    private float _totalArea;
+    
     private float _totalVegetablesProduced;
     private int _totalVegetablesConsumed;
     private float _totalMeatProduced;
@@ -97,7 +100,27 @@ public class GameState : MonoBehaviour
         get => _co2Emissions;
         set => _co2Emissions = value;
     }
-    public float airPollution;
+
+    private float _co2Produced;
+    public float Co2Produced
+    {
+        get => _co2Produced;
+        set => _co2Produced = value;
+    }
+    
+    private float airPollution;
+    public float AirPollution
+    {
+        get => airPollution;
+        set => airPollution = value;
+    }
+    private float airPollutionProduced;
+    public float AirPollutionProduced
+    {
+        get => airPollutionProduced;
+        set => airPollutionProduced = value;
+    }
+    
 
     private void Start()
     {
@@ -106,10 +129,11 @@ public class GameState : MonoBehaviour
         _time = 0f;
         _totalNumberOfJobs= 0;
         //try high value of co2 emissions for testing
-        _co2Emissions = 100f;
+        _co2Emissions = 0f;
         // try high value of air pollution for testing
-        airPollution = 100f;
+        airPollution = 0f;
         _temperature = 20f;
+        _totalArea = 0f;
     }
 
     private void Update()
@@ -124,8 +148,10 @@ public class GameState : MonoBehaviour
             _time = 0;
         }
         UpdateFire();
-        
+        _totalArea = placementManager.UpdateTotalArea();
+
     }
+    
     private void HandleLooseConditions()
     {
         if (currentMoney < 0)
@@ -209,6 +235,8 @@ public class GameState : MonoBehaviour
         UpdateTemperature();
         UpdateAcidRainModifier();
         UpdateStructuresOnFire();
+        UpdateAirPollution();
+        UpdateCo2Emissions();
         populationManager.FindJob();
         currentMoney += GetEarnings();
         populationManager.HandlePeopleMovement();
@@ -251,14 +279,52 @@ public class GameState : MonoBehaviour
             _health = 100;
         }
     }
+    
     private void UpdateAirPollution()
     {
-        //TODO: update air pollution based also on smog modifier
+        // update air pollution based on the air pollution produced by the structures but normalizing it by the total area
+        // and substract it by a constant
+        if(_totalArea != 0)
+        {
+            airPollution += airPollutionProduced / _totalArea - 0.001f * _totalArea;
+        }
+        // limit it to a range: min = 0, max = 100
+        if (airPollution < 0)
+        {
+            airPollution = 0;
+        }
+        else if (airPollution > 100)
+        {
+            airPollution = 100;
+        }
+        
+    }
+    public float GetAirPollution()
+    {
+        return airPollution;
     }
 
     private void UpdateCo2Emissions()
     {
-        
+        // update co2 emissions based on the co2 produced by the structures but normalizing it by the total area
+        // and substract it by a constant
+        if(_totalArea != 0)
+        {
+            _co2Emissions += _co2Produced / _totalArea - 0.001f * _totalArea;
+        }
+        // limit it to a range: min = 0, max = 100
+        if (_co2Emissions < 0)
+        {
+            _co2Emissions = 0;
+        }
+        else if (_co2Emissions > 100)
+        {
+            _co2Emissions = 100;
+        }
+    }
+    public float GetCo2Emissions()
+    {
+       return _co2Emissions;
     }
 
     private void UpdateTemperature()
@@ -415,6 +481,8 @@ public class GameState : MonoBehaviour
     public void UpdateGameVariablesWhenDestroying(Vector3Int position)
     {
         Cell cell = placementManager.GetCellAtPosition(position);
+        _co2Produced -= cell.Co2Production;
+        airPollutionProduced -= cell.AirPollutionProduction;
         
         if (cell is StructureCell)
         {
@@ -512,6 +580,8 @@ public class GameState : MonoBehaviour
     public void UpdateGameVariablesWhenBuilding(Vector3Int position)
     {
         Cell cell = placementManager.GetCellAtPosition(position);
+        _co2Produced += cell.Co2Production;
+        airPollutionProduced += cell.AirPollutionProduction;
         if (cell is ResidenceCell residenceCell)
         {
             //Update variables relative to ResidenceCell

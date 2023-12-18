@@ -3593,6 +3593,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3970261373664373580, guid: b251aac2e265df74f91db1dee1baee73, type: 3}
   m_PrefabInstance: {fileID: 227929851}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &234727417 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8373185599509095744, guid: 316ba27195583cd4b9b4d1a582e38ad4, type: 3}
+  m_PrefabInstance: {fileID: 968643236}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &236977848
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7240,6 +7251,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1880490119515231572, guid: aed2aed4bcf2ca849b78ed9886eb775b, type: 3}
   m_PrefabInstance: {fileID: 446657440}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &446841037 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3156056628486412218, guid: 316ba27195583cd4b9b4d1a582e38ad4, type: 3}
+  m_PrefabInstance: {fileID: 968643236}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &448321799
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10867,7 +10889,10 @@ MonoBehaviour:
   showStats: {fileID: 1636109275}
   showEnvironmentStats: {fileID: 942688713}
   showScientificProgress: {fileID: 699671038}
-  upgradeScientificProgressButton: {fileID: 267183765}
+  particlePollutionSlider: {fileID: 2145351767}
+  particlePollutionText: {fileID: 446841037}
+  carbonDioxideSlider: {fileID: 234727417}
+  carbonDioxideText: {fileID: 1675075818}
   closeScientificProgress: {fileID: 117253041}
   destroyStructureButton: {fileID: 1729868131}
   placeRoadButton: {fileID: 1860705795298152581}
@@ -10909,7 +10934,6 @@ MonoBehaviour:
   placeBigParkButton: {fileID: 615714808}
   placeLandfillButton: {fileID: 0}
   placeIncinerationPlantButton: {fileID: 0}
-  placeWasteToEnergyPlantButton: {fileID: 0}
   populationCapacityText: {fileID: 4005694174074047973}
   employmentText: {fileID: 5554940750309484172}
   jobsOccupiedText: {fileID: 8491304591534687247}
@@ -10919,7 +10943,6 @@ MonoBehaviour:
   jobsOccupiedSlider: {fileID: 2342521492724105848}
   criminalsCoveredSlider: {fileID: 6067021656836171974}
   patientsCoveredSlider: {fileID: 1496322237522734751}
-  scientificProgressSlider: {fileID: 681352421}
   outlineColor: {r: 0.8931636, g: 0.0047169924, b: 1, a: 1}
 --- !u!114 &681313530
 MonoBehaviour:
@@ -17186,6 +17209,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Air Quality
       objectReference: {fileID: 0}
+    - target: {fileID: 1845885339596456856, guid: 316ba27195583cd4b9b4d1a582e38ad4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2193631329673816867, guid: 316ba27195583cd4b9b4d1a582e38ad4, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -17224,7 +17251,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3929427745887645735, guid: 316ba27195583cd4b9b4d1a582e38ad4, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -139.08998
+      value: -135.41249
       objectReference: {fileID: 0}
     - target: {fileID: 4196982313530667605, guid: 316ba27195583cd4b9b4d1a582e38ad4, type: 3}
       propertyPath: m_AnchorMax.x
@@ -17256,11 +17283,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7039508219924120183, guid: 316ba27195583cd4b9b4d1a582e38ad4, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -18.06
+      value: -21.7375
       objectReference: {fileID: 0}
     - target: {fileID: 7463520458797770700, guid: 316ba27195583cd4b9b4d1a582e38ad4, type: 3}
       propertyPath: m_Name
-      value: Carbon Monoxide
+      value: Carbon Dioxide
       objectReference: {fileID: 0}
     - target: {fileID: 7550131872257212052, guid: 316ba27195583cd4b9b4d1a582e38ad4, type: 3}
       propertyPath: m_Name
@@ -17288,7 +17315,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7824542501364120942, guid: 316ba27195583cd4b9b4d1a582e38ad4, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -109.66999
+      value: -98.637505
       objectReference: {fileID: 0}
     - target: {fileID: 8129955988996022586, guid: 316ba27195583cd4b9b4d1a582e38ad4, type: 3}
       propertyPath: m_AnchorMax.y
@@ -17304,7 +17331,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8129955988996022586, guid: 316ba27195583cd4b9b4d1a582e38ad4, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -80.24999
+      value: -61.862495
       objectReference: {fileID: 0}
     - target: {fileID: 8289330156474978902, guid: 316ba27195583cd4b9b4d1a582e38ad4, type: 3}
       propertyPath: m_Name
@@ -30458,6 +30485,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1674508419}
   m_CullTransparentMesh: 1
+--- !u!114 &1675075818 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2295640127388234832, guid: 316ba27195583cd4b9b4d1a582e38ad4, type: 3}
+  m_PrefabInstance: {fileID: 968643236}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1682411484
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -35848,7 +35886,6 @@ MonoBehaviour:
   currentMoney: 0
   populationCapacity: 0
   totalPopulation: 0
-  airPollution: 0
 --- !u!4 &1951506728
 Transform:
   m_ObjectHideFlags: 0
@@ -39178,6 +39215,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2145351767 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8505547074539770369, guid: 316ba27195583cd4b9b4d1a582e38ad4, type: 3}
+  m_PrefabInstance: {fileID: 968643236}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &333377727358063909
 CanvasRenderer:
   m_ObjectHideFlags: 0

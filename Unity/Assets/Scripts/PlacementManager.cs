@@ -443,9 +443,19 @@ public class PlacementManager : MonoBehaviour
         else if (_structureDictionary.ContainsKey(position))
             _structureDictionary[position].SwapModel(newModel, rotation);
     }
+
+    public float UpdateTotalArea()
+    {
+        float totalArea;
+        // Count each position in which there's present a structure cell by scanning the grid
+        List<Vector3Int?> positions = GetAllPositionOfTypeCellSatisfying(typeof(StructureCell));
+        totalArea = positions.Count;
+        return totalArea;
+    }
     public void ResetGrid()
     {
         placementGrid = new Grid(width, height);
         _structureDictionary.Clear();
     }
+    
 }

@@ -98,19 +98,12 @@ public class Person
     public Animator personAnimator;
     public Vector3? startingPosition;
     public int sex;
-    public int health;
-    public int education;
-    public int happiness;
-    public int money;
     public Vector3Int? jobPosition = null;
     public Vector3Int? housePosition = null;
     public float busyTime = 0;
     public bool isPersonFree = true;
     public Vector3Int? currentPosition = null;
-    public int crime;
-    public int fire;
-    public int entertainment;
-    public int transport;
+    
 }
 
 public class Cell
@@ -120,13 +113,15 @@ public class Cell
     private float _cost;
     private int _structureHeight;
     private int _structureWidth;
-    private float _carbonMonoxide;
+    private float _co2Production;
+    private float _airPollutionProduction;
     public Vector3Int Position { get; set; }
     public float Cost { get; set; }
     public float WasteProduction { get; set; }
     public int StructureHeight { get; set; }
     public int StructureWidth { get; set; }
-    public float CarbonMonoxideProduction { get; set; }
+    public float Co2Production { get; set; }
+    public float AirPollutionProduction { get; set; }
     public static (int _structureWidth, int _structureHeight, int cost) GetAttributesForBuildingType(BuildingType buildingType)
     {
         // Provide the width, height, and cost based on the building type
@@ -262,7 +257,7 @@ public class SanityCell : JobCell
             WasteProduction = 20;
             NumberOfEmployeesCapacity = 20;
             PatientCapacity = 50;
-            CarbonMonoxideProduction = 1;
+            Co2Production = 1;
         }
 
         if (buildingType == BuildingType.Hospital)
@@ -275,7 +270,7 @@ public class SanityCell : JobCell
             WasteProduction = 150;
             NumberOfEmployeesCapacity = 150;
             PatientCapacity = 500;
-            CarbonMonoxideProduction = 3;
+            Co2Production = 3;
             
         }
     }
@@ -291,15 +286,15 @@ public class WaterProductionCell : JobCell
         EmployeeList = new List<Person>();
         if (buildingType == BuildingType.WaterPlant)
         {
-            Cost = 100000;
-            MaintenanceCost = 500;
+            Cost = 50000;
+            MaintenanceCost = 200;
             IncomeGenerated = 0;
             Beauty = 0;
             EnergyConsumption = 100;
             WasteProduction = 50;
             NumberOfEmployeesCapacity = 10;
             WaterProduced = 1000;
-            CarbonMonoxideProduction = 0;
+            Co2Production = 0;
         }
     }
 }
@@ -328,7 +323,7 @@ public class ResidenceCell : StructureCell
             NumberOfResidentsCapacity = 4;
             IncomeGenerated = 100 * NumberOfResidentsCapacity;
             ComfortLevel = 0.1f;
-            CarbonMonoxideProduction = 0.1f;
+            Co2Production = 0.1f;
         }
 
         if (buildingType == BuildingType.HighDensityHouse)
@@ -342,7 +337,7 @@ public class ResidenceCell : StructureCell
             NumberOfResidentsCapacity = 40;
             IncomeGenerated = 100 * NumberOfResidentsCapacity;
             ComfortLevel = -0.5f;
-            CarbonMonoxideProduction = 0.5f;
+            Co2Production = 0.5f;
         }
 
     }
@@ -368,7 +363,7 @@ public class EnergyProductionCell : JobCell
             WasteProduction = 1;
             NumberOfEmployeesCapacity = 2;
             EnergyProduced = 1000;
-            CarbonMonoxideProduction = 0;
+            Co2Production = 0;
         }
 
         if (buildingType == BuildingType.WindTurbine)
@@ -381,7 +376,7 @@ public class EnergyProductionCell : JobCell
             WasteProduction = 1;
             NumberOfEmployeesCapacity = 2;
             EnergyProduced = 100;
-            CarbonMonoxideProduction = 0;
+            Co2Production = 0;
 
         }
 
@@ -395,7 +390,7 @@ public class EnergyProductionCell : JobCell
             WasteProduction = 20;
             NumberOfEmployeesCapacity = 10;
             EnergyProduced = 10000;
-            CarbonMonoxideProduction = 10;
+            Co2Production = 10;
 
         }
 
@@ -409,7 +404,7 @@ public class EnergyProductionCell : JobCell
             WasteProduction = 1;
             NumberOfEmployeesCapacity = 25;
             EnergyProduced = 50000;
-            CarbonMonoxideProduction = 0;
+            Co2Production = 0;
 
         }
     }

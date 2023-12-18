@@ -303,7 +303,7 @@ public class Research : MonoBehaviour
             if (structureCellPosition != null)
             {
                 StructureCell structureCell = (StructureCell) placementManager.GetCellAtPosition((Vector3Int) structureCellPosition);
-                structureCell.CarbonMonoxideProduction *= greenMaterialsModifier;
+                structureCell.Co2Production *= greenMaterialsModifier;
             }
         }
         greenMaterialsUnlocked = true;
@@ -429,7 +429,7 @@ public class Research : MonoBehaviour
             if (factoryPosition != null)
             {
                 IndustryCell factoryCell = (IndustryCell) placementManager.GetCellAtPosition((Vector3Int) factoryPosition);
-                factoryCell.CarbonMonoxideProduction *= factoryModifier;
+                factoryCell.Co2Production *= factoryModifier;
                 factoryCell.AirPollutionProduction *= factoryModifier;
                 
             }

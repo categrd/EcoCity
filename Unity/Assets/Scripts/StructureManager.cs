@@ -141,7 +141,7 @@ public class StructureManager : MonoBehaviour
                     break;
                 case BuildingType.Factory:
                     var factory = new IndustryCell(BuildingType.Factory);
-                    factory.CarbonMonoxideProduction *= research.FactoryModifier;
+                    factory.Co2Production *= research.FactoryModifier;
                     factory.AirPollutionProduction *= research.FactoryModifier;
                     factory.BuildingType = BuildingType.Factory;
                     _structure = factory;
@@ -219,7 +219,7 @@ public class StructureManager : MonoBehaviour
                     break;
             }
             _structure.WasteProduction *= research.WasteProductionModifier;
-            _structure.CarbonMonoxideProduction *= research.GreenMaterialsModifier;
+            _structure.Co2Production *= research.GreenMaterialsModifier;
             if(temporaryPlacementMode)
             {
                 placementManager.PlaceTemporaryStructureWithButton(position, _prefab, buildingType);
