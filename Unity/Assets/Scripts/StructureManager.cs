@@ -206,7 +206,7 @@ public class StructureManager : MonoBehaviour
                     _prefab = nuclearPlantPrefab;
                     break;
                 case BuildingType.WaterPlant:
-                    var waterPlant = new EnergyProductionCell(BuildingType.WaterPlant);
+                    var waterPlant = new WaterProductionCell(BuildingType.WaterPlant);
                     waterPlant.BuildingType = BuildingType.WaterPlant;
                     _structure = waterPlant;
                     _prefab = waterPlantPrefab;

@@ -201,10 +201,6 @@ public class GameManager : MonoBehaviour
         int structureRotation = 0;
         inputManager.OnMouseHover += (hoverPosition) =>
         {
-            if(inputManager.CheckPressingE())
-                structureRotation += 90;
-            if(inputManager.CheckPressingQ())
-                structureRotation -= 90;
             structureManager.PlaceStructure(hoverPosition, buildingType, structureRotation, true );
         };
         inputManager.OnMouseClick -= (hoverPosition) =>

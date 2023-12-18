@@ -168,6 +168,8 @@ public class Cell
                 return (2,2, 500000);
             case BuildingType.CarbonPowerPlant:
                 return(3,2,1000000);
+            case BuildingType.WaterPlant:
+                return (4, 2, 100000);
             
             
             // Add more cases for other building types
@@ -278,6 +280,28 @@ public class SanityCell : JobCell
         }
     }
 
+}
+
+public class WaterProductionCell : JobCell
+{
+    private float _waterProduced;
+    public float WaterProduced { get; set; }
+    public WaterProductionCell(BuildingType buildingType)
+    {
+        EmployeeList = new List<Person>();
+        if (buildingType == BuildingType.WaterPlant)
+        {
+            Cost = 100000;
+            MaintenanceCost = 500;
+            IncomeGenerated = 0;
+            Beauty = 0;
+            EnergyConsumption = 100;
+            WasteProduction = 50;
+            NumberOfEmployeesCapacity = 10;
+            WaterProduced = 1000;
+            CarbonMonoxideProduction = 0;
+        }
+    }
 }
 
 public class ResidenceCell : StructureCell
