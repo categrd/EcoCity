@@ -142,6 +142,7 @@ public class GameState : MonoBehaviour
         {
             UpdateGameVariables();
             HandleLooseConditions();
+            Debug.Log("air pollution: " + airPollution);
             HandleWinConditions();
             _time = 0;
         }
@@ -308,7 +309,7 @@ public class GameState : MonoBehaviour
         // and substract it by a constant
         if(_totalArea != 0)
         {
-            _co2Emissions += _co2Produced / _totalArea - 0.001f * _totalArea;
+            _co2Emissions += _co2Produced / _totalArea - 0.01f * _totalArea;
         }
         // limit it to a range: min = 0, max = 100
         if (_co2Emissions < 0)
@@ -716,8 +717,8 @@ public class GameState : MonoBehaviour
         _totalMeatConsumed = 0;
         _totalWasteProduced = 0;
         _totalWasteDisposed = 0;
-        _co2Emissions = 100f;
-        airPollution = 100f;
+        _co2Emissions = 0f;
+        airPollution = 0f;
         _temperature = 20f;
         _acidRainModifier = 1f;
         _smokeModifier = 1f;

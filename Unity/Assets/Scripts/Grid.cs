@@ -212,7 +212,7 @@ public class StructureCell : Cell
     private int _numberOfEmployeesCapacity;
     private List<Person> _employeeList;
     
-    private float _airPollutionProduction;
+    
     
 
 
@@ -230,7 +230,6 @@ public class StructureCell : Cell
     public int NumberOfEmployeesCapacity { get; set; }
     public List<Person> EmployeeList { get; set; }
     
-    public float AirPollutionProduction { get; set; }
 
 }
 
