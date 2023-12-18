@@ -18,6 +18,12 @@ public class GameState : MonoBehaviour
     public PlacementManager placementManager;
     public PopulationManager populationManager;
     public TransportManager transportManager;
+    private float _temperature;
+    public float Temperature
+    {
+        get => _temperature;
+        set => _temperature = value;
+    }
     public float currentMoney;
     private int _totalIncome;
     private int _totalCosts;    
@@ -48,18 +54,41 @@ public class GameState : MonoBehaviour
     private float _totalMeatProduced;
     private int _totalMeatConsumed;
     
+    private float _acidRainModifier = 1f;
+    // set acid rain modifier method
+    public float AcidRainModifier
+    {
+        get => _acidRainModifier;
+        set => _acidRainModifier = value;
+    }
+    private float _smokeModifier = 1f;
+    // set smoke modifier method
+    public float SmokeModifier
+    {
+        get => _smokeModifier;
+        set => _smokeModifier = value;
+    }
+    
+    
+    
     private int _totalCriminalsCovered;
     private int _totalFiresCovered;
 
     private int _totalNumberOfJobs;
     private int _totalUnemployed;
     private int _totalEmployed;
+    private float _health;
 
     private bool[] scientificProgress;
 
     
     private float _time;
-    public float co2Emissions;
+    private float _co2Emissions;
+    public float Co2Emissions
+    {
+        get => _co2Emissions;
+        set => _co2Emissions = value;
+    }
     public float airPollution;
 
     private void Start()
@@ -70,9 +99,10 @@ public class GameState : MonoBehaviour
         _totalNumberOfJobs= 0;
         scientificProgress = new bool[20];
         //try high value of co2 emissions for testing
-        co2Emissions = 100f;
+        _co2Emissions = 100f;
         // try high value of air pollution for testing
         airPollution = 100f;
+        _temperature = 20f;
     }
 
     private void Update()
@@ -134,13 +164,17 @@ public class GameState : MonoBehaviour
     private void UpdateGameVariables()
     {
         UpdateTotalPopulation();
+        UpdatePopulationHealth();
         UpdateEmployment();
+        UpdateTemperature();
+        UpdateAcidRainModifier();
         UpdateStructuresOnFire();
         populationManager.FindJob();
         currentMoney += GetEarnings();
         populationManager.HandlePeopleMovement();
         
     }
+    
     private void UpdateStructuresOnFire()
     {
         foreach (var structureCell in structuresOnFire)
@@ -162,6 +196,56 @@ public class GameState : MonoBehaviour
             Destroy(structureCell.FirePrefab);
             placementManager.DestroyGameObjectAt(structureCell.Position);
             structuresOnFire.Remove(structureCell);
+        }
+    }
+    private void UpdatePopulationHealth()
+    {
+        //take into account the temperature and the smog modifier and sum by a constant
+        _health = 100 - (_temperature - 20) * 0.5f - airPollution * 0.1f + 0.5f;
+        if (_health < 10)
+        {
+            _health = 10;
+        }
+        else if (_health > 100)
+        {
+            _health = 100;
+        }
+    }
+    private void UpdateAirPollution()
+    {
+        //TODO: update air pollution based also on smog modifier
+    }
+
+    private void UpdateCo2Emissions()
+    {
+        
+    }
+
+    private void UpdateTemperature()
+    {
+        // update temperature based on co2 emissions, increase it by a fraction of the co2 emissions and decrease it by a constant
+        _temperature += _co2Emissions * 0.0001f - 0.01f;
+        // limit the temperature range
+        if (_temperature < 15)
+        {
+            _temperature = 15;
+        }
+        else if (_temperature > 40)
+        {
+            _temperature = 40;
+        }
+    }
+    private void UpdateAcidRainModifier()
+    {
+        _acidRainModifier -= 0.0001f;
+        // limit the acid rain modifier range
+        if (_acidRainModifier < 0f)
+        {
+            _acidRainModifier = 0f;
+        }
+        else if (_acidRainModifier > 0.9f)
+        {
+            _acidRainModifier = 0.9f;
         }
     }
     
@@ -236,10 +320,10 @@ public class GameState : MonoBehaviour
     public float GetVegetablesDemandSatisfactionRatio()
     {
         var totalVegetablesDemanded = totalPopulation * 10 / 100;
-        if(_totalVegetablesProduced > totalVegetablesDemanded)
+        if(_totalVegetablesProduced * (1-_acidRainModifier) > totalVegetablesDemanded)
             return 1;
         if(totalVegetablesDemanded!=0)
-            return (float) _totalVegetablesProduced / totalVegetablesDemanded;
+            return (float) _totalVegetablesProduced * (1-_acidRainModifier)/ totalVegetablesDemanded;
         return 0;
     }
     public float GetMeatDemandSatisfactionRatio()
@@ -253,8 +337,8 @@ public class GameState : MonoBehaviour
     }
     private float GetEarnings()
     {
-        return _totalIncome  * GetJobsOccupiedRatio() - _totalCosts + (_totalGoodsProduced - _totalGoodsConsumed) * 10 + 
-               (_totalVegetablesProduced - _totalVegetablesConsumed) * 10 + (_totalMeatProduced - _totalMeatConsumed) * 10
+        return _totalIncome  * GetJobsOccupiedRatio() - _totalCosts *  + (_totalGoodsProduced - _totalGoodsConsumed) * 10 + 
+               (_totalVegetablesProduced * Mathf.Pow(1 - _acidRainModifier, 0.25f) - _totalVegetablesConsumed) * 10 + (_totalMeatProduced - _totalMeatConsumed) * 10
                + _totalEnergyProduced - _totalEnergyConsumed;
     }
     public float GetJobsOccupiedRatio()
@@ -275,12 +359,17 @@ public class GameState : MonoBehaviour
 
     public float GetPatientsCoveredRatio()
     {
-       int numberOfPatients = totalPopulation * 15 / 100;
+       int numberOfPatients = GetNumberOfPatients();
        if (numberOfPatients == 0)
            return 0;
        if(numberOfPatients <= _totalPatientsCovered)
            return 1;
        return _totalPatientsCovered/ numberOfPatients;
+    }
+    private int GetNumberOfPatients()
+    {
+        // number of patient is a percentage of the population and is affected by the health of the population
+        return (int) Math.Ceiling(totalPopulation * _health * 0.01f);
     }
     
     public void UpdateGameVariablesWhenDestroying(Vector3Int position)

@@ -120,11 +120,13 @@ public class Cell
     private float _cost;
     private int _structureHeight;
     private int _structureWidth;
+    private float _carbonMonoxide;
     public Vector3Int Position { get; set; }
     public float Cost { get; set; }
     public float WasteProduction { get; set; }
     public int StructureHeight { get; set; }
     public int StructureWidth { get; set; }
+    public float CarbonMonoxideProduction { get; set; }
     public static (int _structureWidth, int _structureHeight, int cost) GetAttributesForBuildingType(BuildingType buildingType)
     {
         // Provide the width, height, and cost based on the building type
@@ -212,7 +214,8 @@ public class StructureCell : Cell
     
     private int _numberOfEmployeesCapacity;
     private List<Person> _employeeList;
-    private float _carbonMonoxide;
+    
+    private float _airPollutionProduction;
     
 
 
@@ -229,7 +232,8 @@ public class StructureCell : Cell
     
     public int NumberOfEmployeesCapacity { get; set; }
     public List<Person> EmployeeList { get; set; }
-    public float CarbonMonoxideProduction { get; set; }
+    
+    public float AirPollutionProduction { get; set; }
 
 }
 
@@ -444,12 +448,8 @@ public class EntertainmentCell : JobCell
             WasteProduction = 3;
             NumberOfEmployeesCapacity = 6;
             CostumersCapacity = 40;
-
         }
-        
     }
-    
-    
 }
 
 public class PublicServiceCell : JobCell
@@ -514,7 +514,7 @@ public class IndustryCell : JobCell
         {
             Cost = 1000000;
             MaintenanceCost = 0;
-            IncomeGenerated = 4000;
+            IncomeGenerated = 0;
             Beauty = -1f;
             EnergyConsumption = 300;
             WasteProduction = 30;
@@ -531,7 +531,7 @@ public class IndustryCell : JobCell
             StructureHeight = 2;
             Cost = 300000;
             MaintenanceCost = 0;
-            IncomeGenerated = 1500;
+            IncomeGenerated = 0;
             Beauty = 0.1f;
             EnergyConsumption = 50;
             WasteProduction = 10;
@@ -545,7 +545,7 @@ public class IndustryCell : JobCell
         {
             Cost = 350000;
             MaintenanceCost = 0;
-            IncomeGenerated = 1500;
+            IncomeGenerated = 0;
             Beauty = 0.2f;
             EnergyConsumption = 60;
             WasteProduction = 15;

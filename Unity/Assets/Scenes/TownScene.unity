@@ -1281,7 +1281,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &72797278
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4930,7 +4930,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 0.990566, g: 0.990566, b: 0.990566, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -8139,6 +8139,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placementManager: {fileID: 540532163}
+  naturalDisasters: {fileID: 1004649341}
+  gameState: {fileID: 1951506727}
+  WindEnergyButton: {fileID: 308347468}
+  SolarEnergyButton: {fileID: 2039416706}
+  GreenMaterialsButton: {fileID: 933398309}
+  ReduceWasteButton: {fileID: 2122427961}
+  ReduceCostButton: {fileID: 1448033417}
+  SmogEventButton: {fileID: 1995822188}
+  HeatwaveEventButton: {fileID: 661974820}
+  AcidRainEventButton: {fileID: 1914485949}
+  FactorButton: {fileID: 1181903698}
+  CropButton: {fileID: 342989}
+  LivestockButton: {fileID: 853463235}
+  SpeedResearchButton: {fileID: 116034434}
+  UnlockResearchButton: {fileID: 890176956}
+  AdvanceCaptureCO2Button: {fileID: 589453650}
+  GeoengineeringSolutionsButton: {fileID: 414530251}
   RenewableEnergyPanel: {fileID: 1455235184}
   GreenConstructionPanel: {fileID: 363220700}
   NaturalDisastersPanel: {fileID: 239204283}
@@ -8146,7 +8163,7 @@ MonoBehaviour:
   AdvancedResearchPanel: {fileID: 72797277}
   ResearchEfficiencyPanel: {fileID: 1623006939}
   TimeText: {fileID: 1090514537}
-  TimeSlider: {fileID: 681352419}
+  TimeSlider: {fileID: 681352421}
 --- !u!1001 &536697052
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9837,7 +9854,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &660706059
 RectTransform:
   m_ObjectHideFlags: 0
@@ -35021,7 +35038,6 @@ MonoBehaviour:
   currentMoney: 0
   populationCapacity: 0
   totalPopulation: 0
-  co2Emissions: 0
   airPollution: 0
 --- !u!4 &1951506728
 Transform:

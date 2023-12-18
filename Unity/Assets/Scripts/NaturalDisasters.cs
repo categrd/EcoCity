@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-public class HeatwaveManager : MonoBehaviour
+public class NaturalDisasters : MonoBehaviour
 {
     public GameState gameState;
     public PlacementManager placementManager;
@@ -25,6 +25,25 @@ public class HeatwaveManager : MonoBehaviour
     private float _smogTime;
     private float smogProbability = 0.02f; // Initial low probability
     private bool isSmogActive = false;
+    private float researchSmogModifier = 1.0f;
+    
+    public float ResearchSmogModifier
+    {
+        get => researchSmogModifier;
+        set => researchSmogModifier = value;
+    }
+    private float researchAcidRainModifier = 1.0f;
+    public float ResearchAcidRainModifier
+    {
+        get => researchAcidRainModifier;
+        set => researchAcidRainModifier = value;
+    }
+    private float researchHeatwaveModifier = 1.0f;
+    public float ResearchHeatwaveModifier
+    {
+        get => researchHeatwaveModifier;
+        set => researchHeatwaveModifier = value;
+    }
     
     private void Update()
     {
@@ -42,7 +61,7 @@ public class HeatwaveManager : MonoBehaviour
                 isHeatwaveActive = true;
                 _time = 0;
             }
-            /*
+            
             // Check if a acidRain should occur based on probability
             if (Random.value < acidRainProbability && !isHeatwaveActive && !isAcidRainActive && !isSmogActive)
             {
@@ -58,7 +77,7 @@ public class HeatwaveManager : MonoBehaviour
                 isSmogActive = true;
                 _time = 0;
             }
-            */
+            
 
         }
         else _time += Time.deltaTime;
@@ -89,7 +108,7 @@ public class HeatwaveManager : MonoBehaviour
         _time += Time.deltaTime;
         _fireTime += Time.deltaTime;
         // Start a fire at a random structure position every 5 seconds
-        if (_fireTime >= 10f)
+        if (_fireTime >= 10f * (1-researchHeatwaveModifier))
         {
             Vector3Int? randomPosition = placementManager.GetRandomPositionOfTypeCellSatisfying(typeof(StructureCell),
                 (cell) => placementManager.IsStructureCellNotOnFire(cell));
@@ -106,6 +125,8 @@ public class HeatwaveManager : MonoBehaviour
             }
             _fireTime = 0;
         }
+        // increase temperature
+        gameState.Temperature += 0.1f * researchHeatwaveModifier*Time.deltaTime;
 
         // Check if the heatwave need to be stopped
         if (_time >= 60f)
@@ -134,7 +155,7 @@ public class HeatwaveManager : MonoBehaviour
     private void HandleHeatwaveProbability()
     {
         // Probability depends on current C02 emissions with a exponential function
-        heatwaveProbability = Mathf.Pow(gameState.co2Emissions, 2) / 1000000;
+        heatwaveProbability = Mathf.Pow(gameState.Co2Emissions, 2) / 1000000;
     }
 
     // Start is called before the first frame update
@@ -177,6 +198,8 @@ public class HeatwaveManager : MonoBehaviour
             _acidRainTime = 0;
             isAcidRainActive = false;
         }
+        // apply consequences of acid rain
+        gameState.AcidRainModifier += 0.01f * gameState.airPollution * researchAcidRainModifier * Time.deltaTime;
         
     }
     private void StopAcidRain()
@@ -203,7 +226,8 @@ public class HeatwaveManager : MonoBehaviour
             _smogTime = 0;
             isSmogActive = false;
         }
-        
+        // apply consequences of smog
+        gameState.SmokeModifier += 0.01f * gameState.airPollution * researchSmogModifier * Time.deltaTime;
     }
     private void StopSmog()
     {

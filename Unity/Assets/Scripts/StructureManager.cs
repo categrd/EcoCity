@@ -141,18 +141,22 @@ public class StructureManager : MonoBehaviour
                     break;
                 case BuildingType.Factory:
                     var factory = new IndustryCell(BuildingType.Factory);
+                    factory.CarbonMonoxideProduction *= research.FactoryModifier;
+                    factory.AirPollutionProduction *= research.FactoryModifier;
                     factory.BuildingType = BuildingType.Factory;
                     _structure = factory;
                     _prefab = factoryPrefab;
                     break;
                 case BuildingType.Crop:
                     var crop = new IndustryCell(BuildingType.Crop);
+                    crop.VegetablesProduced *= research.VegetableModifier;
                     crop.BuildingType = BuildingType.Crop;
                     _structure = crop;
                     _prefab = cropPrefab;
                     break;
                 case BuildingType.Livestock:
                     var livestock = new IndustryCell(BuildingType.Livestock);
+                    livestock.MeatProduced *= research.MeatModifier;
                     livestock.BuildingType = BuildingType.Livestock;
                     _structure = livestock;
                     _prefab = livestockPrefab;
@@ -215,6 +219,7 @@ public class StructureManager : MonoBehaviour
                     break;
             }
             _structure.WasteProduction *= research.WasteProductionModifier;
+            _structure.CarbonMonoxideProduction *= research.GreenMaterialsModifier;
             if(temporaryPlacementMode)
             {
                 placementManager.PlaceTemporaryStructureWithButton(position, _prefab, buildingType);

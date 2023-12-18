@@ -2,19 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Button = UnityEngine.UIElements.Button;
-using Slider = UnityEngine.UIElements.Slider;
+
 
 public class Research : MonoBehaviour
 {
     public PlacementManager placementManager;
-    
+    public NaturalDisasters naturalDisasters;
+    public GameState gameState;
+    /*
     public Button RenewableEnergyButton;
     public Button GreenConstructionButton;
     public Button NaturalDisastersButton;
     public Button IndustryButton;
     public Button AdvancedResearchButton;
     public Button ResearchEfficiencyButton;
+    */
+    public Button WindEnergyButton;
+    public Button SolarEnergyButton;
+    public Button GreenMaterialsButton;
+    public Button ReduceWasteButton;
+    public Button ReduceCostButton;
+    public Button SmogEventButton;
+    public Button HeatwaveEventButton;
+    public Button AcidRainEventButton;
+    public Button FactorButton;
+    public Button CropButton;
+    public Button LivestockButton;
+    public Button SpeedResearchButton;
+    public Button UnlockResearchButton;
+    public Button AdvanceCaptureCO2Button;
+    public Button GeoengineeringSolutionsButton;
+    
     
     public GameObject RenewableEnergyPanel;
     public GameObject GreenConstructionPanel;
@@ -25,7 +43,24 @@ public class Research : MonoBehaviour
 
     
     public Text TimeText;
-    public GameObject TimeSlider;
+    public Slider TimeSlider;
+    
+    private bool windEnergyUnlocked = false;
+    private bool solarEnergyUnlocked = false;
+    private bool greenMaterialsUnlocked = false;
+    private bool reduceWasteUnlocked = false;
+    private bool reduceCostUnlocked = false;
+    private bool smogEventUnlocked = false;
+    private bool heatwaveEventUnlocked = false;
+    private bool acidRainEventUnlocked = false;
+    private bool factorUnlocked = false;
+    private bool cropUnlocked = false;
+    private bool livestockUnlocked = false;
+    private bool speedResearchUnlocked = false;
+    private bool unlockResearchUnlocked = false;
+    private bool advanceCaptureCO2Unlocked = false;
+    private bool geoengineeringSolutionsUnlocked = false;
+    
     
     
     
@@ -35,11 +70,16 @@ public class Research : MonoBehaviour
     public float SolarPanelModifier => solarPanelModifier;
     private float wasteProductionModifier = 1.0f;
     public float WasteProductionModifier => wasteProductionModifier;
+    
+    private float factoryModifier = 1.0f;
+    public float FactoryModifier => factoryModifier;
     private float vegetableModifier = 1.0f;
     public float VegetableModifier => vegetableModifier;
     private float meatModifier = 1.0f;
     public float MeatModifier => meatModifier;
-        
+    private float greenMaterialsModifier = 1.0f;
+    public float GreenMaterialsModifier => greenMaterialsModifier;
+    
     private float costModifier = 1.0f;
     public float CostModifier => costModifier;
     private float speedUpModifier = 1.0f;
@@ -135,7 +175,6 @@ public class Research : MonoBehaviour
         DeactivatePanel(AdvancedResearchPanel);
     }
     
-    
     private void ActivatePanel(GameObject panel)
     {
         if (panel != null)
@@ -153,13 +192,14 @@ public class Research : MonoBehaviour
     }
     public void OnClickWindEnergyButton()
     {
-        if(currentlyResearching)
+        if(currentlyResearching || windEnergyUnlocked)
             return;
         float windResearchTime = 30.0f;
         timeOfCurrentResearch = windResearchTime;
         
         Invoke(nameof(OnFinishWindEnergyResearch), windResearchTime);
         currentlyResearching = true;
+        ChangeColourOfButton(WindEnergyButton, windResearchTime * speedUpModifier);
         
     }
     private void OnFinishWindEnergyResearch()
@@ -176,15 +216,18 @@ public class Research : MonoBehaviour
                 windTurbineCell.EnergyProduced *= windTurbineModifier;
             }
         }
+        windEnergyUnlocked = true;
     }
     public void OnClickSolarEnergyButton()
     {
-        if(currentlyResearching)
+        if(currentlyResearching || solarEnergyUnlocked)
             return;
         float solarResearchTime = 30.0f;
         timeOfCurrentResearch = solarResearchTime;
         Invoke(nameof(OnFinishSolarEnergyResearch), solarResearchTime * speedUpModifier );
         currentlyResearching = true;
+        ChangeColourOfButton(SolarEnergyButton, solarResearchTime * speedUpModifier);
+        
     }
     private void OnFinishSolarEnergyResearch()
     {
@@ -200,28 +243,41 @@ public class Research : MonoBehaviour
                 solarPanelCell.EnergyProduced *= solarPanelModifier;
             }
         }
+        solarEnergyUnlocked = true;
     }
     public void OnClickGreenMaterialsButton()
     {
-        if(currentlyResearching)
+        if(currentlyResearching || greenMaterialsUnlocked)
             return;
         float greenMaterialsResearchTime = 30.0f;
         timeOfCurrentResearch = greenMaterialsResearchTime;
         Invoke(nameof(OnFinishGreenMaterialsResearch), greenMaterialsResearchTime * speedUpModifier);
         currentlyResearching = true;
+        ChangeColourOfButton(GreenMaterialsButton, greenMaterialsResearchTime * speedUpModifier);
     }
     private void OnFinishGreenMaterialsResearch()
     {
-        
+        greenMaterialsModifier = 0.9f;
+        List<Vector3Int?> structureCellPositions = placementManager.GetAllPositionOfTypeCellSatisfying(typeof(StructureCell));
+        foreach (Vector3Int? structureCellPosition in structureCellPositions)
+        {
+            if (structureCellPosition != null)
+            {
+                StructureCell structureCell = (StructureCell) placementManager.GetCellAtPosition((Vector3Int) structureCellPosition);
+                structureCell.CarbonMonoxideProduction *= greenMaterialsModifier;
+            }
+        }
+        greenMaterialsUnlocked = true;
     }
     public void OnClickReduceWasteButton()
     {
-        if(currentlyResearching)
+        if(currentlyResearching || reduceWasteUnlocked)
             return;
         float reduceWasteResearchTime = 30.0f;
         timeOfCurrentResearch = reduceWasteResearchTime;
         Invoke(nameof(OnFinishReduceWasteResearch), reduceWasteResearchTime * speedUpModifier);
         currentlyResearching = true;
+        ChangeColourOfButton(ReduceWasteButton, reduceWasteResearchTime * speedUpModifier);
         
     }
     private void OnFinishReduceWasteResearch()
@@ -236,15 +292,17 @@ public class Research : MonoBehaviour
                 structureCell.WasteProduction *= wasteProductionModifier;
             }
         }
+        reduceWasteUnlocked = true;
     }
     public void OnClickReduceCostButton()
     {
-        if(currentlyResearching)
+        if(currentlyResearching || reduceCostUnlocked)
             return;
         float reduceCostResearchTime = 30.0f;
         timeOfCurrentResearch = reduceCostResearchTime;
         Invoke(nameof(OnFinishReduceCostResearch), reduceCostResearchTime * speedUpModifier);
         currentlyResearching = true;
+        ChangeColourOfButton(ReduceCostButton, reduceCostResearchTime * speedUpModifier);
         
     }
     private void OnFinishReduceCostResearch()
@@ -259,71 +317,95 @@ public class Research : MonoBehaviour
                 structureCell.Cost *= costModifier;
             }
         }
+        reduceCostUnlocked = true;
     }
     public void OnSmogEventButton()
     {
-        if(currentlyResearching)
+        if(currentlyResearching || smogEventUnlocked)
             return;
         float smogEventTime = 30.0f;
         timeOfCurrentResearch = smogEventTime;
         Invoke(nameof(OnFinishSmogEvent), smogEventTime * speedUpModifier);
         currentlyResearching = true;
+        ChangeColourOfButton(SmogEventButton, smogEventTime * speedUpModifier);
         
     }
     private void OnFinishSmogEvent()
     {
-        
+        naturalDisasters.ResearchSmogModifier = 0.5f;
+        smogEventUnlocked = true;
     }
     public void OnHeatwaveEventButton()
     {
-        if(currentlyResearching)
+        if(currentlyResearching || heatwaveEventUnlocked)
             return;
         float heatwaveEventTime = 30.0f;
         timeOfCurrentResearch = heatwaveEventTime;
         Invoke(nameof(OnFinishHeatwaveEvent), heatwaveEventTime * speedUpModifier);
         currentlyResearching = true;
+        ChangeColourOfButton(HeatwaveEventButton, heatwaveEventTime * speedUpModifier);
         
     }
     private void OnFinishHeatwaveEvent()
     {
-        
+        naturalDisasters.ResearchHeatwaveModifier = 0.5f;
+        heatwaveEventUnlocked = true;
     }
     public void OnAcidRainEventButton()
     {
-        if(currentlyResearching)
+        if(currentlyResearching || acidRainEventUnlocked)
             return;
         float acidRainEventTime = 30.0f;
         timeOfCurrentResearch = acidRainEventTime;
         Invoke(nameof(OnFinishAcidRainEvent), acidRainEventTime * speedUpModifier);
         currentlyResearching = true;
+        ChangeColourOfButton(AcidRainEventButton, acidRainEventTime * speedUpModifier);
         
     }
     private void OnFinishAcidRainEvent()
     {
+        acidRainEventUnlocked = true;
+        naturalDisasters.ResearchAcidRainModifier = 0.5f;
         
     }
     public void OnClickFactorButton()
     {
-        if(currentlyResearching)
+        if(currentlyResearching || factorUnlocked)
             return;
         float factorResearchTime = 30.0f;
         timeOfCurrentResearch = factorResearchTime;
         Invoke(nameof(OnFinishFactorResearch), factorResearchTime * speedUpModifier);
         currentlyResearching = true;
+        ChangeColourOfButton(FactorButton, factorResearchTime * speedUpModifier);
         
     }
     private void OnFinishFactorResearch()
     {
-        
+        factoryModifier = 0.5f;
+        List<Vector3Int?> factoryPositions = placementManager.GetAllPositionOfTypeCellSatisfying(
+            typeof(IndustryCell),
+            (cell) => placementManager.CheckIfCellIsOfBuildingType(cell, BuildingType.Factory));
+        foreach (Vector3Int? factoryPosition in factoryPositions)
+        {
+            if (factoryPosition != null)
+            {
+                IndustryCell factoryCell = (IndustryCell) placementManager.GetCellAtPosition((Vector3Int) factoryPosition);
+                factoryCell.CarbonMonoxideProduction *= factoryModifier;
+                factoryCell.AirPollutionProduction *= factoryModifier;
+                
+            }
+        }
+        factorUnlocked = true;
     }
     public void OnClickCropButton()
     {
-        if(currentlyResearching)
+        if(currentlyResearching || cropUnlocked)
             return;
         float cropResearchTime = 30.0f;
         timeOfCurrentResearch = cropResearchTime;
         Invoke(nameof(OnFinishCropResearch), cropResearchTime * speedUpModifier);
         currentlyResearching = true;
+        ChangeColourOfButton(CropButton, cropResearchTime * speedUpModifier);
         
     }
     private void OnFinishCropResearch()
@@ -340,17 +422,18 @@ public class Research : MonoBehaviour
                 cropCell.VegetablesProduced *= vegetableModifier;
             }
         }
-        
+        cropUnlocked = true;
         
     }
     public void OnClickLivestockButton()
     {
-        if(currentlyResearching)
+        if(currentlyResearching || livestockUnlocked)
             return;
         float livestockResearchTime = 30.0f;
         timeOfCurrentResearch = livestockResearchTime;
         Invoke(nameof(OnFinishLivestockResearch), livestockResearchTime * speedUpModifier);
         currentlyResearching = true;
+        ChangeColourOfButton(LivestockButton, livestockResearchTime * speedUpModifier);
     }
     private void OnFinishLivestockResearch()
     {
@@ -366,64 +449,104 @@ public class Research : MonoBehaviour
                 livestockCell.MeatProduced *= meatModifier;
             }
         }
+        livestockUnlocked = true;
         
     }
     public void OnSpeedResearchButton()
     {
-        if(currentlyResearching)
+        if(currentlyResearching || speedResearchUnlocked)
             return;
         float onSpeedResearchTime = 30f;
         timeOfCurrentResearch = onSpeedResearchTime;
         Invoke(nameof(OnFinishSpeedResearch), onSpeedResearchTime * speedUpModifier);
         currentlyResearching = true;
+        ChangeColourOfButton(SpeedResearchButton, onSpeedResearchTime * speedUpModifier);
         
     }
     private void OnFinishSpeedResearch()
     {
         speedUpModifier = 0.75f;
-        
+        speedResearchUnlocked = true;
     }
     public void OnUnlockResearchButton()
     {
-        if(currentlyResearching)
+        if(currentlyResearching || unlockResearchUnlocked)
             return;
         float onUnlockResearchTime = 30f;
         timeOfCurrentResearch = onUnlockResearchTime;
         Invoke(nameof(OnFinishUnlockResearch), onUnlockResearchTime * speedUpModifier);
         currentlyResearching = true;
+        ChangeColourOfButton(UnlockResearchButton, onUnlockResearchTime * speedUpModifier);
         
     }
     private void OnFinishUnlockResearch()
     {
         advancedResearchUnlocked = true;
+        unlockResearchUnlocked = true;
     }
     public void OnAdvanceCaptureCO2Button()
     {
-        if(currentlyResearching || !advancedResearchUnlocked)
+        if(currentlyResearching || !advancedResearchUnlocked || advanceCaptureCO2Unlocked)
             return;
         float onAdvanceCaptureCO2Time = 30f;
         timeOfCurrentResearch = onAdvanceCaptureCO2Time;
         Invoke(nameof(OnFinishAdvanceCaptureCO2), onAdvanceCaptureCO2Time * speedUpModifier);
         currentlyResearching = true;
+        ChangeColourOfButton(AdvanceCaptureCO2Button, onAdvanceCaptureCO2Time * speedUpModifier);
     }
     private void OnFinishAdvanceCaptureCO2()
     {
-        
+        advanceCaptureCO2Unlocked = true;
+        // reduce co2 by percentage of it
+        gameState.Co2Emissions -= gameState.Co2Emissions * 0.2f;
     }
     public void OnGeoengineeringSolutionsButton()
     {
-        if(currentlyResearching || !advancedResearchUnlocked)
+        if(currentlyResearching || !advancedResearchUnlocked || geoengineeringSolutionsUnlocked)
             return;
         float onGeoengineeringSolutionsTime = 30f;
         timeOfCurrentResearch = onGeoengineeringSolutionsTime;
         Invoke(nameof(OnFinishGeoengineeringSolutions), onGeoengineeringSolutionsTime * speedUpModifier);
         currentlyResearching = true;
+        ChangeColourOfButton(GeoengineeringSolutionsButton, onGeoengineeringSolutionsTime * speedUpModifier);
         
     }
     private void OnFinishGeoengineeringSolutions()
     {
-        
+        geoengineeringSolutionsUnlocked = true;
+        // reduce temperature by percentage of it
+        gameState.Temperature -= gameState.Temperature * 0.2f;
     }
+    private void ChangeColourOfButton(Button button, float time)
+    {
+        ColorBlock colorBlock = button.colors;
+
+        // Set both normalColor and highlightedColor to yellow
+        colorBlock.normalColor = Color.yellow;
+        colorBlock.highlightedColor = Color.yellow;
+
+        button.colors = colorBlock;
+
+        // Use coroutine to change color of button to green after a certain amount of time
+        StartCoroutine(ChangeColorOfButtonCoroutine(button, time));
+    }
+
+    private IEnumerator ChangeColorOfButtonCoroutine(Button button, float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        ColorBlock colorBlock = button.colors;
+
+        // Set both normalColor and highlightedColor to green
+        colorBlock.normalColor = Color.green;
+        colorBlock.highlightedColor = Color.green;
+
+        button.colors = colorBlock;
+    }
+
+
+
+    
 }
 
     
