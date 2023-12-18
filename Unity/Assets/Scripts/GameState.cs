@@ -12,7 +12,7 @@ using Random = System.Random;
 
 public class GameState : MonoBehaviour
 {
-
+    public MainMenuManager mainMenuManager;
     public List<StructureCell> structuresOnFire = new List<StructureCell>();
     public List<StructureCell> structuresOnFireToDestroy = new List<StructureCell>();
     public PlacementManager placementManager;
@@ -90,7 +90,7 @@ public class GameState : MonoBehaviour
     private int _totalEmployed;
     private float _health;
 
-    
+    private float clusterModifierGameState;
 
     private float _timeWithNegativeMoney = 0f;
     private float _time;
@@ -132,6 +132,12 @@ public class GameState : MonoBehaviour
         airPollution = 0f;
         _temperature = 20f;
         _totalArea = 0f;
+        if(mainMenuManager.GetCluster() == 0)
+            clusterModifierGameState = 1f;
+        if(mainMenuManager.GetCluster() == 1)
+            clusterModifierGameState = 1.3f;
+        if(mainMenuManager.GetCluster() == 2)
+            clusterModifierGameState = 1.15f;
     }
 
     private void Update()
@@ -147,7 +153,6 @@ public class GameState : MonoBehaviour
         }
         UpdateFire();
         _totalArea = placementManager.UpdateTotalArea();
-
     }
     
     private void HandleLooseConditions()
@@ -284,7 +289,7 @@ public class GameState : MonoBehaviour
         // and substract it by a constant
         if(_totalArea != 0)
         {
-            airPollution += airPollutionProduced / _totalArea - 0.01f * _totalArea;
+            airPollution += (airPollutionProduced / _totalArea)*clusterModifierGameState - 0.01f * _totalArea;
         }
         // limit it to a range: min = 0, max = 100
         if (airPollution < 0)
@@ -308,7 +313,7 @@ public class GameState : MonoBehaviour
         // and substract it by a constant
         if(_totalArea != 0)
         {
-            _co2Emissions += _co2Produced / _totalArea - 0.01f * _totalArea;
+            _co2Emissions += (_co2Produced / _totalArea) * clusterModifierGameState - 0.01f * _totalArea;
         }
         // limit it to a range: min = 0, max = 100
         if (_co2Emissions < 0)
