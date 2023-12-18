@@ -56,8 +56,8 @@ public class GameState : MonoBehaviour
     
     private float _totalVegetablesProduced;
     private int _totalVegetablesConsumed;
-    private float _totalMeatProduced;
-    private int _totalMeatConsumed;
+    
+    
     
     private float _acidRainModifier = 1f;
     // set acid rain modifier method
@@ -409,7 +409,7 @@ public class GameState : MonoBehaviour
     { 
         var employmentWeight = 6f;
         var beautyWeight = 0.5f;
-        return (_totalResidenceComfort + (GetCriminalsCoveredRatio() - 0.1f)+ (GetPatientsCoveredRatio() - 0.1f) + GetGoodsDemandSatisfactionRatio() + GetMeatDemandSatisfactionRatio()
+        return (_totalResidenceComfort + (GetCriminalsCoveredRatio() - 0.1f)+ (GetPatientsCoveredRatio() - 0.1f) + GetGoodsDemandSatisfactionRatio() 
                 + GetVegetablesDemandSatisfactionRatio() + ((1-GetEmploymentRatio()) * employmentWeight - 0.5f) + _totalBeauty * beautyWeight) / 8 - _co2Emissions * 0.01f - airPollution * 0.01f 
                + (_totalEnergyProduced - _totalEnergyConsumed) * 0.001f;
     }
@@ -437,19 +437,11 @@ public class GameState : MonoBehaviour
             return (float) _totalVegetablesProduced * (1-_acidRainModifier)/ totalVegetablesDemanded;
         return 0;
     }
-    public float GetMeatDemandSatisfactionRatio()
-    {
-        var totalMeatDemanded = totalPopulation * 5 / 100;
-        if(_totalMeatProduced > totalMeatDemanded)
-            return 1;
-        if(totalMeatDemanded!=0)
-            return (float) _totalMeatProduced / totalMeatDemanded;
-        return 0;
-    }
+    
     private float GetEarnings()
     {
         return _totalIncome  * GetJobsOccupiedRatio() - _totalCosts *  + (_totalGoodsProduced - _totalGoodsConsumed) * 10 + 
-               (_totalVegetablesProduced * Mathf.Pow(1 - _acidRainModifier, 0.25f) - _totalVegetablesConsumed) * 10 + (_totalMeatProduced - _totalMeatConsumed) * 10
+               (_totalVegetablesProduced * Mathf.Pow(1 - _acidRainModifier, 0.25f) - _totalVegetablesConsumed) * 10 
                + _totalEnergyProduced - _totalEnergyConsumed;
     }
     public float GetJobsOccupiedRatio()
@@ -553,7 +545,6 @@ public class GameState : MonoBehaviour
             _totalWasteProduced -= industryCell.WasteProduction;
             _totalNumberOfJobs -= industryCell.NumberOfEmployeesCapacity;
             _totalGoodsProduced -= industryCell.GoodsProduced;
-            _totalMeatProduced -= industryCell.MeatProduced;
             _totalVegetablesProduced -= industryCell.VegetablesProduced;
         }
         if (cell is PublicServiceCell publicServiceCell)
@@ -647,7 +638,6 @@ public class GameState : MonoBehaviour
             _totalWasteProduced += industryCell.WasteProduction;
             _totalNumberOfJobs += industryCell.NumberOfEmployeesCapacity;
             _totalGoodsProduced += industryCell.GoodsProduced;
-            _totalMeatProduced += industryCell.MeatProduced;
             _totalVegetablesProduced += industryCell.VegetablesProduced;
             
         }
@@ -703,7 +693,6 @@ public class GameState : MonoBehaviour
         _time = 0f;
         _totalNumberOfJobs= 0;
         _totalVegetablesProduced = 0;
-        _totalMeatProduced = 0;
         _totalGoodsProduced = 0;
         _totalEnergyProduced = 0;
         _totalWasteProduced = 0;
@@ -720,7 +709,7 @@ public class GameState : MonoBehaviour
         _totalCosts = 0;
         _totalGoodsConsumed = 0;
         _totalVegetablesConsumed = 0;
-        _totalMeatConsumed = 0;
+        
         _totalWasteProduced = 0;
         _totalWasteDisposed = 0;
         _co2Emissions = 0f;
