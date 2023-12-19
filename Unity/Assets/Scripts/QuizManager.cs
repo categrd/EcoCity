@@ -15,7 +15,7 @@ using System.Threading;
 
 public class QuizManager : MonoBehaviour{
     public List<QuestionAndAnswer> QnA;
-    public GameManager gameManager = new GameManager();
+    public GameManager gameManager = GameManager.Instance;
     public UnityEngine.UI.Button[] options = new UnityEngine.UI.Button[4];
     public int currentQuestion;
     public GameObject quizPanel;

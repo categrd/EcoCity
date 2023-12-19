@@ -12,7 +12,6 @@ using Random = System.Random;
 
 public class GameState : MonoBehaviour
 {
-    public MainMenuManager mainMenuManager;
     public List<StructureCell> structuresOnFire = new List<StructureCell>();
     public List<StructureCell> structuresOnFireToDestroy = new List<StructureCell>();
     public PlacementManager placementManager;
@@ -132,11 +131,11 @@ public class GameState : MonoBehaviour
         airPollution = 0f;
         _temperature = 20f;
         _totalArea = 0f;
-        if(mainMenuManager.GetCluster() == 0)
+        if(MainMenuManager.Instance.GetCluster() == 0)
             clusterModifierGameState = 1f;
-        if(mainMenuManager.GetCluster() == 1)
+        if(MainMenuManager.Instance.GetCluster() == 1)
             clusterModifierGameState = 1.3f;
-        if(mainMenuManager.GetCluster() == 2)
+        if(MainMenuManager.Instance.GetCluster() == 2)
             clusterModifierGameState = 1.15f;
     }
 

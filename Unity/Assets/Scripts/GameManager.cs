@@ -8,6 +8,41 @@ using UnityEngine.UI;
 
  public class GameManager : MonoBehaviour
 {
+
+    
+
+
+    // Singleton stuff 
+    static GameManager instance;
+    void Awake(){
+        if (instance != null)
+        {
+            Destroy(gameObject);
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+    }
+    public static GameManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = new GameManager();
+            }
+            return instance;
+        }
+    }
+
+
+
+
+    // Rest of Attributes and Methods
     public MainMenuManager mainMenuManager;
     public GameObject menuPanel;
     public GameObject statsPanel;
@@ -34,7 +69,7 @@ using UnityEngine.UI;
 
     private void Start()
     {
-
+       
         uiController.OnDestroyStructure += DestroyStructureHandler;
         uiController.OnRoadPlacement += RoadPlacementHandler;
         uiController.OnCinemaPlacement += () => StructurePlacementHandler(BuildingType.Cinema);
@@ -71,7 +106,6 @@ using UnityEngine.UI;
         uiController.OnIndustryMenu += () => BuildingPanelHandler(industryPanel);
         uiController.OnWaterSourceMenu += () => BuildingPanelHandler(watersourcePanel);
         uiController.OnEnergySourceMenu += () => BuildingPanelHandler(energysourcePanel);
-        uiController.OnWasteDisposalMenu += () => BuildingPanelHandler(wastedisposalPanel);
         uiController.OnShopMenu += () => BuildingPanelHandler(shopPanel);
         uiController.OnDecorationMenu += () => BuildingPanelHandler(decorationPanel);
         uiController.OnPublicServiceMenu += () => BuildingPanelHandler(publicservicesPanel);        
@@ -250,6 +284,7 @@ using UnityEngine.UI;
 
     private void Update()
     {
+        Debug.Log(MainMenuManager.Instance.GetCluster().ToString());
         cameraMovement.MoveCamera(new Vector3(inputManager.CameraMovementVector.x,0, inputManager.CameraMovementVector.y));
         cameraMovement.ZoomCamera(inputManager.Zoom);
         cameraMovement.LimitZoomCamera();

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731722, g: 0.13414752, b: 0.1210787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2230,7 +2230,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1238620832}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
         m_MethodName: UpdateSliderValue
         m_Mode: 1
@@ -2817,7 +2817,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1238620832}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
         m_MethodName: UpdateSliderValue
         m_Mode: 1
@@ -2841,7 +2841,6 @@ GameObject:
   - component: {fileID: 449628073}
   - component: {fileID: 449628072}
   - component: {fileID: 449628071}
-  - component: {fileID: 449628074}
   m_Layer: 5
   m_Name: AgeDropdown
   m_TagString: Untagged
@@ -3079,56 +3078,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 449628069}
   m_CullTransparentMesh: 1
---- !u!114 &449628074
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 449628069}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c29642fd7192e4a2ab42da0825ed5316, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  questionPanel: {fileID: 0}
-  play: {fileID: 0}
-  quit: {fileID: 0}
-  commitAnswers: {fileID: 0}
-  nickname: {fileID: 0}
-  income: {fileID: 0}
-  dropdown:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  answer:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  sliderText:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  CCS_text:
-  - 
-  - 
-  - 
-  - 
-  HEAS_text:
-  - 
-  - 
-  - 
-  - 
 --- !u!1 &468256032
 GameObject:
   m_ObjectHideFlags: 0
@@ -4049,7 +3998,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1238620832}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
         m_MethodName: UpdateSliderValue
         m_Mode: 1
@@ -5128,7 +5077,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1238620832}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
         m_MethodName: UpdateSliderValue
         m_Mode: 1
@@ -7810,7 +7759,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1238620832}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
         m_MethodName: UpdateSliderValue
         m_Mode: 1
@@ -8190,7 +8139,6 @@ GameObject:
   - component: {fileID: 1238620830}
   - component: {fileID: 1238620829}
   - component: {fileID: 1238620828}
-  - component: {fileID: 1238620832}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -8281,57 +8229,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1238620832
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1238620827}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c29642fd7192e4a2ab42da0825ed5316, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  questionPanel: {fileID: 647707705}
-  play: {fileID: 505293178}
-  quit: {fileID: 1878219202}
-  commitAnswers: {fileID: 1855651485}
-  nickname: {fileID: 64776778}
-  income: {fileID: 975166750}
-  dropdown:
-  - {fileID: 449628071}
-  - {fileID: 185042391}
-  - {fileID: 975720098}
-  - {fileID: 1785742820}
-  answer:
-  - {fileID: 782592404}
-  - {fileID: 415613918}
-  - {fileID: 607267095}
-  - {fileID: 1888241202}
-  - {fileID: 1086009284}
-  - {fileID: 1485361849}
-  - {fileID: 440528774}
-  - {fileID: 1574058273}
-  sliderText:
-  - {fileID: 1597447618}
-  - {fileID: 824367925}
-  - {fileID: 348375540}
-  - {fileID: 1375181021}
-  - {fileID: 1814055806}
-  - {fileID: 614476959}
-  - {fileID: 1205883439}
-  - {fileID: 845903807}
-  CCS_text:
-  - 
-  - 
-  - 
-  - 
-  HEAS_text:
-  - 
-  - 
-  - 
-  - 
 --- !u!1 &1257651629
 GameObject:
   m_ObjectHideFlags: 0
@@ -9399,7 +9296,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1238620832}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
         m_MethodName: UpdateSliderValue
         m_Mode: 1
@@ -9636,7 +9533,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1238620832}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
         m_MethodName: UpdateSliderValue
         m_Mode: 1
@@ -12997,7 +12894,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1238620832}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
         m_MethodName: UpdateSliderValue
         m_Mode: 1
@@ -13716,6 +13613,80 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2118876465
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2118876467}
+  - component: {fileID: 2118876466}
+  m_Layer: 0
+  m_Name: MainMenuManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2118876466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2118876465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29642fd7192e4a2ab42da0825ed5316, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questionPanel: {fileID: 647707705}
+  play: {fileID: 505293178}
+  quit: {fileID: 1878219202}
+  commitAnswers: {fileID: 1855651485}
+  nickname: {fileID: 64776778}
+  income: {fileID: 975166750}
+  dropdown:
+  - {fileID: 449628071}
+  - {fileID: 185042391}
+  - {fileID: 975720098}
+  - {fileID: 1785742820}
+  answer:
+  - {fileID: 782592404}
+  - {fileID: 415613918}
+  - {fileID: 607267095}
+  - {fileID: 1888241202}
+  - {fileID: 1086009284}
+  - {fileID: 1485361849}
+  - {fileID: 440528774}
+  - {fileID: 1574058273}
+  sliderText:
+  - {fileID: 1597447618}
+  - {fileID: 824367925}
+  - {fileID: 348375540}
+  - {fileID: 1375181021}
+  - {fileID: 1814055806}
+  - {fileID: 614476959}
+  - {fileID: 1205883439}
+  - {fileID: 845903807}
+  cluster: 0
+--- !u!4 &2118876467
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2118876465}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 458.67285, y: 273.69626, z: -10.730201}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -13723,3 +13694,4 @@ SceneRoots:
   - {fileID: 1238620831}
   - {fileID: 2108353603}
   - {fileID: 4659419}
+  - {fileID: 2118876467}

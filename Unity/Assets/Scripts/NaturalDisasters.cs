@@ -10,7 +10,6 @@ public class NaturalDisasters : MonoBehaviour
 {
     public GameState gameState;
     public PlacementManager placementManager;
-    public MainMenuManager mainMenuManager;
     public AudioPlayer audioPlayer;
     public GameObject fire;
     public Volume heatwaveVolume;
@@ -114,11 +113,11 @@ public class NaturalDisasters : MonoBehaviour
         
 
         _fireTime = 20f;
-        if(mainMenuManager.GetCluster() == 0)
+        if(MainMenuManager.Instance.GetCluster() == 0)
             clusterModifierNaturalDisaster = 1f;
-        if(mainMenuManager.GetCluster() == 1)
+        if(MainMenuManager.Instance.GetCluster() == 1)
             clusterModifierNaturalDisaster = 0.1f;
-        if(mainMenuManager.GetCluster() == 2)
+        if(MainMenuManager.Instance.GetCluster() == 2)
             clusterModifierNaturalDisaster = 0.5f;
         heatwaveProbability = 0.001f * clusterModifierNaturalDisaster;
         acidRainProbability = 0.001f * clusterModifierNaturalDisaster;

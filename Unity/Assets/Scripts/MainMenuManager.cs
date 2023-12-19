@@ -33,7 +33,35 @@ using Unity.VisualScripting.FullSerializer;
 
 public class MainMenuManager : MonoBehaviour
 {
-    public Action NewGame, QuitGame;
+    static MainMenuManager instance;
+
+     // Singleton stuff 
+    public static MainMenuManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = new MainMenuManager();
+            }
+            return instance;
+        }
+    }
+    void Awake(){
+        if (instance !=null)
+        {
+            Destroy(gameObject);
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+            
+        }
+        else
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+    }
+
 
     public GameObject questionPanel;
     public Button play;
@@ -50,17 +78,10 @@ public class MainMenuManager : MonoBehaviour
     
         
     private bool isNewGame = true;
-    private string pythonExecutable = "code/dist/Classifier"; 
-    private string pythonScript = "code/Classifier.py";
-    private string pythonFunction = "prediction";
-    private string arguments;
-    private int cluster;
+    public int cluster;
     
     private float[] EduLevel = new float[6];
-    public string[] CCS_text = new string[7];
-    public string[] HEAS_text = new string[4];
 
- 
 
         
     private void Start()
@@ -257,8 +278,8 @@ public class MainMenuManager : MonoBehaviour
         for (int i = 0; i < dropdown.Length; i++)
             results[i+11] = (float)answer[i].value;
 
-        predict(results);
 
+        predict(results);
 
 
 

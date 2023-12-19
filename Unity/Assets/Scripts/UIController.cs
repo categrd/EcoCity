@@ -50,7 +50,6 @@ public class UIController : MonoBehaviour
     public Button openPublicServiceMenuButton;
     public Button openEnergySourceMenuButton;
     public Button openWaterSourceMenuButton;
-    public Button openWasteDisposalMenuButton;
     public Button openIndustryMenuButton;
     public Button openDecorationMenuButton;
     public Button openShopMenuButton;
@@ -60,7 +59,6 @@ public class UIController : MonoBehaviour
     public GameObject PublicServicePanel;
     public GameObject EnergySourcePanel;
     public GameObject WaterSourcePanel;
-    public GameObject WasteDisposalPanel;
     public GameObject IndustryPanel;
     public GameObject DecorationPanel;
     public GameObject ShopPanel;
@@ -148,7 +146,6 @@ public class UIController : MonoBehaviour
             PublicServicePanel,
             EnergySourcePanel,
             WaterSourcePanel,
-            WasteDisposalPanel,
             IndustryPanel,
             DecorationPanel,
             ShopPanel
@@ -179,7 +176,6 @@ public class UIController : MonoBehaviour
             openPublicServiceMenuButton,
             openEnergySourceMenuButton,
             openWaterSourceMenuButton,
-            openWasteDisposalMenuButton,
             openIndustryMenuButton,
             openDecorationMenuButton,
             openShopMenuButton,
@@ -228,7 +224,6 @@ public class UIController : MonoBehaviour
         AddButtonClickListener(openPublicServiceMenuButton, () => { OnPublicServiceMenu?.Invoke(); });
         AddButtonClickListener(openEnergySourceMenuButton, () => { OnEnergySourceMenu?.Invoke(); });
         AddButtonClickListener(openWaterSourceMenuButton, () => { OnWaterSourceMenu?.Invoke(); });
-        AddButtonClickListener(openWasteDisposalMenuButton, () => { OnWasteDisposalMenu?.Invoke(); });
         AddButtonClickListener(openIndustryMenuButton, () => { OnIndustryMenu?.Invoke(); });
         AddButtonClickListener(openDecorationMenuButton, () => { OnDecorationMenu?.Invoke(); });
         AddButtonClickListener(openShopMenuButton, () => { OnShopMenu?.Invoke(); });
