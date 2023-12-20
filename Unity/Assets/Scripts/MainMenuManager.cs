@@ -23,9 +23,7 @@ using Slider = UnityEngine.UI.Slider;
 using Dropdown = UnityEngine.UI.Dropdown;
 using System.Diagnostics;
 using UnityEngine.UI;
-using Palmmedia.ReportGenerator.Core.Parser.Analysis;
 using UnityEditor;
-using UnityEditor.UI;
 using Unity.VisualScripting;
 using UnityEngine.XR;
 using Unity.VisualScripting.FullSerializer;
@@ -183,9 +181,8 @@ public class MainMenuManager : MonoBehaviour
     public void OnQuitButtonClick()
     {
         // Close the game
-        UnityEditor.EditorApplication.isPlaying = false;
-        Debug.Log("Quit Button Clicked");
         Application.Quit();
+        //EditorApplication.isPlaying = false;
     }
 
 

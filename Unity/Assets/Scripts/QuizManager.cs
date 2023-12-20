@@ -23,7 +23,7 @@ public class QuizManager : MonoBehaviour{
     public GameObject closingPanel;
      public UnityEngine.UI.Button closeQuiz;
 
-    private float timerDuration = 120f;  // Duration of the timer in seconds
+    private float timerDuration = 150f;  // Duration of the timer in seconds
     private float elapsedTime = 0f;
     private float t = 1000f;
 
@@ -67,7 +67,7 @@ public class QuizManager : MonoBehaviour{
         q2.answers[1] = "Wind";
         q2.answers[2] = "Uranium";
         q2.answers[3] = "Coal";
-        q2.correctAnswer = 2;
+        q2.correctAnswer = 3;
         q2.explanation = "The primary source of energy in a nuclear power plant is the process of nuclear fission. Nuclear fission involves splitting the nuclei of heavy atoms, such as uranium-235 or plutonium-239, into smaller fragments. This process releases a significant amount of energy in the form of heat.";
         QnA.Add(q2);
 
@@ -218,7 +218,7 @@ public class QuizManager : MonoBehaviour{
     
 
     public void generateQuestion(){
-        currentQuestion = UnityEngine.Random.Range(0, QnA.Count);
+        currentQuestion = UnityEngine.Random.Range(0, QnA.Count-1);
         QuestionTxt.fontSize = 22;
         QuestionTxt.text = QnA[currentQuestion].question;
         for(int i = 0; i < options.Length; i++){
@@ -227,17 +227,22 @@ public class QuizManager : MonoBehaviour{
     }
 
     private void Update(){
+        try {
         elapsedTime += Time.deltaTime;
         t += Time.deltaTime;
         if (elapsedTime >= timerDuration)
         {
             StartQuiz();    
         }
-        if (t >= 3f && t <= 999f){
+        if (t >= 2f && t <= 999f){
             t = 1000f;
             QuestionTxt.fontSize = 14;
             QuestionTxt.text = QnA[currentQuestion].explanation;
             closingPanel.SetActive(true);    
+        }
+        }
+        catch (Exception e) {
+            Debug.Log("Exception: " + e.Message);
         }
 
     }

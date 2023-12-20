@@ -66,6 +66,8 @@ public class UIController : MonoBehaviour
 
     public GameObject BlockedBuildingPanel;
 
+    public Button quitGame;
+
 
 
 
@@ -180,6 +182,8 @@ public class UIController : MonoBehaviour
             openDecorationMenuButton,
             openShopMenuButton,
             showScientificProgress,
+
+            quitGame,
             
             closeScientificProgress,
             placeFireStationButton,
@@ -187,6 +191,7 @@ public class UIController : MonoBehaviour
             placeCarbonPowerPlantButton,
             placeNuclearPlantButton,
             placeWaterPlantButton,
+
 
 
             /*
@@ -234,6 +239,7 @@ public class UIController : MonoBehaviour
         AddButtonClickListener(placeNuclearPlantButton, () => { OnNuclearPlantPlacement?.Invoke(); });
         AddButtonClickListener(placeWaterPlantButton, () => { OnWaterPlantPlacement?.Invoke(); });
 
+        quitGame.onClick.AddListener(OnQuitClick);
         /*
         AddButtonClickListener(placeLivestockButton, () => { OnLivestockPlacement?.Invoke(); });
         AddButtonClickListener(placeLandfillButton, () => { OnLandfillPlacement?.Invoke(); });
@@ -241,6 +247,11 @@ public class UIController : MonoBehaviour
         */
     }
 
+    public void OnQuitClick()
+    {
+        Application.Quit();
+    }
+    
     public void ShowBuildingBlockedText()
     {
         BlockedBuildingPanel.SetActive(true);
