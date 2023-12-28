@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 464714970892649437}
   - component: {fileID: 1001426740187431833}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Clinic
   m_TagString: Untagged
   m_Icon: {fileID: 0}

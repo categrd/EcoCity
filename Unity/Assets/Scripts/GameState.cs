@@ -476,7 +476,7 @@ public class GameState : MonoBehaviour
     private int GetNumberOfPatients()
     {
         // number of patient is a percentage of the population and is affected by the health of the population
-        return (int) Math.Ceiling(totalPopulation * _health * 0.01f);
+        return (int) Math.Ceiling(totalPopulation * (110 - _health) * 0.01f);
     }
     
     public void UpdateGameVariablesWhenDestroying(Vector3Int position)
