@@ -14,8 +14,5 @@ public class DifferentScenariosManager : MonoBehaviour
         gameState.ResetGameState();
         placementManager.ResetGrid();
         gameState.SetParametersOfScenario(scenario);
-        
-        
-        
     }
 }

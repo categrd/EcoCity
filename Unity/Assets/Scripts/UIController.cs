@@ -26,9 +26,9 @@ public class UIController : MonoBehaviour
 
     public Action OnRoadPlacement, OnHousePlacement, OnClinicPlacement, OnHospitalPlacement, OnSolarPanelPlacement, OnWindTurbinePlacement, OnCarbonPowerPlantPlacement,
         OnNuclearPlantPlacement, OnWaterPlantPlacement, OnHighDensityHousePlacement, OnShopPlacement, OnRestaurantPlacement, OnBarPlacement, OnCinemaPlacement, OnUniversityPlacement,
-        OnFireStationPlacement, OnPoliceStationPlacement, OnFactoryPlacement, OnCropPlacement, OnLivestockPlacement, OnLandfillPlacement, OnIncinerationPlantPlacement,
-        OnWasteToEnergyPlantPlacement, OnBigParkPlacement, OnShowMenu, OnShowStats, OnShowEnvironmentStats, OnDestroyStructure, OnPublicServiceMenu, OnEnergySourceMenu, OnWaterSourceMenu,
-        OnWasteDisposalMenu, OnIndustryMenu, OnDecorationMenu, OnShopMenu, OnHouseMenu, OnShowScientificProgress, OnCloseScientificProgress, OnUpgradeScientificProgress;
+        OnFireStationPlacement, OnPoliceStationPlacement, OnFactoryPlacement, OnCropPlacement,
+        OnBigParkPlacement, OnShowMenu, OnShowStats, OnShowEnvironmentStats, OnDestroyStructure, OnPublicServiceMenu, OnEnergySourceMenu, OnWaterSourceMenu,
+        OnIndustryMenu, OnDecorationMenu, OnShopMenu, OnHouseMenu, OnShowScientificProgress, OnCloseScientificProgress;
 
 
     public Button showMenu;
@@ -229,6 +229,7 @@ public class UIController : MonoBehaviour
         AddButtonClickListener(openPublicServiceMenuButton, () => { OnPublicServiceMenu?.Invoke(); });
         AddButtonClickListener(openEnergySourceMenuButton, () => { OnEnergySourceMenu?.Invoke(); });
         AddButtonClickListener(openWaterSourceMenuButton, () => { OnWaterSourceMenu?.Invoke(); });
+        
         AddButtonClickListener(openIndustryMenuButton, () => { OnIndustryMenu?.Invoke(); });
         AddButtonClickListener(openDecorationMenuButton, () => { OnDecorationMenu?.Invoke(); });
         AddButtonClickListener(openShopMenuButton, () => { OnShopMenu?.Invoke(); });

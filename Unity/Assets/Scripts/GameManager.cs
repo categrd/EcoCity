@@ -14,17 +14,18 @@ using UnityEngine.UI;
 
     // Singleton stuff 
     static GameManager instance;
+    
     void Awake(){
         if (instance != null)
         {
             Destroy(gameObject);
             instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
     }
     public static GameManager Instance
@@ -38,7 +39,7 @@ using UnityEngine.UI;
             return instance;
         }
     }
-
+    
 
 
 
@@ -50,7 +51,7 @@ using UnityEngine.UI;
     public GameObject scientificProgressPanel;
 
 
-    public GameObject housePanel, decorationPanel, publicservicesPanel, industryPanel, shopPanel, wastedisposalPanel,
+    public GameObject housePanel, decorationPanel, publicservicesPanel, industryPanel, shopPanel,
     watersourcePanel, energysourcePanel;   
 
 
@@ -89,10 +90,6 @@ using UnityEngine.UI;
         uiController.OnPoliceStationPlacement += () => StructurePlacementHandler(BuildingType.PoliceStation);
         uiController.OnFactoryPlacement += () => StructurePlacementHandler(BuildingType.Factory);
         uiController.OnCropPlacement += () => StructurePlacementHandler(BuildingType.Crop);
-        uiController.OnLivestockPlacement += () => StructurePlacementHandler(BuildingType.Livestock);
-        uiController.OnLandfillPlacement += () => StructurePlacementHandler(BuildingType.Landfill);
-        uiController.OnIncinerationPlantPlacement += () => StructurePlacementHandler(BuildingType.IncinerationPlant);
-        uiController.OnWasteToEnergyPlantPlacement += () => StructurePlacementHandler(BuildingType.WasteToEnergyPlant);
         uiController.OnBigParkPlacement += () => StructurePlacementHandler(BuildingType.BigPark);
         uiController.OnWaterPlantPlacement += () => StructurePlacementHandler(BuildingType.WaterPlant);
 
