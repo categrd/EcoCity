@@ -23,7 +23,7 @@ public class QuizManager : MonoBehaviour{
     public GameObject closingPanel;
      public UnityEngine.UI.Button closeQuiz;
 
-    private float timerDuration = 150f;  // Duration of the timer in seconds
+    private float timerDuration = 30f;  // Duration of the timer in seconds
     private float elapsedTime = 0f;
     private float t = 1000f;
 
@@ -44,6 +44,10 @@ public class QuizManager : MonoBehaviour{
 
     public void ResetQuiz(){
         closingPanel.SetActive(false);
+        if (QnA[currentQuestion].isDone)
+        {
+            QnA.RemoveAt(currentQuestion);
+        }
         elapsedTime = 0f;
         t = 0f;
         GameOver();
@@ -186,6 +190,7 @@ public class QuizManager : MonoBehaviour{
         else
         {
             Debug.Log("Out of Questions");
+            elapsedTime = -10000f;
         }
     }
     void GameOver()
@@ -198,7 +203,6 @@ public class QuizManager : MonoBehaviour{
         Debug.Log("Clicked on Answer " + i);
         if (QnA[currentQuestion].correctAnswer == i + 1){
             QnA[currentQuestion].isDone = true;
-            QnA.RemoveAt(currentQuestion);
             setButtonColor(options[i], Color.green);
             Debug.Log("Correct");
         }
@@ -219,6 +223,9 @@ public class QuizManager : MonoBehaviour{
 
     public void generateQuestion(){
         currentQuestion = UnityEngine.Random.Range(0, QnA.Count-1);
+        Debug.Log("Current in generate: " + currentQuestion);
+        Debug.Log(QnA[currentQuestion].question);
+        Debug.Log(QnA[currentQuestion].explanation);
         QuestionTxt.fontSize = 22;
         QuestionTxt.text = QnA[currentQuestion].question;
         for(int i = 0; i < options.Length; i++){
@@ -232,11 +239,13 @@ public class QuizManager : MonoBehaviour{
         t += Time.deltaTime;
         if (elapsedTime >= timerDuration)
         {
-            StartQuiz();    
+            StartQuiz();
+            elapsedTime = 0f;
         }
         if (t >= 2f && t <= 999f){
             t = 1000f;
             QuestionTxt.fontSize = 14;
+            Debug.Log("Current in update: " + currentQuestion);
             QuestionTxt.text = QnA[currentQuestion].explanation;
             closingPanel.SetActive(true);    
         }
