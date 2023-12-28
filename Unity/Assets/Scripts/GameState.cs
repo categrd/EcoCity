@@ -444,7 +444,7 @@ public class GameState : MonoBehaviour
     
     private float GetEarnings()
     {
-        return _totalIncome  * GetJobsOccupiedRatio() - _totalCosts *  + (_totalGoodsProduced - _totalGoodsConsumed) * 10 + 
+        return _totalIncome  * GetJobsOccupiedRatio() - _totalCosts + (_totalGoodsProduced - _totalGoodsConsumed) * 10 + 
                (_totalVegetablesProduced * Mathf.Pow(1 - _acidRainModifier, 0.25f) - _totalVegetablesConsumed) * 10 
                + _totalEnergyProduced - _totalEnergyConsumed;
     }
