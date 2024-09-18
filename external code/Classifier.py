@@ -47,7 +47,7 @@ def prediction(data):
     print(x)
     
     try:
-        rf_classifier = joblib.load('code/classifier')
+        rf_classifier = joblib.load('external_code/classifier')
     except FileNotFoundError:
         print("Classifier not found. Please train the classifier first.")
         return None
